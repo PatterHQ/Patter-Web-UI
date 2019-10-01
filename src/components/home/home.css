@@ -1,0 +1,13 @@
+.home_page {
+    text-align: center;
+    padding-top: 50px;
+}
+.home_page h1{
+    font-size: 60px;
+    color: #6a7d7e;
+    font-weight: normal;
+}
+.line_through{
+    text-decoration: line-through;
+    display: block;
+}
