@@ -55,7 +55,7 @@ body {
     padding: 10px !important;
   }
 }
-@media all and (max-width: 540px){
+@media all and (max-width: 667px){
   .body_content .content{
     flex: 0 0 100%;
     width: 100%;

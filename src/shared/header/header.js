@@ -35,7 +35,7 @@ class Header extends Component {
                         <ul className='mb-0'>
                             <li>
                                 <Dropdown>
-                                    <Dropdown.Toggle id="dropdown-basic">
+                                    <Dropdown.Toggle id="dropdown-basic" className="pos">
                                         Account
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
