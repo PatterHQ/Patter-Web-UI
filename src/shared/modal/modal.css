@@ -1,0 +1,15 @@
+.modal-header {
+    border-bottom: 0 !important;
+}
+.modal-header .close {
+    position: absolute;
+    right: 6px;
+    top: 0;
+}
+.modal-header h2{
+    width: 100%;
+}
+.modal-content{
+    padding: 0 20px 20px 20px;
+    border-radius: 0 !important;
+}

@@ -1,0 +1,19 @@
+.user_management input.form-control, .user_management .dropdown-select{border-color: #000 !important;}
+.user_management .list table thead th {
+  border: 0;
+  padding: 5px;
+}
+.user_management .list table tbody td {
+    padding: 5px 5px;
+    border: 1px solid #000;
+    vertical-align: middle;
+}
+.user_management .list table .dropdown-select {
+  border: none;
+  max-width: 100%;
+}
+.custom-control-input:checked~.custom-control-label::before{
+  color: #fff;
+  border-color: #b6cfd0 !important;
+  background-color: #b6cfd0 !important;
+}

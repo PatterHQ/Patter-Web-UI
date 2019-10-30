@@ -1,0 +1,46 @@
+.look .tag_container{
+    min-height: 300px;
+    width: 100%;
+    background-size: cover;
+}
+.look .flex.form-group{
+    display: flex;
+    justify-content: space-between;
+}
+.look .flex.form-group .color{
+    flex: 0 0 75%;
+    width: 75%;
+}
+.look .flex.form-group .percentage{
+    flex: 0 0 20%;
+    width: 20%;
+}
+.look .color_palette{
+    height: 120px;
+    width: 100%;
+    border: 1px solid #cacaca;
+}
+.look .color_palette span{
+    display: inline-block;
+    height: 100%;
+}
+.look .color_palette .color_1{
+    background-color: #ba0000;
+    width: 40%;
+}
+.look .color_palette .color_2{
+    background-color: #ffe900;
+    width: 20%;
+}
+.look .color_palette .color_3{
+    background-color: #79c7ff;
+    width: 15%;
+}
+.look .color_palette .color_4{
+    background-color: #cacaca;
+    width: 15%;
+}
+.look .color_palette .color_5{
+    background-color: #fff;
+    width: 10%;
+}

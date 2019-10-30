@@ -1,0 +1,13 @@
+.voice .tag_container{
+    min-height: 150px;
+    width: 100%;
+    background-color: #b6cfd0;
+    padding: 10px;
+}
+.voice .addPlus{
+    position: absolute;
+    right: 7px;
+    top: 5px;
+    font-size: 15px;
+    color: #9ca4ab;
+}

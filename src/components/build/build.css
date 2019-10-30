@@ -1,0 +1,31 @@
+.build_wrapper{
+  max-width: 350px !important;
+}
+.build ul.navbar {
+  border: none;
+  width: 80%;
+}
+.build ul.navbar .nav-item a {
+  color: #b6cfd0 !important;
+  position: relative;
+  margin-left: 15px;text-decoration: none;
+  pointer-events: none;
+}
+.build ul.navbar .nav-item a:before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    left: -15px;
+    top: 5px;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #b6cfd0;
+}
+.build ul.navbar .nav-item a.active {
+    color: #0e707c !important;
+    
+}
+.build ul.navbar .nav-item a.active:before{
+    background-color: #0e707c;
+}

@@ -1,0 +1,13 @@
+.brand.voice .addPlus {
+    top: 38px;
+}
+.brand .textarea_tooltip {
+    top: 30px;
+}
+.brand .note_msg {
+    padding: 3px;
+    margin: 0 5px 5px 0;
+    display: inline-block;
+    background: #5f989f;
+    font-size: 13px;
+}
