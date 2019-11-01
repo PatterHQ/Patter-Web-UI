@@ -9,17 +9,30 @@ class Header extends Component {
         super(props);
         this.state = {
             main: 0,
-            login: true
+            login: '',
+            user: '',
+            name: ''
         }
+    }
 
-        setInterval(() => {
-            let path = window.location.pathname;
-            if (path === '/signup' || path === '/signup/a' || path === '/signup/b' || path === '/login') {
-                this.setState({ login: true })
-            } else {
-                this.setState({ login: false })
-            }
-        }, 10);
+    componentDidMount() {
+        let userData = JSON.parse(localStorage.getItem('user'))
+        console.log(userData)
+        if (localStorage.getItem('logged') == 'true') {
+            this.setState({ name: userData.FirstName })
+        } else {
+            this.setState({ name: 'Login' })
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
+        this.setState({
+            name: nextProps.user.FirstName,
+            user: nextProps.user,
+            logged: nextProps.logged,
+
+        })
     }
 
     currentKey(key) {
@@ -52,20 +65,17 @@ class Header extends Component {
                                             <Dropdown.Menu>
                                                 <Dropdown.Item><NavLink to='/setting'>Setting</NavLink></Dropdown.Item>
                                                 <Dropdown.Item><NavLink to='/user'>User</NavLink></Dropdown.Item>
-                                                <Dropdown.Item><NavLink to='/signup'>Sign Up</NavLink></Dropdown.Item>
-                                                <Dropdown.Item><NavLink to='/signup/a'>Sign Up A</NavLink></Dropdown.Item>
-                                                <Dropdown.Item><NavLink to='/signup/b'>Sign Up B</NavLink></Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown>
                                     </li>
                                     <li className='m-0'>
                                         <Dropdown className='userItem'>
                                             <Dropdown.Toggle id="dropdown-basic">
-                                                Aroun <img src='/images/user.png' alt='user' />
+                                                {this.state.name} <img src='/images/user.png' alt='user' />
                                             </Dropdown.Toggle>
                                             <Dropdown.Menu>
                                                 <Dropdown.Item><NavLink to='/profile'>Profile</NavLink></Dropdown.Item>
-                                                <Dropdown.Item><NavLink to='/signout'>Sign Out</NavLink></Dropdown.Item>
+                                                <Dropdown.Item><NavLink to='/login'>Sign Out</NavLink></Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown>
                                     </li>

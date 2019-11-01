@@ -7,13 +7,15 @@ import 'firebase/auth';
 import SimpleReactValidator from 'simple-react-validator';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Axios from 'axios';
 
 class Signin extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/getUser?email='
         }
         this.validator = new SimpleReactValidator({
             messages: {
@@ -23,29 +25,48 @@ class Signin extends React.Component {
         });
     }
     signInHandler = (e) => {
+        var prop = this.props
         e.preventDefault();
-        if (this.validator.allValid()) {
-            firebase
-                .auth()
-                .signInWithEmailAndPassword(this.state.email, this.state.password)
-                .then((res) => {
-                    console.log(res)
-                    if (!res.user.emailVerified) {
-                        // console.log('Please Conform Your Email to Login')
-                        toast.warn('Please Conform Your Email to Login');
-                    } else {
-                    }
-                    // if (res.user) Auth.setLoggedIn(true);
-                })
-                .catch(e => {
-                    toast.error(e.message)
-                    console.log(e)
-                });
-        } else {
-            this.validator.showMessages();
-            this.forceUpdate();
+        try {
+            if (this.validator.allValid()) {
+                firebase
+                    .auth()
+                    .signInWithEmailAndPassword(this.state.email, this.state.password)
+                    .then((res) => {
+                        console.log(res)
+                        if (!res.user.emailVerified) {
+                            // console.log('Please Conform Your Email to Login')
+                            toast.warn('Please Conform Your Email to Login');
+                        } else {
+                            Axios.get(this.state.url + res.user.email).then(res => {
+                                console.log(res)
+                                prop.user(res.data)
+                                localStorage.setItem('logged','true')
+                                localStorage.setItem('user',JSON.stringify(res.data))
+                                toast.success('Login Successfully')
+                                let regisetred= JSON.parse(localStorage.getItem('newRegister'))
+                                if(regisetred.Company!=undefined){
+                                    prop.history.push('/signup/a');
+                                }else{
+                                    prop.history.push('/signup/b');
+                                }
+                            })
+                        }
+                        // if (res.user) Auth.setLoggedIn(true);
+                    })
+                    .catch(e => {
+                        toast.error(e.message)
+                        console.log(e)
+                    });
+            } else {
+                this.validator.showMessages();
+                this.forceUpdate();
+            }
+        }catch(err){
+            toast.error(err.message)
         }
     };
+
     render() {
         return (
             <section className='setting_block pt-5 pl-5'>

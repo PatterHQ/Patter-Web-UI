@@ -156,6 +156,9 @@ a.btn_green:active,.btn_green:active {
   color: #0e707c;
   height: 50px;
   min-width: 130px;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
   padding: 10px 20px;
   font-size: 18px;
   background-color: #fff;
@@ -166,6 +169,7 @@ a.btn_green:active,.btn_green:active {
   color: #5f989f;
   border-color: #5f989f;
   outline: none;
+  text-decoration: none;
 }
 ::placeholder {
   color: #7b7b7b !important;
@@ -177,7 +181,12 @@ label.error{
   font-size: 14px;
   padding-left: 15px;
 }
-
+.right_nav .dropdown-item span{
+  padding: 0.25rem 1.5rem;
+    display: inline-block;
+    width: 100%;
+    color: #333;
+}
 .slider {
   -webkit-appearance: none;
   width: 100%;

@@ -6,7 +6,7 @@ class Home extends Component {
    render() {
         return (
             <div className="home_page">
-                <h1>Welcome to <span className='line_through'>Rainbow Finder</span> Patter</h1>
+                <h1>Welcome to Patter</h1>
             </div>
         )
     }
