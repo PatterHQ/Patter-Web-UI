@@ -4,12 +4,35 @@ import { FaAngleLeft, FaPlus } from "react-icons/fa";
 import { GoLightBulb } from "react-icons/go";
 import './voice.css'
 import Popup from '../../../shared/modal/modal';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Axios from 'axios';
+
 
 class voice extends Component {
     constructor(props) {
         super(props);
         this.state = {
             show: false,
+            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/getCompanyBrandElement?'
+        }
+    }
+
+    componentDidMount = async () => {
+        try {
+            await Axios.get(this.state.url+`companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=10`).then(res => {
+                console.log(res)
+            })
+        } catch (err) {
+            toast.error(err.message)
+        }
+        
+        try {
+            await Axios.get(this.state.url+`companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=11`).then(res => {
+                console.log(res)
+            })
+        } catch (err) {
+            toast.error(err.message)
         }
     }
 

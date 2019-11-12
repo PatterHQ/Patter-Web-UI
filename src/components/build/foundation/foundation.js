@@ -3,8 +3,9 @@ import { NavLink } from 'react-router-dom'
 import { FaAngleLeft } from "react-icons/fa";
 import { Select } from 'dropdown-select';
 import SimpleReactValidator from 'simple-react-validator';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './foundation.css';
 import Axios from 'axios';
 
 class foundation extends Component {
@@ -15,6 +16,15 @@ class foundation extends Component {
             CompanyTypes: [],
             getStages: [],
             getEmployeeRanges: [],
+            comapanyName: '',
+            product: '',
+            country: '',
+            city: '',
+            user: null,
+            selectedVerticals: { VerticalDescription: '' },
+            selectedCompanyTypes: { CompanyTypeDescription: '' },
+            selectedGetStages: { StageDescription: '' },
+            selectedGetEmployeeRanges: { EmployeeRangeDescription: '' },
             url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/'
         }
         this.validator = new SimpleReactValidator({
@@ -29,6 +39,7 @@ class foundation extends Component {
         this.getCompanyTypes();
         this.getStages();
         this.getEmployeeRanges();
+        this.getUserByCompanyID();
     }
 
     getVerticals = async () => {
@@ -75,36 +86,122 @@ class foundation extends Component {
         }
     }
 
+    getUserByCompanyID = async () => {
+        try {
+            let email = JSON.parse(localStorage.user).Email
+            if (email != null) {
+                await Axios.get(this.state.url + `getUser?email=${email}`).then(res => {
+                    console.log(res)
+                    this.setState({ user: res.data })
+                    localStorage.setItem('user', JSON.stringify(res.data))
+                })
+            }
+        } catch (err) {
+            toast.error(err.message)
+        }
+    }
+
+    changeHandler = (stVar, val) => {
+        this.setState({
+            [stVar]: val
+        })
+    }
+
+    handleSubmit = async (e) => {
+        e.preventDefault();
+        if (this.validator.allValid()) {
+            let user = JSON.parse(localStorage.getItem('user'))
+            let data = {
+                "CompanyID": user.Company.CompanyID,
+                "CompanyName": this.state.comapanyName,
+                "Sitename": user.Company.SiteName,
+                "ProductName": this.state.product,
+                "Website": "",
+                "NumberOfOffices": '',
+                "Address1": "",
+                "Address2": "",
+                "City": this.state.city,
+                "State": this.state.country,
+                "Zip": "",
+                "Phone": "",
+                "Facebook": "",
+                "Instagram": "",
+                "LinkedIn": "",
+                "Tumblr": "",
+                "Twitter": "",
+                "Pinterest": "",
+                "CompanyType": { "CompanyTypeID": this.state.selectedCompanyTypes.CompanyTypeID },
+                "Vertical": { "VerticalID": this.state.selectedVerticals.VerticalID },
+                "Stage": { "StageID": this.state.selectedGetStages.StageID },
+                "EmployeeRange": { "EmployeeRangeID": this.state.selectedGetEmployeeRanges.EmployeeRangeID },
+                "RevenueRange": { "RevenueRangeID": '' }
+            }
+
+            console.log(data)
+
+            try {
+                await Axios.post(this.state.url + 'updateCompany', data).then(res => {
+                    console.log(res)
+                    if (res.data !== '') {
+                        toast.success('Company Updated Successfully')
+                        this.props.history.push('/build/foundation/mission')
+                    } else {
+                        toast.error('Something went Wrong, Please try Later')
+                    }
+                })
+            } catch (err) {
+                toast.error(err.message)
+            }
+
+        } else {
+            toast.error('All fields are Required')
+            this.validator.showMessages();
+            this.forceUpdate();
+        }
+    }
+
     render() {
         return (
             <div className=''>
+                <ToastContainer />
                 <h2 className='heading bold mb-3'>Part 1: Our Foundation</h2>
                 <h4 className='mb-5'>Every great brand is build on top of a strong foundation. These are the big picture elements that help guide the company from the top down.</h4>
-                <form className='form'>
+                <form className='form' onSubmit={($event) => this.handleSubmit($event)} noValidate>
                     <div className='form-group'>
-                        <input type="text" className='form-control' placeholder='Company Name (or DBA Name)' />
+                        <input type="text" name='comapanyName' className='form-control' placeholder='Company Name (or DBA Name)' onChange={(e) => this.setState({ comapanyName: e.target.value })} />
+                        <label className='error'>{this.validator.message('comapanyName', this.state.comapanyName, 'required')}</label>
                     </div>
                     <div className='form-group'>
-                        <input type="text" className='form-control' placeholder='Product Name (if different)' />
+                        <input type="text" className='form-control' name='product' placeholder='Product Name (if different)' onChange={(e) => this.setState({ product: e.target.value })} />
+                        <label className='error'>{this.validator.message('product', this.state.product, 'required')}</label>
                     </div>
                     <div className='form-group'>
-                        <Select placeholder='Vertical (Industry)' options={this.state.verticals} labelKey="VerticalDescription" valueKey="VerticalID" />
+                        <Select placeholder='Vertical (Industry)' name='selectedVerticals' value={this.state.selectedVerticals} autoComplete='true' options={this.state.verticals} labelKey="VerticalDescription" valueKey="VerticalID" onChange={(val) => this.changeHandler('selectedVerticals', val)} />
+                        <label className='error'>{this.validator.message('selectedVerticals', this.state.selectedVerticals.VerticalID, 'required')}</label>
                     </div>
                     <div className='form-group'>
-                        <Select placeholder='Company Type' options={this.state.CompanyTypes} labelKey="CompanyTypeDescription" valueKey="CompanyTypeID" />
+                        <Select placeholder='Company Type' value={this.state.selectedCompanyTypes} autoComplete='true' options={this.state.CompanyTypes} labelKey="CompanyTypeDescription" valueKey="CompanyTypeID" onChange={(val) => this.changeHandler('selectedCompanyTypes', val)} />
+                        <label className='error'>{this.validator.message('selectedCompanyTypes', this.state.selectedCompanyTypes.CompanyTypeID, 'required')}</label>
                     </div>
                     <div className='form-group'>
-                        <Select placeholder='Stage' options={this.state.getStages} labelKey="StageDescription" valueKey="StageID" />
+                        <Select placeholder='Stage' value={this.state.selectedGetStages} autoComplete='true' options={this.state.getStages} labelKey="StageDescription" valueKey="StageID" onChange={(val) => this.changeHandler('selectedGetStages', val)} />
+                        <label className='error'>{this.validator.message('selectedGetStages', this.state.selectedGetStages.StageID, 'required')}</label>
                     </div>
                     <div className='form-group'>
-                        <input type="text" className='form-control' placeholder='Location (City, State)' />
+                        <input type="text" className='form-control' name='country' placeholder='State' onChange={(e) => this.setState({ country: e.target.value })} />
+                        <label className='error'>{this.validator.message('country', this.state.country, 'required')}</label>
                     </div>
                     <div className='form-group'>
-                        <Select placeholder='5-10' options={this.state.getEmployeeRanges} labelKey="EmployeeRangeDescription" valueKey="EmployeeRangeID" />
+                        <input type="text" className='form-control' name='city' placeholder='City' onChange={(e) => this.setState({ city: e.target.value })} />
+                        <label className='error'>{this.validator.message('city', this.state.city, 'required')}</label>
+                    </div>
+                    <div className='form-group'>
+                        <Select placeholder='5-10' value={this.state.selectedGetEmployeeRanges} autoComplete='true' options={this.state.getEmployeeRanges} labelKey="EmployeeRangeDescription" valueKey="EmployeeRangeID" onChange={(val) => this.changeHandler('selectedGetEmployeeRanges', val)} />
+                        <label className='error'>{this.validator.message('selectedGetEmployeeRanges', this.state.selectedGetEmployeeRanges.EmployeeRangeID, 'required')}</label>
                     </div>
                     <div className='mt-3 mb-5 text-right'>
                         <NavLink to='/build/introduction' className='float-left primary back_btn'> <FaAngleLeft /> Back</NavLink>
-                        <NavLink to='/build/foundation/mission' className='btn_green m-0'>NEXT</NavLink>
+                        <button type='submit' className='btn_green m-0'>NEXT</button>
                     </div>
                 </form>
             </div>

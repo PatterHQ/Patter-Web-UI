@@ -41,13 +41,13 @@ class Signin extends React.Component {
                             Axios.get(this.state.url + res.user.email).then(res => {
                                 console.log(res)
                                 prop.user(res.data)
-                                localStorage.setItem('logged','true')
-                                localStorage.setItem('user',JSON.stringify(res.data))
+                                localStorage.setItem('logged', 'true')
+                                localStorage.setItem('user', JSON.stringify(res.data))
                                 toast.success('Login Successfully')
-                                let regisetred= JSON.parse(localStorage.getItem('newRegister'))
-                                if(regisetred.Company!=undefined){
+                                let regisetred = JSON.parse(localStorage.getItem('newRegister'))
+                                if (regisetred.Company !== undefined) {
                                     prop.history.push('/signup/a');
-                                }else{
+                                } else {
                                     prop.history.push('/signup/b');
                                 }
                             })
@@ -62,7 +62,7 @@ class Signin extends React.Component {
                 this.validator.showMessages();
                 this.forceUpdate();
             }
-        }catch(err){
+        } catch (err) {
             toast.error(err.message)
         }
     };

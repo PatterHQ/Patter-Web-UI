@@ -11,7 +11,7 @@ class Signup2b extends React.Component {
         this.state = {
             company: '',
             domain: '',
-            url:'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/insertCompany'
+            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/'
         }
         this.validator = new SimpleReactValidator({
             messages: {
@@ -23,15 +23,51 @@ class Signup2b extends React.Component {
     signUpHandler = async (e) => {
         e.preventDefault();
         if (this.validator.allValid()) {
-            let data={
-                CompanyName: this.state.company,
-                Website: this.state.domain
+
+            try {
+
+                let data = {
+                    "SiteName": this.state.domain,
+                    "CompanyName": this.state.company
+                }
+                let companyData = await axios.post(this.state.url + 'insertCompany', data).then(res => {
+                    if (res.data.Result === -1) {
+                        toast.error('This Site Name is already taken')
+                        return null;
+                    }else{
+                        return res.data.CompanyID
+                    }
+                })
+                console.log(companyData)
+                if(companyData!==null){
+                    let loggedUser = JSON.parse(localStorage.getItem('user'))
+                    let postData = {
+                        "UserID": loggedUser.UserID,
+                        "Email": loggedUser.Email,
+                        "FirstName": loggedUser.FirstName,
+                        "LastName": loggedUser.LastName,
+                        "Title": "",
+                        "Company": { "CompanyID": companyData },
+                        "Department": { "DepartmentID": 0 },
+                        "Role": { "RoleID": 0 },
+                        "AccessType": { "AccessTypeID": 0 }
+                    }
+
+                    await axios.post(this.state.url + 'updateUser', postData).then(rest => {
+                        console.log(rest)
+                        if (rest.data.Result == 1) {
+                            toast.success('Company Added Successfully')
+                            localStorage.setItem('user', JSON.stringify(postData))
+                            this.props.history.push('/')
+                        }
+                        if (rest.data.Result === -1) {
+                            toast.error(rest.data.ErrorMessage)
+                        }
+                    })
+                }
+            } catch (err) {
+                toast.error(err.message)
             }
-            await axios.post(this.state.url, data).then(res => {
-                console.log(res)
-                toast.success('Company Added Successfully')
-                this.props.history.push('/')
-            })
         } else {
             this.validator.showMessages();
             this.forceUpdate();

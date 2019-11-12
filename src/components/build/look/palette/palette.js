@@ -4,15 +4,31 @@ import { FaAngleLeft } from "react-icons/fa";
 import { GoLightBulb } from "react-icons/go";
 import './palette.css'
 import Popup from '../../../../shared/modal/modal';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Axios from 'axios';
+
 
 class palette extends Component {
+    
     constructor(props) {
         super(props);
         this.state={
             show: false, 
+            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/getCompanyBrandElement?'
         }
     }
-    
+
+    componentDidMount = async () => {
+        try {
+            await Axios.get(this.state.url+`companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=5`).then(res => {
+                console.log(res)
+            })
+        } catch (err) {
+            toast.error(err.message)
+        }
+    }
+
     handleClose = () => {
         this.setState({
             show: false, 

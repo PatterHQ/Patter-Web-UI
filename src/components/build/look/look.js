@@ -2,7 +2,28 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 import { FaAngleLeft } from "react-icons/fa";
 import './look.css'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Axios from 'axios';
+
+
 class look extends Component {
+    constructor(props) {
+        super(props);
+        this.state={
+            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/getCompanyBrandElement?'
+        }
+    }
+
+    componentDidMount = async () => {
+        try {
+            await Axios.get(this.state.url+`companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=6`).then(res => {
+                console.log(res)
+            })
+        } catch (err) {
+            toast.error(err.message)
+        }
+    }
     render() {
         return (
             <div className='look'>

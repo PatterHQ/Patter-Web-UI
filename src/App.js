@@ -18,7 +18,8 @@ import * as firebase from 'firebase/app';
 import firebaseConfig from './firebaseConfig';
 import 'react-toastify/dist/ReactToastify.css';
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
+
 class App extends Component {
   constructor(props) {
     super(props)

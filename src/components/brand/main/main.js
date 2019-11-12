@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {NavLink} from 'react-router-dom';
-import { isImportSpecifier } from '@babel/types';
 import './main.css'
 
 class main extends Component {

@@ -13,7 +13,7 @@ class Signup2a extends React.Component {
     }
     componentDidMount = async () => {
         let regisetred = JSON.parse(localStorage.getItem('newRegister'))
-        if (regisetred.Company != undefined) {
+        if (regisetred.Company !== undefined) {
             Axios.get(this.state.url + regisetred.Company.CompanyID).then(res => {
                 console.log(res)
                 this.setState({ company: res.data.CompanyName })

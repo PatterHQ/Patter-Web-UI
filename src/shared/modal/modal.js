@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Modal from 'react-bootstrap/Modal'
 import './modal.css'
 class Popup extends Component {
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
     render() {
         return (
             <Modal show={this.props.show} onHide={this.props.hide}>

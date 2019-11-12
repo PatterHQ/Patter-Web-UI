@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom'
-import { FaAngleLeft, FaPlus } from "react-icons/fa";
+import {  FaPlus } from "react-icons/fa";
 import { GoLightBulb } from "react-icons/go";
 import './voice.css'
 import Popup from '../../../shared/modal/modal';
