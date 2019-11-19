@@ -34,15 +34,17 @@ class foundation extends Component {
       originData: null,
       originDescDepartmentID: 0,
       originDesc: '',
+      
+      loader:false,
 
-      url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/'
     }
   }
 
   componentDidMount = async () => {
+    this.setState({loader:true})
     try {
       // Elevator
-      await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=1`).then(res => {
+      await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=1`).then(res => {
         console.log(res)
         this.setState({ elevatorData: res.data, elevatorDesc: res.data.Value })
         if (res.data.Department != undefined) {
@@ -51,7 +53,7 @@ class foundation extends Component {
       })
 
       // Origin
-      await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=4`).then(res => {
+      await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=4`).then(res => {
         console.log(res)
         this.setState({ originData: res.data, originDesc: res.data.Value })
         if (res.data.Department != undefined) {
@@ -60,7 +62,7 @@ class foundation extends Component {
       })
 
       // Mission
-      await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=2`).then(res => {
+      await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=2`).then(res => {
         console.log(res)
         this.setState({ missionData: res.data, missionDesc: res.data.Value })
         if (res.data.Department != undefined) {
@@ -69,7 +71,7 @@ class foundation extends Component {
       })
 
       // getValues
-      await API.get( `getValues`).then(res => {
+      await API.get(`getValues`).then(res => {
         console.log(res)
         this.setState({
           options: res.data,
@@ -77,7 +79,7 @@ class foundation extends Component {
       })
 
       // Organizational
-      await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=3`).then(res => {
+      await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=3`).then(res => {
         console.log(res)
         res.data.CompanyBrandElementValues.forEach((v, i) => {
           let vars = `val${i + 1}`
@@ -93,6 +95,7 @@ class foundation extends Component {
     } catch (err) {
       toast.error(err.message)
     }
+    this.setState({loader:false})
   }
 
   handleClose = () => {
@@ -114,6 +117,7 @@ class foundation extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
+    this.setState({loader:true})
     let elevatorData = {
       "CompanyBrandElementID": this.state.elevatorData.CompanyBrandElementID,
       "BrandElement": {
@@ -160,37 +164,7 @@ class foundation extends Component {
     try {
 
       // Elevator
-      let ElevatorRes = await API.post( `updateCompanyBrandElement`, elevatorData).then(res => {
-        console.log(res)
-        if (res.data.Result == 1) {
-          return true
-        } else {
-          return false
-        }
-      })
-      
-      // Origin
-      let OriginRes = await API.post( `updateCompanyBrandElement`, originData).then(res => {
-        console.log(res)
-        if (res.data.Result == 1) {
-          return true
-        } else {
-          return false
-        }
-      })
-      
-      // Mission
-      let MissionRes = await API.post( `updateCompanyBrandElement`, missionData).then(res => {
-        console.log(res)
-        if (res.data.Result == 1) {
-          return true
-        } else {
-          return false
-        }
-      })
-      
-      // Origanizational
-      let OriganizationalRes = await API.post( `updateOrganizationalValues`, origanizationalData).then(res => {
+      let ElevatorRes = await API.post(`updateCompanyBrandElement`, elevatorData).then(res => {
         console.log(res)
         if (res.data.Result == 1) {
           return true
@@ -199,9 +173,39 @@ class foundation extends Component {
         }
       })
 
-      if(ElevatorRes && OriginRes && MissionRes && OriganizationalRes){
+      // Origin
+      let OriginRes = await API.post(`updateCompanyBrandElement`, originData).then(res => {
+        console.log(res)
+        if (res.data.Result == 1) {
+          return true
+        } else {
+          return false
+        }
+      })
+
+      // Mission
+      let MissionRes = await API.post(`updateCompanyBrandElement`, missionData).then(res => {
+        console.log(res)
+        if (res.data.Result == 1) {
+          return true
+        } else {
+          return false
+        }
+      })
+
+      // Origanizational
+      let OriganizationalRes = await API.post(`updateOrganizationalValues`, origanizationalData).then(res => {
+        console.log(res)
+        if (res.data.Result == 1) {
+          return true
+        } else {
+          return false
+        }
+      })
+
+      if (ElevatorRes && OriginRes && MissionRes && OriganizationalRes) {
         toast.success('Updated Successfully')
-      }else{
+      } else {
         toast.error('Something went Wrong!')
       }
 
@@ -209,12 +213,18 @@ class foundation extends Component {
     } catch (err) {
       toast.error(err.message)
     }
+    this.setState({loader:false})
   }
 
   render() {
     const { show } = this.state;
     return (
       <div className='p-3'>
+        {
+          this.state.loader ? <div className='loader_overlay'>
+            <div className="custom_loader">Loading...</div>
+          </div> : null
+        }
         <ToastContainer />
         <div className='container'>
           <h2 className='heading bold mb-3'>Our Foundation</h2>

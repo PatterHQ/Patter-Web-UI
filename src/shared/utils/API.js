@@ -15,7 +15,6 @@ const requestHandler = (request) => {
   if (isHandlerEnabled(request)) {
     // Modify request here
     loader=true;
-    console.log('Request Sent')
   }
   return request
 }
@@ -35,7 +34,6 @@ const errorHandler = (error) => {
 const successHandler = (response) => {
   if (isHandlerEnabled(response.config)) {
     loader=false;
-    console.log('Response Recieved')
   }
   return response
 }

@@ -11,7 +11,7 @@ export default class Profile extends Component {
             Email: "",
             LastName: "",
             Title: "",
-            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/'
+            
         }
     }
 

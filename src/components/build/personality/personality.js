@@ -23,7 +23,7 @@ class personality extends Component {
             score6: 0,
             score7: 0,
             CompanyPersonalityAssessmentID:[],
-            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/'
+            
         }
     }
 

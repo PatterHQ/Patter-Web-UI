@@ -33,11 +33,14 @@ class personality extends Component {
             score6: 0,
             score7: 0,
             CompanyPersonalityAssessmentID: [],
-            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/'
+
+            loader:false,
+
         }
     }
 
     componentDidMount = async () => {
+        this.setState({loader:true})
         try {
 
             // getPersonalityAssessment
@@ -81,6 +84,7 @@ class personality extends Component {
         } catch (err) {
             toast.error(err.message)
         }
+        this.setState({loader:false})
     }
 
     handleClose = () => {
@@ -102,6 +106,7 @@ class personality extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        this.setState({loader:true})
         let PersonalityData = [
             { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[0], "Score": Number(this.state.score0) },
             { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[1], "Score": Number(this.state.score1) },
@@ -149,12 +154,18 @@ class personality extends Component {
         } catch (err) {
             toast.error(err.message)
         }
+        this.setState({loader:false})
     }
 
     render() {
         const { show } = this.state;
         return (
             <div className='p-3'>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <ToastContainer />
                 <div className='container'>
                     <form className='form' onSubmit={($event) => this.handleSubmit($event)} noValidate>

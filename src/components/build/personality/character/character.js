@@ -24,7 +24,7 @@ class character extends Component {
             vals: '',
             options: [],
             BrandElementDescription: '',
-            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/'
+            
         }
     }
 

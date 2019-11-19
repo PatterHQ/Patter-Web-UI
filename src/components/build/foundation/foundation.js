@@ -26,7 +26,7 @@ class foundation extends Component {
             selectedCompanyTypes: { CompanyTypeDescription: '' },
             selectedGetStages: { StageDescription: '' },
             selectedGetEmployeeRanges: { EmployeeRangeDescription: '' },
-            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/'
+            
         }
         this.validator = new SimpleReactValidator({
             messages: {
@@ -40,7 +40,7 @@ class foundation extends Component {
         this.getCompanyTypes();
         this.getStages();
         this.getEmployeeRanges();
-        this.getUserByCompanyID();
+        this.getUserByEmail();
     }
 
     getVerticals = async () => {
@@ -87,13 +87,13 @@ class foundation extends Component {
         }
     }
 
-    getUserByCompanyID = async () => {
+    getUserByEmail = async () => {
         try {
             let email = JSON.parse(localStorage.user).Email
             if (email != null) {
                 await API.get( `getUser?email=${email}`).then(res => {
                     console.log(res)
-                    this.setState({ user: res.data })
+                    this.setState({ user: res.data,comapanyName:res.data.Company.CompanyName })
                     localStorage.setItem('user', JSON.stringify(res.data))
                 })
             }
@@ -169,12 +169,12 @@ class foundation extends Component {
                 <h4 className='mb-5'>Every great brand is build on top of a strong foundation. These are the big picture elements that help guide the company from the top down.</h4>
                 <form className='form' onSubmit={($event) => this.handleSubmit($event)} noValidate>
                     <div className='form-group'>
-                        <input type="text" name='comapanyName' className='form-control' placeholder='Company Name (or DBA Name)' onChange={(e) => this.setState({ comapanyName: e.target.value })} />
+                        <input type="text" name='comapanyName' value={this.state.comapanyName} className='form-control' placeholder='Company Name (or DBA Name)' onChange={(e) => this.setState({ comapanyName: e.target.value })} />
                         <label className='error'>{this.validator.message('comapanyName', this.state.comapanyName, 'required')}</label>
                     </div>
                     <div className='form-group'>
                         <input type="text" className='form-control' name='product' placeholder='Product Name (if different)' onChange={(e) => this.setState({ product: e.target.value })} />
-                        <label className='error'>{this.validator.message('product', this.state.product, 'required')}</label>
+                        {/* <label className='error'>{this.validator.message('product', this.state.product, 'required')}</label> */}
                     </div>
                     <div className='form-group'>
                         <Select placeholder='Vertical (Industry)' name='selectedVerticals' value={this.state.selectedVerticals} autoComplete='true' options={this.state.verticals} labelKey="VerticalDescription" valueKey="VerticalID" onChange={(val) => this.changeHandler('selectedVerticals', val)} />

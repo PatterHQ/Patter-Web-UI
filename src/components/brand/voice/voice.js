@@ -19,15 +19,16 @@ class voice extends Component {
             KeywordsValue: [],
             Buzzwords: null,
             BuzzwordsValue: [],
-            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/'
+            loader:false,
         }
     }
 
     componentDidMount = async () => {
+        this.setState({loader:true})
         try {
 
             // getKeyWords Data
-            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=10`).then(res => {
+            await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=10`).then(res => {
                 console.log(res.data)
                 if (res.data.Value !== '') {
                     this.setState({ KeywordsValue: res.data.Value.split(',') })
@@ -36,7 +37,7 @@ class voice extends Component {
             })
 
             // getbuzzwords Data
-            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=11`).then(res => {
+            await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=11`).then(res => {
                 console.log(res.data)
                 if (res.data.Value !== '') {
                     this.setState({ BuzzwordsValue: res.data.Value.split(',') })
@@ -47,6 +48,7 @@ class voice extends Component {
         } catch (err) {
             toast.error(err.message)
         }
+        this.setState({loader:false})
     }
 
     handleClose = () => {
@@ -88,6 +90,7 @@ class voice extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        this.setState({loader:true})
         let user = JSON.parse(localStorage.user)
         let departmentID = 0;
         if (user.Department !== undefined) {
@@ -122,11 +125,11 @@ class voice extends Component {
 
         try {
 
-            let keywd = await API.post( `updateCompanyBrandElement`, keywordData).then(res => {
+            let keywd = await API.post(`updateCompanyBrandElement`, keywordData).then(res => {
                 console.log(res.data)
                 if (res.data.Result === 1) { return true }
             })
-            let buzwd = await API.post( `updateCompanyBrandElement`, buzzwordData).then(res => {
+            let buzwd = await API.post(`updateCompanyBrandElement`, buzzwordData).then(res => {
                 console.log(res.data)
                 if (res.data.Result === 1) { return true }
             })
@@ -138,12 +141,19 @@ class voice extends Component {
             toast.error(error.message)
         }
 
+        this.setState({loader:false})
+
     }
 
     render() {
         const { show } = this.state;
         return (
             <div className='brand voice p-3'>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <ToastContainer />
                 <div className='container'>
                     <form className='form' onSubmit={($event) => this.handleSubmit($event)} noValidate>

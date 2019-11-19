@@ -38,7 +38,7 @@ class Signin extends React.Component {
                             // console.log('Please Conform Your Email to Login')
                             toast.warn('Please Conform Your Email to Login');
                         } else {
-                            API.get( res.user.email).then(res => {
+                            API.get( "getUser?email="+res.user.email).then(res => {
                                 console.log(res)
                                 prop.user(res.data)
                                 localStorage.setItem('logged', 'true')
