@@ -6,6 +6,7 @@ import Popup from '../../../shared/modal/modal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Axios from 'axios';
+import API from "../../../shared/utils/API";
 
 class personality extends Component {
     constructor(props) {
@@ -21,23 +22,26 @@ class personality extends Component {
             score5: 0,
             score6: 0,
             score7: 0,
-            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/getCompanyBrandElement?'
+            CompanyPersonalityAssessmentID:[],
+            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/'
         }
     }
 
     componentDidMount = async () => {
         try {
-            await Axios.get(this.state.url + `companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=9`).then(res => {
+            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=9`).then(res => {
                 console.log(res)
-                // let vals=[]
+                let ids=[]
                 res.data.CompanyBrandElementPersonalityAssessments.forEach((v, i) => {
                     let vars = `score${i}`
+                    ids.push(v.CompanyBrandElementPersonalityAssessmentsID);
                     this.setState({
-                        [vars]: v.PersonalityAssessment.Score
+                        [vars]: v.PersonalityAssessment.Score,
                     })
                 })
                 this.setState({
                     brandData: res.data,
+                    CompanyPersonalityAssessmentID:ids
                 })
             })
         } catch (err) {
@@ -60,26 +64,35 @@ class personality extends Component {
         console.log(event.target.value);
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
-        let data={
-            score0:this.state.score0,
-            score1:this.state.score1,
-            score2:this.state.score2,
-            score3:this.state.score3,
-            score4:this.state.score4,
-            score5:this.state.score5,
-            score6:this.state.score6,
-            score7:this.state.score7,
+        let data = [
+            { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[0], "Score": Number(this.state.score0) },
+            { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[1], "Score": Number(this.state.score1) },
+            { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[2], "Score": Number(this.state.score2) },
+            { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[3], "Score": Number(this.state.score3) },
+            { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[4], "Score": Number(this.state.score4) },
+            { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[5], "Score": Number(this.state.score5) },
+            { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[6], "Score": Number(this.state.score6) },
+            { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[7], "Score": Number(this.state.score7) }
+        ]
+
+        try {
+            await API.post( `updatePersonalityAssessments`,data).then(res => {
+                console.log(res)
+                if(res.data.Result===1){
+                    toast.success('Updated Successfully')
+                    this.props.history.push('/build/personality/character')
+                }
+            })
+        } catch (err) {
+            toast.error(err.message)
         }
-        console.log(data)
-        toast.success('successful')
-        //on success '/build/personality/character'
     }
 
 
     render() {
-        const { show, scores } = this.state;
+        const { show } = this.state;
         return (
             <div className=''>
                 <ToastContainer />

@@ -1,12 +1,44 @@
-.palette .form .form-group{
-    display: flex;
-    justify-content: space-between;
+.palette .form .form-group {
+  display: flex;
+  justify-content: space-between;
 }
-.palette .form .form-group .color{
-    flex: 0 0 75%;
-    width: 75%;
+.palette .form .form-group .color {
+  flex: 0 0 75%;
+  width: 75%;
+  padding: 0 !important;
 }
-.palette .form .form-group .percentage{
-    flex: 0 0 20%;
-    width: 20%;
+.palette .form .form-group .percentage {
+  flex: 0 0 20%;
+  width: 20%;
+  padding: 10px !important;
+}
+
+.color_palette {
+  height: 120px;
+  width: 100%;
+  border: 1px solid #cacaca;
+}
+.color_palette span {
+  display: inline-block;
+  height: 100%;
+}
+.color_palette .color_1 {
+  background-color: #ba0000;
+  width: 40%;
+}
+.color_palette .color_2 {
+  background-color: #ffe900;
+  width: 20%;
+}
+.color_palette .color_3 {
+  background-color: #79c7ff;
+  width: 15%;
+}
+.color_palette .color_4 {
+  background-color: #cacaca;
+  width: 15%;
+}
+.color_palette .color_5 {
+  background-color: #fff;
+  width: 10%;
 }

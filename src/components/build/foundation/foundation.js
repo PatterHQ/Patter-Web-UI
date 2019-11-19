@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './foundation.css';
 import Axios from 'axios';
+import API from "../../../shared/utils/API";
 
 class foundation extends Component {
     constructor(props) {
@@ -44,7 +45,7 @@ class foundation extends Component {
 
     getVerticals = async () => {
         try {
-            await Axios.get(this.state.url + 'getVerticals').then(res => {
+            await API.get( 'getVerticals').then(res => {
                 console.log(res)
                 this.setState({ verticals: res.data })
             })
@@ -55,7 +56,7 @@ class foundation extends Component {
 
     getCompanyTypes = async () => {
         try {
-            await Axios.get(this.state.url + 'getCompanyTypes').then(res => {
+            await API.get( 'getCompanyTypes').then(res => {
                 console.log(res)
                 this.setState({ CompanyTypes: res.data })
             })
@@ -66,7 +67,7 @@ class foundation extends Component {
 
     getEmployeeRanges = async () => {
         try {
-            await Axios.get(this.state.url + 'getEmployeeRanges').then(res => {
+            await API.get( 'getEmployeeRanges').then(res => {
                 console.log(res)
                 this.setState({ getEmployeeRanges: res.data })
             })
@@ -77,7 +78,7 @@ class foundation extends Component {
 
     getStages = async () => {
         try {
-            await Axios.get(this.state.url + 'getStages').then(res => {
+            await API.get( 'getStages').then(res => {
                 console.log(res)
                 this.setState({ getStages: res.data })
             })
@@ -90,7 +91,7 @@ class foundation extends Component {
         try {
             let email = JSON.parse(localStorage.user).Email
             if (email != null) {
-                await Axios.get(this.state.url + `getUser?email=${email}`).then(res => {
+                await API.get( `getUser?email=${email}`).then(res => {
                     console.log(res)
                     this.setState({ user: res.data })
                     localStorage.setItem('user', JSON.stringify(res.data))
@@ -140,7 +141,7 @@ class foundation extends Component {
             console.log(data)
 
             try {
-                await Axios.post(this.state.url + 'updateCompany', data).then(res => {
+                await API.post( 'updateCompany', data).then(res => {
                     console.log(res)
                     if (res.data !== '') {
                         toast.success('Company Updated Successfully')

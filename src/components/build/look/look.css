@@ -1,5 +1,32 @@
-.look .tag_container{
-    min-height: 300px;
-    width: 100%;
-    background-color: #b6cfd0;
+.look .tag_container {
+  min-height: 300px;
+  width: 100%;
+  background-color: #b6cfd0;
+}
+[type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+
+[type="file"] + label {
+  background: #0e707c;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  outline: none;
+  transition: all 0.3s;
+  vertical-align: middle;
+}
+[type="file"] + label.btn-1 {
+  height: 35px;
+  min-width: 135px;
+  padding: 5px 20px;
+  transition: none;
+  box-shadow: none;
+  font-size: 18px;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
 }

@@ -7,6 +7,7 @@ import Popup from '../../../shared/modal/modal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Axios from 'axios';
+import API from "../../../shared/utils/API";
 import SimpleReactValidator from 'simple-react-validator';
 
 class organizational extends Component {
@@ -34,7 +35,7 @@ class organizational extends Component {
 
     componentDidMount = async () => {
         try {
-            await Axios.get(this.state.url + `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=3`).then(res => {
+            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=3`).then(res => {
                 console.log(res)
                 let ids = []
                 res.data.CompanyBrandElementValues.forEach((v, i) => {
@@ -51,13 +52,13 @@ class organizational extends Component {
             toast.error(err.message)
         }
 
-        await Axios.get(this.state.url + `getValues`).then(res => {
-            console.log(res)
-            this.setState({
-                options: res.data,
-            })
-        })
         try {
+            await API.get( `getValues`).then(res => {
+                console.log(res)
+                this.setState({
+                    options: res.data,
+                })
+            })
 
         } catch (error) {
             toast.error(error.message)
@@ -98,7 +99,7 @@ class organizational extends Component {
             ]
 
             try {
-                await Axios.post(this.state.url + `updateOrganizationalValues`, data).then(res => {
+                await API.post( `updateOrganizationalValues`, data).then(res => {
                     console.log(res)
                     toast.success('Updated Successfully')
                     this.props.history.push('/build/personality');

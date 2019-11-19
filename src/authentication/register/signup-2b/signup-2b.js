@@ -3,7 +3,8 @@ import './signup-2b.css'
 import { NavLink } from 'react-router-dom'
 import SimpleReactValidator from 'simple-react-validator';
 import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios';
+import Axios from 'axios';
+import API from "../../../shared/utils/API";
 
 class Signup2b extends React.Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class Signup2b extends React.Component {
                     "SiteName": this.state.domain,
                     "CompanyName": this.state.company
                 }
-                let companyData = await axios.post(this.state.url + 'insertCompany', data).then(res => {
+                let companyData = await API.post( 'insertCompany', data).then(res => {
                     if (res.data.Result === -1) {
                         toast.error('This Site Name is already taken')
                         return null;
@@ -53,9 +54,9 @@ class Signup2b extends React.Component {
                         "AccessType": { "AccessTypeID": 0 }
                     }
 
-                    await axios.post(this.state.url + 'updateUser', postData).then(rest => {
+                    await API.post( 'updateUser', postData).then(rest => {
                         console.log(rest)
-                        if (rest.data.Result == 1) {
+                        if (rest.data.Result === 1) {
                             toast.success('Company Added Successfully')
                             localStorage.setItem('user', JSON.stringify(postData))
                             this.props.history.push('/')

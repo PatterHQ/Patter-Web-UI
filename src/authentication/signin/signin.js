@@ -8,7 +8,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Axios from 'axios';
-
+import API from "../../shared/utils/API";
 class Signin extends React.Component {
     constructor(props) {
         super(props)
@@ -38,14 +38,13 @@ class Signin extends React.Component {
                             // console.log('Please Conform Your Email to Login')
                             toast.warn('Please Conform Your Email to Login');
                         } else {
-                            Axios.get(this.state.url + res.user.email).then(res => {
+                            API.get( res.user.email).then(res => {
                                 console.log(res)
                                 prop.user(res.data)
                                 localStorage.setItem('logged', 'true')
                                 localStorage.setItem('user', JSON.stringify(res.data))
                                 toast.success('Login Successfully')
-                                let regisetred = JSON.parse(localStorage.getItem('newRegister'))
-                                if (regisetred.Company !== undefined) {
+                                if (res.data.Company !== undefined) {
                                     prop.history.push('/signup/a');
                                 } else {
                                     prop.history.push('/signup/b');

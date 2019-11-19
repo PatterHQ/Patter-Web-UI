@@ -17,6 +17,7 @@ import ForgetPassword from './authentication/forget-password/forget-password';
 import * as firebase from 'firebase/app';
 import firebaseConfig from './firebaseConfig';
 import 'react-toastify/dist/ReactToastify.css';
+import { loader } from './shared/utils/API'
 
 firebase.initializeApp(firebaseConfig);
 
@@ -44,6 +45,7 @@ class App extends Component {
         <Router>
           <Header user={this.state.user} logged={this.state.logged} />
           <div className='body_content'>
+
 
             {/* mention the route where you want sidebar */}
             <Route exact path='/' component={Sidebar} />

@@ -6,6 +6,7 @@ import Popup from '../../../../shared/modal/modal';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Axios from 'axios';
+import API from "../../../../shared/utils/API";
 
 class origin extends Component {
     constructor(props) {
@@ -22,7 +23,7 @@ class origin extends Component {
 
     componentDidMount = async () => {
         try {
-            await Axios.get(this.state.url + `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=4`).then(res => {
+            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=4`).then(res => {
                 console.log(res)
                 this.setState({ brandData: res.data, BrandElementDescription: res.data.Value })
                 if (res.data.Department != undefined) {
@@ -58,7 +59,7 @@ class origin extends Component {
         console.log(data)
 
         try {
-            await Axios.post(this.state.url + `updateCompanyBrandElement`, data).then(res => {
+            await API.post( `updateCompanyBrandElement`, data).then(res => {
                 console.log(res)
                 if (res.data.Result === 1) {
                     toast.success('Updated Successfuly')

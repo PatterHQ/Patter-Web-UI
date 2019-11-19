@@ -11,3 +11,26 @@
     font-size: 15px;
     color: #9ca4ab;
 }
+.note_msg {
+    padding: 3px;
+    margin: 0 5px 5px 0;
+    display: inline-block;
+    background: #5f989f;
+    font-size: 13px;
+    position: relative;
+    padding-right: 12px;
+}
+
+.note_msg:hover span.remove,.note_msg:focus span.remove{
+    display: block;
+}
+
+.voice span.remove {
+    color: #000;
+    display: none;
+    position: absolute;
+    font-size: 11px;
+    top: -6px;
+    right: -3px;
+    cursor: pointer;
+}

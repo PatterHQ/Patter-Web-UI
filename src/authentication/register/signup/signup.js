@@ -6,7 +6,8 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import SimpleReactValidator from 'simple-react-validator';
 import { ToastContainer, toast } from 'react-toastify';
-import axios from 'axios';
+import Axios from 'axios';
+import API from "../../../shared/utils/API";
 
 class Signup extends React.Component {
     constructor(props) {
@@ -38,7 +39,7 @@ class Signup extends React.Component {
                     console.log(res)
                     let data ={Email:this.state.email,FirstName:this.state.firstName,LastName:this.state.lastName}
                     // toast.success('Registered Successfully')
-                    axios.post(this.state.url, data).then(res => {
+                    API.post(this.state.url, data).then(res => {
                         console.log(res.data);
                         localStorage.setItem('newRegister',JSON.stringify(res.data))
                     })

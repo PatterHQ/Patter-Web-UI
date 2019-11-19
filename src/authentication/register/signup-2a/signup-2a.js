@@ -2,6 +2,7 @@ import React from 'react';
 import './signup-2a.css'
 import { NavLink } from 'react-router-dom'
 import Axios from 'axios';
+import API from "../../../shared/utils/API";
 
 class Signup2a extends React.Component {
     constructor(props) {
@@ -12,12 +13,14 @@ class Signup2a extends React.Component {
         }
     }
     componentDidMount = async () => {
-        let regisetred = JSON.parse(localStorage.getItem('newRegister'))
-        if (regisetred.Company !== undefined) {
-            Axios.get(this.state.url + regisetred.Company.CompanyID).then(res => {
-                console.log(res)
-                this.setState({ company: res.data.CompanyName })
-            })
+        let regisetred = JSON.parse(localStorage.getItem('user'))
+        if (regisetred.Company.CompanyName !== undefined) {
+            this.setState({company:regisetred.Company.CompanyName})
+            // API.get( regisetred.Company.CompanyID).then(res => {
+            //     let comp = res.data
+            //     console.log(JSON.parse(comp))
+            //     this.setState({ company: res.data.CompanyName })
+            // })
         }
     }
     render() {

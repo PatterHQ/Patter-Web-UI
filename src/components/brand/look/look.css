@@ -7,6 +7,9 @@
     display: flex;
     justify-content: space-between;
 }
+.look .flex.form-group .form-control.color{
+    padding: 0 !important;
+}
 .look .flex.form-group .color{
     flex: 0 0 75%;
     width: 75%;
@@ -14,6 +17,7 @@
 .look .flex.form-group .percentage{
     flex: 0 0 20%;
     width: 20%;
+    padding: 10px !important;
 }
 .look .color_palette{
     height: 120px;
