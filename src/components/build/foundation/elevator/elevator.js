@@ -62,7 +62,9 @@ class elevator extends Component {
                 console.log(res)
                 if (res.data.Result == 1) {
                     toast.success('Updated Successfuly')
-                    this.props.history.push('/build/foundation/organizational')
+                    setTimeout(() => {
+                        this.props.history.push('/build/foundation/organizational')
+                    }, 1000);
                 }
             })
         } catch (err) {

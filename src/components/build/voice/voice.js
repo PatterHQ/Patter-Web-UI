@@ -21,13 +21,14 @@ class voice extends Component {
             KeywordsValue: [],
             Buzzwords: null,
             BuzzwordsValue: [],
-            
+            loader:false
         }
     }
 
     componentDidMount = async () => {
+        this.setState({loader:true})
         try {
-            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=10`).then(res => {
+            await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=10`).then(res => {
                 console.log(res.data)
                 if (res.data.Value !== '') {
                     this.setState({ KeywordsValue: res.data.Value.split(',') })
@@ -39,7 +40,7 @@ class voice extends Component {
         }
 
         try {
-            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=11`).then(res => {
+            await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=11`).then(res => {
                 console.log(res.data)
                 if (res.data.Value !== '') {
                     this.setState({ BuzzwordsValue: res.data.Value.split(',') })
@@ -49,6 +50,7 @@ class voice extends Component {
         } catch (err) {
             toast.error(err.message)
         }
+        this.setState({loader:false})
     }
 
     handleClose = () => {
@@ -79,6 +81,7 @@ class voice extends Component {
     }
 
     handleSubmit = async (e) => {
+        this.setState({loader:true})
         e.preventDefault();
         let user = JSON.parse(localStorage.user)
         let departmentID = 0;
@@ -114,23 +117,25 @@ class voice extends Component {
 
         try {
 
-            let keywd = await API.post( `updateCompanyBrandElement`, keywordData).then(res => {
+            let keywd = await API.post(`updateCompanyBrandElement`, keywordData).then(res => {
                 console.log(res.data)
                 if (res.data.Result === 1) { return true }
             })
-            let buzwd = await API.post( `updateCompanyBrandElement`, buzzwordData).then(res => {
+            let buzwd = await API.post(`updateCompanyBrandElement`, buzzwordData).then(res => {
                 console.log(res.data)
                 if (res.data.Result === 1) { return true }
             })
             if (keywd && buzwd) {
                 toast.success('Updated Successfully')
-                this.props.history.push('/build/look')
+                setTimeout(() => {
+                    this.props.history.push('/build/look')
+                }, 1000);
             }
 
         } catch (error) {
             toast.error(error.message)
         }
-
+        this.setState({loader:false})
     }
 
     removekeyword = (val) => {
@@ -145,12 +150,17 @@ class voice extends Component {
         })
     }
 
-    
+
 
     render() {
         const { show } = this.state;
         return (
             <div className='voice'>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <ToastContainer />
                 <h2 className='heading bold mb-3'>Part 3: Our Voice</h2>
                 <h4 className='mb-5'>This sections describes how we communicate both internally and externally. This is an extention of your team’s personality and should be consistent.</h4>

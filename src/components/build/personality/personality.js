@@ -22,16 +22,18 @@ class personality extends Component {
             score5: 0,
             score6: 0,
             score7: 0,
-            CompanyPersonalityAssessmentID:[],
-            
+            CompanyPersonalityAssessmentID: [],
+            loader:false
+
         }
     }
 
     componentDidMount = async () => {
+        this.setState({loader:true})
         try {
-            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=9`).then(res => {
+            await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=9`).then(res => {
                 console.log(res)
-                let ids=[]
+                let ids = []
                 res.data.CompanyBrandElementPersonalityAssessments.forEach((v, i) => {
                     let vars = `score${i}`
                     ids.push(v.CompanyBrandElementPersonalityAssessmentsID);
@@ -41,12 +43,13 @@ class personality extends Component {
                 })
                 this.setState({
                     brandData: res.data,
-                    CompanyPersonalityAssessmentID:ids
+                    CompanyPersonalityAssessmentID: ids
                 })
             })
         } catch (err) {
             toast.error(err.message)
         }
+        this.setState({loader:false})
     }
 
     handleClose = () => {
@@ -65,6 +68,7 @@ class personality extends Component {
     }
 
     handleSubmit = async (e) => {
+        this.setState({loader:true})
         e.preventDefault();
         let data = [
             { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[0], "Score": Number(this.state.score0) },
@@ -78,16 +82,19 @@ class personality extends Component {
         ]
 
         try {
-            await API.post( `updatePersonalityAssessments`,data).then(res => {
+            await API.post(`updatePersonalityAssessments`, data).then(res => {
                 console.log(res)
-                if(res.data.Result===1){
+                if (res.data.Result === 1) {
                     toast.success('Updated Successfully')
-                    this.props.history.push('/build/personality/character')
+                    setTimeout(() => {
+                        this.props.history.push('/build/personality/character')
+                    }, 1000);
                 }
             })
         } catch (err) {
             toast.error(err.message)
         }
+        this.setState({loader:false})
     }
 
 
@@ -95,6 +102,11 @@ class personality extends Component {
         const { show } = this.state;
         return (
             <div className=''>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <ToastContainer />
                 <h2 className='heading bold mb-3'>Part 2: Our Personality</h2>
                 <h4 className='mb-3'>Congratulations! You’ve completed the first section of the Brand Assessment. Hopefully it wasn’t too diffcult.</h4>

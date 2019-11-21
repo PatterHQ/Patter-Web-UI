@@ -17,13 +17,15 @@ class mission extends Component {
             brandData: '',
             departmentID: 0,
             BrandElementDescription: '',
-            
+            loader: false
+
         }
     }
 
     componentDidMount = async () => {
+        this.setState({ loader: true })
         try {
-            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=2`).then(res => {
+            await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=2`).then(res => {
                 console.log(res)
                 this.setState({ brandData: res.data, BrandElementDescription: res.data.Value })
                 if (res.data.Department != undefined) {
@@ -33,6 +35,7 @@ class mission extends Component {
         } catch (err) {
             toast.error(err.message)
         }
+        this.setState({ loader: false })
     }
 
     handleClose = () => {
@@ -47,6 +50,7 @@ class mission extends Component {
     };
 
     handleSubmit = async (e) => {
+        this.setState({ loader: true })
         e.preventDefault();
         let data = {
             "CompanyBrandElementID": this.state.brandData.CompanyBrandElementID,
@@ -60,16 +64,19 @@ class mission extends Component {
         console.log(data)
 
         try {
-            await API.post( `updateCompanyBrandElement`, data).then(res => {
+            await API.post(`updateCompanyBrandElement`, data).then(res => {
                 console.log(res)
                 if (res.data.Result === 1) {
                     toast.success('Updated Successfuly')
-                    this.props.history.push('/build/foundation/origin')
+                    setTimeout(() => {
+                        this.props.history.push('/build/foundation/origin')
+                    }, 1000);
                 }
             })
         } catch (err) {
             toast.error(err.message)
         }
+        this.setState({ loader: false })
     }
 
 
@@ -77,6 +84,11 @@ class mission extends Component {
         const { show } = this.state;
         return (
             <div className=''>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <ToastContainer />
                 <h2 className='heading bold mb-3'>Mission/ Purpose</h2>
                 <h4>Your Mission or Purpose is a short statement that explains why your organization exists and paints a picture of what it hopes to achieve.</h4>

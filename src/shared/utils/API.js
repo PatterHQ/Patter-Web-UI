@@ -3,7 +3,7 @@ export let loader=false;
 
 const API= axios.create({
   baseURL: "https://webservice.patter.com/PatterService1/",
-  responseType: "json"
+  // responseType: "json"
 });
 
 const isHandlerEnabled = (config={}) => {

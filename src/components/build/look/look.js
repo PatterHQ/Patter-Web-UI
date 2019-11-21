@@ -93,8 +93,8 @@ class look extends Component {
                     </div>
                     <div className='mt-3 mb-5 text-right'>
                         <NavLink to='/build/voice' className='float-left primary back_btn'> <FaAngleLeft /> Back</NavLink>
-                        {/* <NavLink to='/build/look/palette' className='btn_green m-0'>NEXT</NavLink> */}
-                        <button className='btn_green' type='submit'>Next</button>
+                        <NavLink to='/build/look/palette' className='btn_green m-0'>NEXT</NavLink>
+                        {/* <button className='btn_green' type='submit'>Next</button> */}
                     </div>
                 </form>
             </div>

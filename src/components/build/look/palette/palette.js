@@ -28,13 +28,15 @@ class palette extends Component {
             percentage3: '',
             percentage4: '',
             CompanyBrandElementColorPaletteID: [],
-            
+            loader:false
+
         }
     }
 
     componentDidMount = async () => {
+        this.setState({loader:true})
         try {
-            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=5`).then(res => {
+            await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=5`).then(res => {
                 this.setState({ palette: res.data })
 
                 res.data.CompanyBrandElementColorPalette.forEach((v, i) => {
@@ -54,6 +56,7 @@ class palette extends Component {
         } catch (err) {
             toast.error(err.message)
         }
+        this.setState({loader:false})
     }
 
     handleClose = () => {
@@ -68,6 +71,7 @@ class palette extends Component {
     };
 
     handleSubmit = async (e) => {
+        this.setState({loader:true})
         e.preventDefault();
         let data = [
             {
@@ -98,17 +102,20 @@ class palette extends Component {
         ]
 
         try {
-            await API.post( `updateColorPalettes`, data).then(res => {
+            await API.post(`updateColorPalettes`, data).then(res => {
                 console.log(res.data)
-                if(res.data.Result===1){
+                if (res.data.Result === 1) {
                     toast.success('Updated Successfully')
-                    this.props.history.push('/build/complete')
+                    setTimeout(() => {
+                        this.props.history.push('/build/complete')
+                    }, 1000);
                 }
             })
 
         } catch (error) {
             toast.error(error.message)
         }
+        this.setState({loader:false})
     }
 
 
@@ -121,12 +128,12 @@ class palette extends Component {
     changePercentageHandler = (col, old, val) => {
         let sum = Number(this.state.percentage0) + Number(this.state.percentage1) + Number(this.state.percentage2) + Number(this.state.percentage3) + Number(this.state.percentage4);
         let total = Number(sum) - Number(old) + Number(val);
-        console.log(Number(sum) +' '+ Number(old) +' '+ Number(val))
+        console.log(Number(sum) + ' ' + Number(old) + ' ' + Number(val))
         if (total <= 100) {
             this.setState({
                 [col]: val
             })
-        }else{
+        } else {
             toast.warn('Percentage Limit Exceeded')
         }
     }
@@ -156,6 +163,11 @@ class palette extends Component {
         }
         return (
             <div className='palette'>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <ToastContainer />
                 <h2 className='heading bold mb-3'>Color Palette</h2>
                 <h4 className='mb-3'>Your use of color is critical to maintaining consistency across your brand and visual channels. These colors should represent the brand elements already described and should be used correctly in all applications.</h4>

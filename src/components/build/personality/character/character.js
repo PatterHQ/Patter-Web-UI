@@ -24,13 +24,14 @@ class character extends Component {
             vals: '',
             options: [],
             BrandElementDescription: '',
-            
+            loader: false
         }
     }
 
     componentDidMount = async () => {
+        this.setState({ loader: true })
         try {
-            await API.get( `getCharacteristics`).then(res => {
+            await API.get(`getCharacteristics`).then(res => {
                 console.log(res)
                 this.setState({
                     options: res.data,
@@ -42,7 +43,7 @@ class character extends Component {
         }
 
         try {
-            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=8`).then(res => {
+            await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=8`).then(res => {
                 console.log(res)
                 let vals = []
                 res.data.CompanyBrandElementPersonalityCharacteristics.forEach((v, i) => {
@@ -58,6 +59,7 @@ class character extends Component {
         } catch (err) {
             toast.error(err.message)
         }
+        this.setState({ loader: false })
     }
 
     handleClose = () => {
@@ -79,6 +81,7 @@ class character extends Component {
     }
 
     handleSubmit = async (e) => {
+        this.setState({ loader: true })
         e.preventDefault();
         let data = [
             { "CompanyPersonalityCharacteristicID": this.state.vals[0], "PersonalityCharacteristicID": this.state.value0.PersonalityCharacteristicID },
@@ -89,22 +92,29 @@ class character extends Component {
         ]
         console.log(data)
         try {
-            await API.post( `updatePersonalityCharacteristics`, data).then(res => {
+            await API.post(`updatePersonalityCharacteristics`, data).then(res => {
                 console.log(res)
                 toast.success('Updated Successfully')
-                if(res.data.Result===1){
-                    this.props.history.push('/build/voice');
+                if (res.data.Result === 1) {
+                    setTimeout(() => {
+                        this.props.history.push('/build/voice');
+                    }, 1000);
                 }
             })
         } catch (err) {
             toast.error(err.message)
         }
-
+        this.setState({ loader: false })
     }
     render() {
         const { show } = this.state;
         return (
             <div>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <ToastContainer />
                 <h2 className='heading bold mb-3'>Character Attributes</h2>
                 <h4 className='mb-5'>Your character attributes give final definition to how the organization conducts itself. They provide further context for team members and help set expectations for stakeholders.</h4>

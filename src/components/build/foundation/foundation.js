@@ -26,7 +26,7 @@ class foundation extends Component {
             selectedCompanyTypes: { CompanyTypeDescription: '' },
             selectedGetStages: { StageDescription: '' },
             selectedGetEmployeeRanges: { EmployeeRangeDescription: '' },
-            
+            loader: false
         }
         this.validator = new SimpleReactValidator({
             messages: {
@@ -36,16 +36,18 @@ class foundation extends Component {
     }
 
     componentDidMount = () => {
+        this.setState({ loader: true })
         this.getVerticals();
         this.getCompanyTypes();
         this.getStages();
         this.getEmployeeRanges();
-        this.getUserByEmail();
+        this.getCompanyByID();
+        this.setState({ loader: false })
     }
 
     getVerticals = async () => {
         try {
-            await API.get( 'getVerticals').then(res => {
+            await API.get('getVerticals').then(res => {
                 console.log(res)
                 this.setState({ verticals: res.data })
             })
@@ -56,7 +58,7 @@ class foundation extends Component {
 
     getCompanyTypes = async () => {
         try {
-            await API.get( 'getCompanyTypes').then(res => {
+            await API.get('getCompanyTypes').then(res => {
                 console.log(res)
                 this.setState({ CompanyTypes: res.data })
             })
@@ -67,7 +69,7 @@ class foundation extends Component {
 
     getEmployeeRanges = async () => {
         try {
-            await API.get( 'getEmployeeRanges').then(res => {
+            await API.get('getEmployeeRanges').then(res => {
                 console.log(res)
                 this.setState({ getEmployeeRanges: res.data })
             })
@@ -78,7 +80,7 @@ class foundation extends Component {
 
     getStages = async () => {
         try {
-            await API.get( 'getStages').then(res => {
+            await API.get('getStages').then(res => {
                 console.log(res)
                 this.setState({ getStages: res.data })
             })
@@ -87,14 +89,24 @@ class foundation extends Component {
         }
     }
 
-    getUserByEmail = async () => {
+    getCompanyByID = async () => {
         try {
-            let email = JSON.parse(localStorage.user).Email
-            if (email != null) {
-                await API.get( `getUser?email=${email}`).then(res => {
-                    console.log(res)
-                    this.setState({ user: res.data,comapanyName:res.data.Company.CompanyName })
-                    localStorage.setItem('user', JSON.stringify(res.data))
+            let id = JSON.parse(localStorage.user).Company.CompanyID
+            if (id != null) {
+                await API.get(`getCompany?companyID=${id}`).then(res => {
+                    let obj = res.data.split('},{')
+                    obj[0] = obj[0] + '}'
+                    obj[1] = '{' + obj[1]
+                    console.log(JSON.parse(obj[0]))
+                    console.log(JSON.parse(obj[1]))
+                    this.setState({
+                        selectedVerticals: { VerticalDescription: '' },
+                        selectedCompanyTypes: { CompanyTypeDescription: '' },
+                        selectedGetStages: { StageDescription: '' },
+                        selectedGetEmployeeRanges: { EmployeeRangeDescription: '' },
+                    })
+                    // this.setState({ user: res.data, comapanyName: res.data.Company.CompanyName })
+                    // localStorage.setItem('user', JSON.stringify(res.data))
                 })
             }
         } catch (err) {
@@ -109,6 +121,7 @@ class foundation extends Component {
     }
 
     handleSubmit = async (e) => {
+        this.setState({ loader: true })
         e.preventDefault();
         if (this.validator.allValid()) {
             let user = JSON.parse(localStorage.getItem('user'))
@@ -141,11 +154,13 @@ class foundation extends Component {
             console.log(data)
 
             try {
-                await API.post( 'updateCompany', data).then(res => {
+                await API.post('updateCompany', data).then(res => {
                     console.log(res)
                     if (res.data !== '') {
                         toast.success('Company Updated Successfully')
-                        this.props.history.push('/build/foundation/mission')
+                        setTimeout(() => {
+                            this.props.history.push('/build/foundation/mission')
+                        }, 1000);
                     } else {
                         toast.error('Something went Wrong, Please try Later')
                     }
@@ -159,11 +174,17 @@ class foundation extends Component {
             this.validator.showMessages();
             this.forceUpdate();
         }
+        this.setState({ loader: false })
     }
 
     render() {
         return (
             <div className=''>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <ToastContainer />
                 <h2 className='heading bold mb-3'>Part 1: Our Foundation</h2>
                 <h4 className='mb-5'>Every great brand is build on top of a strong foundation. These are the big picture elements that help guide the company from the top down.</h4>

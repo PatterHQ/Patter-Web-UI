@@ -45,7 +45,9 @@ class Signup extends React.Component {
                     })
                     res.user.sendEmailVerification().then(function () {
                         toast.success('Registered Successfully')
-                        props.history.push('login')
+                        setTimeout(() => {
+                            props.history.push('login')
+                        }, 1000);
                     }).catch(function (error) {
                         toast.error(error.message)
                     });
