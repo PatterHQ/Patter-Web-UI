@@ -15,6 +15,7 @@ class Signin extends React.Component {
         this.state = {
             email: '',
             password: '',
+            errors: '',
             url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/getUser?email='
         }
         this.validator = new SimpleReactValidator({
@@ -25,6 +26,7 @@ class Signin extends React.Component {
         });
     }
     signInHandler = (e) => {
+        this.setState({ errors: '' })
         var prop = this.props
         e.preventDefault();
         try {
@@ -38,33 +40,33 @@ class Signin extends React.Component {
                             // console.log('Please Conform Your Email to Login')
                             toast.warn('Please Conform Your Email to Login');
                         } else {
-                            API.get( "getUser?email="+res.user.email).then(res => {
+                            API.get("getUser?email=" + res.user.email).then(res => {
                                 console.log(res)
                                 prop.user(res.data)
                                 localStorage.setItem('logged', 'true')
                                 localStorage.setItem('user', JSON.stringify(res.data))
                                 toast.success('Login Successfully')
-                                setTimeout(() => {
-                                    if (res.data.Company !== undefined) {
-                                        prop.history.push('/signup/a');
-                                    } else {
-                                        prop.history.push('/signup/b');
-                                    }
-                                }, 1000);
+                                if (res.data.Company !== undefined) {
+                                    prop.history.push('/signup/a');
+                                } else {
+                                    prop.history.push('/signup/b');
+                                }
                             })
                         }
                         // if (res.user) Auth.setLoggedIn(true);
                     })
                     .catch(e => {
-                        toast.error(e.message)
-                        console.log(e)
+                        // toast.error(e.message)
+                        this.setState({ errors: e.message })
+                        // console.log(e)
                     });
             } else {
                 this.validator.showMessages();
                 this.forceUpdate();
             }
         } catch (err) {
-            toast.error(err.message)
+            // toast.error(err.message)
+            this.setState({ errors: err.message })
         }
     };
 
@@ -86,9 +88,13 @@ class Signin extends React.Component {
                             <label className='error'>{this.validator.message('password', this.state.password, 'required')}</label>
                         </div>
                         <div className='form-group'>
+                            {
+                                this.state.errors !== '' ? <p className='alert alert-danger'>{this.state.errors}</p> : null
+                            }
                             <button className='btn_green' type='submit'>Log in</button>
                         </div>
                         <p className='primary'>Do not have an account yet? <NavLink className='primary' to='/signup'><strong><u>Sign Up </u></strong></NavLink></p>
+                        <p className='primary'>Need help remembering your password? <NavLink className='primary' to='/forget-password'><strong><u>Forget Password </u></strong></NavLink></p>
                     </form>
                 </div>
             </section>

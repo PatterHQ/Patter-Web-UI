@@ -87,7 +87,7 @@ class App extends Component {
                     <Route exact path='/signup/a' component={Signup2a} />
                     <Route exact path='/signup/b' component={Signup2b} />
                     <Route path=''>
-                      <Redirect to='/signup' />
+                      <Redirect to='/login' />
                     </Route>
                   </Switch>
                 </div>

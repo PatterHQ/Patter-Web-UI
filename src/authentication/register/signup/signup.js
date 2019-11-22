@@ -17,31 +17,32 @@ class Signup extends React.Component {
             password: '',
             firstName: '',
             lastName: '',
-            url: 'http://ec2-34-198-96-172.compute-1.amazonaws.com//PatterService1/insertUser'
+            errors: ''
         }
         this.validator = new SimpleReactValidator({
             messages: {
                 email: 'Please Enter Valid Email',
                 default: 'This field is Required.',
-                min:    'Password Must be 8 Charactor long'
+                min: 'Password Must be 6 Charactor long'
             },
         });
     }
 
     signUpHandler = (e) => {
         e.preventDefault();
-        let props=this.props
+        this.setState({ errors: '' })
+        let props = this.props
         if (this.validator.allValid()) {
             firebase
                 .auth()
                 .createUserWithEmailAndPassword(this.state.email, this.state.password)
-                .then( res => {
+                .then(res => {
                     console.log(res)
-                    let data ={Email:this.state.email,FirstName:this.state.firstName,LastName:this.state.lastName}
+                    let data = { Email: this.state.email, FirstName: this.state.firstName, LastName: this.state.lastName }
                     // toast.success('Registered Successfully')
                     API.post(this.state.url, data).then(res => {
                         console.log(res.data);
-                        localStorage.setItem('newRegister',JSON.stringify(res.data))
+                        localStorage.setItem('newRegister', JSON.stringify(res.data))
                     })
                     res.user.sendEmailVerification().then(function () {
                         toast.success('Registered Successfully')
@@ -49,13 +50,15 @@ class Signup extends React.Component {
                             props.history.push('login')
                         }, 1000);
                     }).catch(function (error) {
-                        toast.error(error.message)
+                        this.setState({ errors: error.message })
+                        // toast.error(error.message)
                     });
                     // if (res.user) Auth.setLoggedIn(true);
                 })
                 .catch(e => {
                     console.log(e)
-                    toast.error(e.message)
+                    this.setState({ errors: e.message })
+                    // toast.error(e.message)
                 });
         } else {
             this.validator.showMessages();
@@ -88,9 +91,12 @@ class Signup extends React.Component {
                         <div className='form-group'>
                             <label className='label'>Password</label>
                             <input type="password" className='form-control' name='password' required onChange={(e) => { this.setState({ password: e.target.value }) }} />
-                            <label className='error'>{this.validator.message('password', this.state.password, 'required|min:8')}</label>
+                            <label className='error'>{this.validator.message('password', this.state.password, 'required|min:6')}</label>
                         </div>
                         <div className='form-group'>
+                            {
+                                this.state.errors !== '' ? <p className='alert alert-danger'>{this.state.errors}</p> : null
+                            }
                             <button type='submit' className='btn_green' >Next</button>
                         </div>
                         <p className='primary'>By siging up, you agree to Patter’s <NavLink className='primary' to=''><u>Terms of Service and Privacy Policy.</u></NavLink></p>

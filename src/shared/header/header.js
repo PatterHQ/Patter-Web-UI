@@ -48,7 +48,7 @@ class Header extends Component {
     logoutHandler = () => {
         localStorage.removeItem('logged')
         localStorage.removeItem('user')
-        window.location.pathname = '/signup'
+        window.location.pathname = '/login'
     }
 
     render() {

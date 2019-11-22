@@ -11,6 +11,7 @@ class ForgetPassword extends React.Component {
         super(props)
         this.state = {
             email: '',
+            errors: ''
         }
         this.validator = new SimpleReactValidator({
             messages: {
@@ -21,13 +22,20 @@ class ForgetPassword extends React.Component {
     }
 
     HandleResetpassword = (e) => {
+        this.setState({errors:''})
         e.preventDefault();
         if (this.validator.allValid()) {
             var auth = firebase.auth();
+            let $this=this
+            let prop = this.props
             auth.sendPasswordResetEmail(this.state.email).then(function () {
                 toast.success('Reset link is sent on you email address')
+                setTimeout(() => {
+                    prop.history.push('/login')
+                }, 1000);
             }).catch(function (error) {
-                toast.error(error.message)
+                // toast.error(error.message)
+                $this.setState({errors:error.message})
             });
         } else {
             this.validator.showMessages();
@@ -48,9 +56,12 @@ class ForgetPassword extends React.Component {
                             <label className='error'>{this.validator.message('email', this.state.email, 'required|email')}</label>
                         </div>
                         <div className='form-group'>
+                            {
+                                this.state.errors !== '' ? <p className='alert alert-danger'>{this.state.errors}</p> : null
+                            }
                             <button className='btn_green'>SUBMIT</button>
                         </div>
-                        <p className='primary'>Do not have an account yet? <NavLink className='primary' to=''><strong><u>Sign Up </u></strong></NavLink></p>
+                        <p className='primary'>Do not have an account yet? <NavLink className='primary' to='/signup'><strong><u>Sign Up </u></strong></NavLink></p>
                     </form>
                 </div>
             </section>

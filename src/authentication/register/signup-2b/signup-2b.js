@@ -12,7 +12,7 @@ class Signup2b extends React.Component {
         this.state = {
             company: '',
             domain: '',
-            
+            errors: '',
         }
         this.validator = new SimpleReactValidator({
             messages: {
@@ -22,6 +22,7 @@ class Signup2b extends React.Component {
     }
 
     signUpHandler = async (e) => {
+        this.setState({ errors: '' })
         e.preventDefault();
         if (this.validator.allValid()) {
 
@@ -31,16 +32,17 @@ class Signup2b extends React.Component {
                     "SiteName": this.state.domain,
                     "CompanyName": this.state.company
                 }
-                let companyData = await API.post( 'insertCompany', data).then(res => {
+                let companyData = await API.post('insertCompany', data).then(res => {
                     if (res.data.Result === -1) {
-                        toast.error('This Site Name is already taken')
+                        // toast.error('This Site Name is already taken')
+                        this.setState({ errors: 'This Site Name is already taken' })
                         return null;
-                    }else{
+                    } else {
                         return res.data.CompanyID
                     }
                 })
                 console.log(companyData)
-                if(companyData!==null){
+                if (companyData !== null) {
                     let loggedUser = JSON.parse(localStorage.getItem('user'))
                     let postData = {
                         "UserID": loggedUser.UserID,
@@ -54,7 +56,7 @@ class Signup2b extends React.Component {
                         "AccessType": { "AccessTypeID": 0 }
                     }
 
-                    await API.post( 'updateUser', postData).then(rest => {
+                    await API.post('updateUser', postData).then(rest => {
                         console.log(rest)
                         if (rest.data.Result === 1) {
                             toast.success('Company Added Successfully')
@@ -62,12 +64,14 @@ class Signup2b extends React.Component {
                             this.props.history.push('/')
                         }
                         if (rest.data.Result === -1) {
-                            toast.error(rest.data.ErrorMessage)
+                            // toast.error(rest.data.ErrorMessage)
+                            this.setState({ errors: rest.data.ErrorMessage })
                         }
                     })
                 }
             } catch (err) {
-                toast.error(err.message)
+                // toast.error(err.message)
+                this.setState({ errors: err.message })
             }
         } else {
             this.validator.showMessages();
@@ -97,6 +101,9 @@ class Signup2b extends React.Component {
                             <h2 className='domain'>.patter.com</h2>
                         </div>
                         <div className='form-group'>
+                            {
+                                this.state.errors !== '' ? <p className='alert alert-danger'>{this.state.errors}</p> : null
+                            }
                             <button className='btn_green' type='submit'>Sign Up</button>
                         </div>
                         <NavLink to='' className='primary'> &#60; Back</NavLink>

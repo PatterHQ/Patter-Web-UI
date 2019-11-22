@@ -180,6 +180,7 @@ label.error{
   color: #ff0000;
   font-size: 14px;
   padding-left: 15px;
+  bottom: -30px !important;
 }
 .right_nav .dropdown-item span{
   padding: 0.25rem 1.5rem;
@@ -294,7 +295,10 @@ td.no-border-left *{
   z-index: 1;
   background-color: rgba(0,0,0,.3);
 }
-
+.alert-danger {
+  color: #ff0000 !important;
+  font-size: 14px;
+}
 .custom_loader {
   color: rgb(14, 112, 124);
   font-size: 90px;
