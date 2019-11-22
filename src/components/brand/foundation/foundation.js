@@ -232,17 +232,17 @@ class foundation extends Component {
           <form className='form' onSubmit={($event) => this.handleSubmit($event)} noValidate>
             <div className='form-group'>
               <label className='label'>Mission/ Purpose</label>
-              <textarea className='form-control textarea' value={this.state.missionDesc} onChange={($event) => this.setState({ missionDesc: $event.target.value })} ></textarea>
+              <textarea className='form-control textarea' placeholder='Your Mission/ Purpose' value={this.state.missionDesc} onChange={($event) => this.setState({ missionDesc: $event.target.value })} ></textarea>
               <span className='textarea_tooltip mt-4 pt-2' onClick={this.handleShow} ><GoLightBulb /></span>
             </div>
             <div className='form-group'>
               <label className='label'>Origin Story</label>
-              <textarea className='form-control textarea' value={this.state.originDesc} onChange={($event) => this.setState({ originDesc: $event.target.value })} ></textarea>
+              <textarea className='form-control textarea' placeholder='Your Origin Story' value={this.state.originDesc} onChange={($event) => this.setState({ originDesc: $event.target.value })} ></textarea>
               <span className='textarea_tooltip mt-4 pt-2' onClick={this.handleShow} ><GoLightBulb /></span>
             </div>
             <div className='form-group'>
               <label className='label'>Elevator Pitch</label>
-              <textarea className='form-control textarea' value={this.state.elevatorDesc} onChange={($event) => this.setState({ elevatorDesc: $event.target.value })} ></textarea>
+              <textarea className='form-control textarea' placeholder='Your Elevator Pitch' value={this.state.elevatorDesc} onChange={($event) => this.setState({ elevatorDesc: $event.target.value })} ></textarea>
               <span className='textarea_tooltip mt-4 pt-2' onClick={this.handleShow} ><GoLightBulb /></span>
             </div>
             <div className='form-group'>
