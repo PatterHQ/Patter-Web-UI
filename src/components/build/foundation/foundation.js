@@ -94,17 +94,19 @@ class foundation extends Component {
             let id = JSON.parse(localStorage.user).Company.CompanyID
             if (id != null) {
                 await API.get(`getCompany?companyID=${id}`).then(res => {
-                    let obj = res.data.split('},{')
-                    obj[0] = obj[0] + '}'
-                    obj[1] = '{' + obj[1]
-                    console.log(JSON.parse(obj[0]))
-                    console.log(JSON.parse(obj[1]))
-                    this.setState({
-                        selectedVerticals: { VerticalDescription: '' },
-                        selectedCompanyTypes: { CompanyTypeDescription: '' },
-                        selectedGetStages: { StageDescription: '' },
-                        selectedGetEmployeeRanges: { EmployeeRangeDescription: '' },
-                    })
+                    // let obj = res.data.split('},{')
+                    // obj[0] = obj[0] + '}'
+                    // obj[1] = '{' + obj[1]
+                    // console.log(JSON.parse(obj[0]))
+                    // console.log(JSON.parse(obj[1]))
+                    // this.setState({
+                    //     selectedVerticals: { VerticalDescription: '' },
+                    //     selectedCompanyTypes: { CompanyTypeDescription: '' },
+                    //     selectedGetStages: { StageDescription: '' },
+                    //     selectedGetEmployeeRanges: { EmployeeRangeDescription: '' },
+                    // })
+
+                    
                     // this.setState({ user: res.data, comapanyName: res.data.Company.CompanyName })
                     // localStorage.setItem('user', JSON.stringify(res.data))
                 })

@@ -299,6 +299,9 @@ td.no-border-left *{
   color: #ff0000 !important;
   font-size: 14px;
 }
+.Toastify__toast--success{
+  background-color: rgb(14, 112, 124) !important;
+}
 .custom_loader {
   color: rgb(14, 112, 124);
   font-size: 90px;

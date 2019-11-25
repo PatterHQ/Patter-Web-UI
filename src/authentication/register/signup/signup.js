@@ -40,7 +40,7 @@ class Signup extends React.Component {
                     console.log(res)
                     let data = { Email: this.state.email, FirstName: this.state.firstName, LastName: this.state.lastName }
                     // toast.success('Registered Successfully')
-                    API.post(this.state.url, data).then(res => {
+                    API.post('insertUser', data).then(res => {
                         console.log(res.data);
                         localStorage.setItem('newRegister', JSON.stringify(res.data))
                     })

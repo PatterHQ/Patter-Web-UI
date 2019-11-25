@@ -65,6 +65,7 @@ class Signup2b extends React.Component {
                         }
                         if (rest.data.Result === -1) {
                             // toast.error(rest.data.ErrorMessage)
+                            toast.error(rest.data.ErrorMessage)
                             this.setState({ errors: rest.data.ErrorMessage })
                         }
                     })

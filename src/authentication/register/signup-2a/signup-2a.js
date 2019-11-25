@@ -14,7 +14,7 @@ class Signup2a extends React.Component {
     }
     componentDidMount = async () => {
         let regisetred = JSON.parse(localStorage.getItem('user'))
-        if (regisetred.Company.CompanyName !== undefined) {
+        if (regisetred.Company !== undefined && regisetred.Company !== null) {
             this.setState({company:regisetred.Company.CompanyName})
             // API.get( regisetred.Company.CompanyID).then(res => {
             //     let comp = res.data

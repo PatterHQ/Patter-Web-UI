@@ -34,14 +34,14 @@ class foundation extends Component {
       originData: null,
       originDescDepartmentID: 0,
       originDesc: '',
-      
-      loader:false,
+
+      loader: false,
 
     }
   }
 
   componentDidMount = async () => {
-    this.setState({loader:true})
+    this.setState({ loader: true })
     try {
       // Elevator
       await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=1`).then(res => {
@@ -95,7 +95,7 @@ class foundation extends Component {
     } catch (err) {
       toast.error(err.message)
     }
-    this.setState({loader:false})
+    this.setState({ loader: false })
   }
 
   handleClose = () => {
@@ -117,11 +117,19 @@ class foundation extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    this.setState({loader:true})
+    this.setState({ loader: true })
+    let CompanyBrandElementID = 0
+    let BrandElementID = 0
+    if (this.state.elevatorData.CompanyBrandElementID) {
+      CompanyBrandElementID = this.state.elevatorData.CompanyBrandElementID
+    }
+    if (this.state.elevatorData.BrandElementID) {
+      BrandElementID = this.state.elevatorData.BrandElementID
+    }
     let elevatorData = {
-      "CompanyBrandElementID": this.state.elevatorData.CompanyBrandElementID,
+      "CompanyBrandElementID": CompanyBrandElementID,
       "BrandElement": {
-        "BrandElementID": this.state.elevatorData.BrandElement.BrandElementID
+        "BrandElementID": BrandElementID
       },
       "Department": { "DepartmentID": this.state.elevatorDescDepartmentID },
       "User": { "UserID": JSON.parse(localStorage.user).UserID },
@@ -213,7 +221,7 @@ class foundation extends Component {
     } catch (err) {
       toast.error(err.message)
     }
-    this.setState({loader:false})
+    this.setState({ loader: false })
   }
 
   render() {

@@ -46,10 +46,14 @@ class elevator extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        let BrandElementID=0;
+        if(this.state.brandData.BrandElement.BrandElementID){
+            BrandElementID=this.state.brandData.BrandElement.BrandElementID
+        }
         let data = {
             "CompanyBrandElementID": this.state.brandData.CompanyBrandElementID,
             "BrandElement": {
-                "BrandElementID": this.state.brandData.BrandElement.BrandElementID
+                "BrandElementID": BrandElementID
             },
             "Department": { "DepartmentID": this.state.departmentID },
             "User": { "UserID": JSON.parse(localStorage.user).UserID },
