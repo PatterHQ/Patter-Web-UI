@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom'
 import { GoLightBulb } from "react-icons/go";
 import './look.css'
 import Popup from '../../../shared/modal/modal';
@@ -179,8 +180,7 @@ class look extends Component {
 
                         <div className='mt-3 mb-5 text-right'>
                             <button className='btn_green'>Save</button>
-                            <button className='btn_white'>Cancel</button>
-                        </div>
+                            <NavLink to='/brand' className='btn_white'>Cancel</NavLink>                        </div>
                     </form>
                 </div>
                 <Popup show={show} hide={this.handleClose} />

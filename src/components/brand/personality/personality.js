@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom'
 import { Select } from 'dropdown-select';
 import { GoLightBulb } from "react-icons/go";
 import Popup from '../../../shared/modal/modal';
@@ -34,13 +35,13 @@ class personality extends Component {
             score7: 0,
             CompanyPersonalityAssessmentID: [],
 
-            loader:false,
+            loader: false,
 
         }
     }
 
     componentDidMount = async () => {
-        this.setState({loader:true})
+        this.setState({ loader: true })
         try {
 
             // getPersonalityAssessment
@@ -84,7 +85,7 @@ class personality extends Component {
         } catch (err) {
             toast.error(err.message)
         }
-        this.setState({loader:false})
+        this.setState({ loader: false })
     }
 
     handleClose = () => {
@@ -106,7 +107,7 @@ class personality extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-        this.setState({loader:true})
+        this.setState({ loader: true })
         let PersonalityData = [
             { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[0], "Score": Number(this.state.score0) },
             { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[1], "Score": Number(this.state.score1) },
@@ -147,6 +148,9 @@ class personality extends Component {
 
             if (personalityRes && OrganizationalRes) {
                 toast.success('Updated Successfully')
+                setTimeout(() => {
+                    this.props.history.push('/brand')
+                }, 1000);
             } else {
                 toast.error('Something went Wrong!')
             }
@@ -154,7 +158,7 @@ class personality extends Component {
         } catch (err) {
             toast.error(err.message)
         }
-        this.setState({loader:false})
+        this.setState({ loader: false })
     }
 
     render() {
@@ -225,8 +229,7 @@ class personality extends Component {
 
                         <div className='mt-3 mb-5'>
                             <button className='btn_green'>Save</button>
-                            <button className='btn_white'>Cancel</button>
-                        </div>
+                            <NavLink to='/brand' className='btn_white'>Cancel</NavLink>                        </div>
                     </form>
                 </div>
                 <Popup show={show} hide={this.handleClose} />

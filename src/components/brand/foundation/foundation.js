@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom'
 import { Select } from 'dropdown-select';
 import { GoLightBulb } from "react-icons/go";
 import Popup from '../../../shared/modal/modal';
@@ -213,6 +214,9 @@ class foundation extends Component {
 
       if (ElevatorRes && OriginRes && MissionRes && OriganizationalRes) {
         toast.success('Updated Successfully')
+        setTimeout(() => {
+          this.props.history.push('/brand')
+        }, 1000);
       } else {
         toast.error('Something went Wrong!')
       }
@@ -272,8 +276,7 @@ class foundation extends Component {
             </div>
             <div className='mt-3 mb-5'>
               <button className='btn_green' type='submit'>Save</button>
-              <button className='btn_white'>Cancel</button>
-            </div>
+              <NavLink to='/brand' className='btn_white'>Cancel</NavLink>            </div>
           </form>
         </div>
         <Popup show={show} hide={this.handleClose} />

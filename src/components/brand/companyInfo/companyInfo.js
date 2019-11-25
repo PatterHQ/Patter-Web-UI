@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom'
 import { Select } from 'dropdown-select';
 import SimpleReactValidator from 'simple-react-validator';
-import { toast,ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Axios from 'axios';
 import API from "../../../shared/utils/API";
@@ -23,7 +24,7 @@ class companyInfo extends Component {
       selectedCompanyTypes: { CompanyTypeDescription: '' },
       selectedGetStages: { StageDescription: '' },
       selectedGetEmployeeRanges: { EmployeeRangeDescription: '' },
-      loader:false,
+      loader: false,
     }
     this.validator = new SimpleReactValidator({
       messages: {
@@ -32,14 +33,14 @@ class companyInfo extends Component {
     });
   }
   componentDidMount = () => {
-    this.setState({loader:true})
+    this.setState({ loader: true })
     this.setState({ comapanyName: JSON.parse(localStorage.user).Company.CompanyName })
     console.log(this.state.CompanyName)
     this.getVerticals();
     this.getCompanyTypes();
     this.getStages();
     this.getEmployeeRanges();
-    this.setState({loader:false})
+    this.setState({ loader: false })
   }
 
   getVerticals = async () => {
@@ -94,7 +95,7 @@ class companyInfo extends Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    this.setState({loader:true})
+    this.setState({ loader: true })
     if (this.validator.allValid()) {
       let user = JSON.parse(localStorage.getItem('user'))
       let data = {
@@ -130,6 +131,9 @@ class companyInfo extends Component {
           console.log(res)
           if (res.data !== '') {
             toast.success('Company Updated Successfully')
+            setTimeout(() => {
+              this.props.history.push('/brand')
+            }, 1000);
           } else {
             toast.error('Something went Wrong, Please try Later')
           }
@@ -143,7 +147,7 @@ class companyInfo extends Component {
       this.validator.showMessages();
       this.forceUpdate();
     }
-    this.setState({loader:false})
+    this.setState({ loader: false })
   }
 
 
@@ -162,7 +166,7 @@ class companyInfo extends Component {
           <form className='form' onSubmit={($event) => this.handleSubmit($event)} noValidate>
             <div className='form-group'>
               <input type="text" name='comapanyName' value={this.state.comapanyName} className='form-control' placeholder='Company Name (or DBA Name)' onChange={(e) => this.setState({ comapanyName: e.target.value })} />
-              <label className='error'>{this.validator.message('comapanyName', this.state.comapanyName, 'required')}</label>
+              {/* <label className='error'>{this.validator.message('comapanyName', this.state.comapanyName, 'required')}</label> */}
             </div>
             <div className='form-group'>
               <input type="text" className='form-control' name='product' placeholder='Product Name (if different)' onChange={(e) => this.setState({ product: e.target.value })} />
@@ -170,32 +174,31 @@ class companyInfo extends Component {
             </div>
             <div className='form-group'>
               <Select placeholder='Vertical (Industry)' name='selectedVerticals' value={this.state.selectedVerticals} autoComplete='true' options={this.state.verticals} labelKey="VerticalDescription" valueKey="VerticalID" onChange={(val) => this.changeHandler('selectedVerticals', val)} />
-              <label className='error'>{this.validator.message('selectedVerticals', this.state.selectedVerticals.VerticalID, 'required')}</label>
+              {/* <label className='error'>{this.validator.message('selectedVerticals', this.state.selectedVerticals.VerticalID, 'required')}</label> */}
             </div>
             <div className='form-group'>
               <Select placeholder='Company Type' value={this.state.selectedCompanyTypes} autoComplete='true' options={this.state.CompanyTypes} labelKey="CompanyTypeDescription" valueKey="CompanyTypeID" onChange={(val) => this.changeHandler('selectedCompanyTypes', val)} />
-              <label className='error'>{this.validator.message('selectedCompanyTypes', this.state.selectedCompanyTypes.CompanyTypeID, 'required')}</label>
+              {/* <label className='error'>{this.validator.message('selectedCompanyTypes', this.state.selectedCompanyTypes.CompanyTypeID, 'required')}</label> */}
             </div>
             <div className='form-group'>
               <Select placeholder='Stage' value={this.state.selectedGetStages} autoComplete='true' options={this.state.getStages} labelKey="StageDescription" valueKey="StageID" onChange={(val) => this.changeHandler('selectedGetStages', val)} />
-              <label className='error'>{this.validator.message('selectedGetStages', this.state.selectedGetStages.StageID, 'required')}</label>
+              {/* <label className='error'>{this.validator.message('selectedGetStages', this.state.selectedGetStages.StageID, 'required')}</label> */}
             </div>
             <div className='form-group'>
               <input type="text" className='form-control' name='country' placeholder='State' onChange={(e) => this.setState({ country: e.target.value })} />
-              <label className='error'>{this.validator.message('country', this.state.country, 'required')}</label>
+              {/* <label className='error'>{this.validator.message('country', this.state.country, 'required')}</label> */}
             </div>
             <div className='form-group'>
               <input type="text" className='form-control' name='city' placeholder='City' onChange={(e) => this.setState({ city: e.target.value })} />
-              <label className='error'>{this.validator.message('city', this.state.city, 'required')}</label>
+              {/* <label className='error'>{this.validator.message('city', this.state.city, 'required')}</label> */}
             </div>
             <div className='form-group'>
               <Select placeholder='5-10' value={this.state.selectedGetEmployeeRanges} autoComplete='true' options={this.state.getEmployeeRanges} labelKey="EmployeeRangeDescription" valueKey="EmployeeRangeID" onChange={(val) => this.changeHandler('selectedGetEmployeeRanges', val)} />
-              <label className='error'>{this.validator.message('selectedGetEmployeeRanges', this.state.selectedGetEmployeeRanges.EmployeeRangeID, 'required')}</label>
+              {/* <label className='error'>{this.validator.message('selectedGetEmployeeRanges', this.state.selectedGetEmployeeRanges.EmployeeRangeID, 'required')}</label> */}
             </div>
             <div className='mt-3 mb-5'>
               <button className='btn_green'>Save</button>
-              <button className='btn_white'>Cancel</button>
-            </div>
+              <NavLink to='/brand' className='btn_white'>Cancel</NavLink>            </div>
           </form>
         </div>
       </div>
