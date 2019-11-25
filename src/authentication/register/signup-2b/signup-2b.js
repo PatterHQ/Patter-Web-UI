@@ -49,6 +49,7 @@ class Signup2b extends React.Component {
                         "Email": loggedUser.Email,
                         "FirstName": loggedUser.FirstName,
                         "LastName": loggedUser.LastName,
+                        InviteStatus: 'Invited',
                         "Title": "",
                         "Company": { "CompanyID": companyData },
                         "Department": { "DepartmentID": 0 },
