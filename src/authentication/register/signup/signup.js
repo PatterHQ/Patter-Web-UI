@@ -38,7 +38,7 @@ class Signup extends React.Component {
                 .createUserWithEmailAndPassword(this.state.email, this.state.password)
                 .then(res => {
                     console.log(res)
-                    let data = { Email: this.state.email, FirstName: this.state.firstName, LastName: this.state.lastName }
+                    let data = { Email: this.state.email, FirstName: this.state.firstName, LastName: this.state.lastName, AccessType: { AccessTypeID: 0 } }
                     // toast.success('Registered Successfully')
                     API.post('insertUser', data).then(res => {
                         console.log(res.data);

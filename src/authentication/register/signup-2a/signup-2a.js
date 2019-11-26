@@ -24,17 +24,21 @@ class Signup2a extends React.Component {
         }
     }
 
-    changeInvite = async () => {
+    changeInvite = async (status) => {
         try {
             let loggedUser = JSON.parse(localStorage.getItem('user'))
-            if(loggedUser.AccessType===null){
-                loggedUser.AccessType={ "AccessTypeID": 0 }
+            if (loggedUser.AccessType === null) {
+                loggedUser.AccessType = { "AccessTypeID": 0 }
             }
-            loggedUser.InviteStatus='Invited'
+            loggedUser.InviteStatus = status
             await API.post('updateUser', loggedUser).then(rest => {
                 if (rest.data.Result === 1) {
                     localStorage.setItem('user', JSON.stringify(loggedUser))
-                    this.props.history.push('/')
+                    if(status==='Accepted'){
+                        this.props.history.push('/')
+                    }else if(status==='Declined'){
+                        this.props.history.push('/signup/b')
+                    }
                 }
             })
 
@@ -52,8 +56,9 @@ class Signup2a extends React.Component {
                     <p>Is this correct?</p>
                     <div className='form'>
                         <div className='form-group'>
-                            <button onClick={() => this.changeInvite()} className='btn_green'>Yes</button>
-                            <NavLink to='/signup/b' className='btn_white'>No</NavLink>
+                            <button onClick={() => this.changeInvite('Accepted')} className='btn_green'>Yes</button>
+                            <button onClick={() => this.changeInvite('Declined')} className='btn_white'>No</button>
+                            {/* <NavLink to='/signup/b' className='btn_white'>No</NavLink> */}
                         </div>
                         <p className='primary'>Already have an account? <NavLink className='primary' to='/login'><strong><u>Log In </u></strong></NavLink></p>
                     </div>

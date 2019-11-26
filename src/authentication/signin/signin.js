@@ -46,12 +46,18 @@ class Signin extends React.Component {
                                 localStorage.setItem('logged', 'true')
                                 localStorage.setItem('user', JSON.stringify(res.data))
                                 toast.success('Login Successfully')
-                                if (res.data.Company !== undefined && res.data.InviteStatus===null) {
-                                    prop.history.push('/signup/a');
-                                } 
-                                else if(res.data.Company === undefined && res.data.InviteStatus===null) {
+                                if (res.data.InviteStatus===null || res.data.InviteStatus==='Declined') {
                                     prop.history.push('/signup/b');
+                                } 
+                                else if(res.data.InviteStatus==='Invited') {
+                                    prop.history.push('/signup/a');
                                 }
+                                else if(res.data.InviteStatus==='Accepted') {
+                                    prop.history.push('/');
+                                }
+                                // else {
+                                //     prop.history.push('/signup/b');
+                                // }
                             })
                         }
                         // if (res.user) Auth.setLoggedIn(true);
