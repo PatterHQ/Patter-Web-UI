@@ -49,7 +49,7 @@ class Signup2b extends React.Component {
                         "Email": loggedUser.Email,
                         "FirstName": loggedUser.FirstName,
                         "LastName": loggedUser.LastName,
-                        InviteStatus: 'Invited',
+                        InviteStatus: 'Accepted',
                         "Title": "",
                         "Company": { "CompanyID": companyData },
                         "Department": { "DepartmentID": 0 },
@@ -60,7 +60,7 @@ class Signup2b extends React.Component {
                     await API.post('updateUser', postData).then(rest => {
                         console.log(rest)
                         if (rest.data.Result === 1) {
-                            toast.success('Company Added Successfully')
+                            //toast.success('Company Added Successfully')
                             localStorage.setItem('user', JSON.stringify(postData))
                             this.props.history.push('/')
                         }
@@ -109,7 +109,7 @@ class Signup2b extends React.Component {
                             <button className='btn_green' type='submit'>Sign Up</button>
                         </div>
                         <NavLink to='' className='primary'> &#60; Back</NavLink>
-                        <p className='primary'>Already have an account? <NavLink className='primary' to='/login'><strong><u>Log In </u></strong></NavLink></p>
+                        {/* <p className='primary'>Already have an account? <NavLink className='primary' to='/login'><strong><u>Log In </u></strong></NavLink></p> */}
                     </form>
                 </div>
             </section>

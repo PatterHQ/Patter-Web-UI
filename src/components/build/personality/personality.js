@@ -85,7 +85,7 @@ class personality extends Component {
             await API.post(`updatePersonalityAssessments`, data).then(res => {
                 console.log(res)
                 if (res.data.Result === 1) {
-                    toast.success('Updated Successfully')
+                    //toast.success('Updated Successfully')
                     setTimeout(() => {
                         this.props.history.push('/build/personality/character')
                     }, 1000);

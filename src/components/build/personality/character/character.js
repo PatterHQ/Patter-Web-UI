@@ -94,7 +94,7 @@ class character extends Component {
         try {
             await API.post(`updatePersonalityCharacteristics`, data).then(res => {
                 console.log(res)
-                toast.success('Updated Successfully')
+                //toast.success('Updated Successfully')
                 if (res.data.Result === 1) {
                     setTimeout(() => {
                         this.props.history.push('/build/voice');

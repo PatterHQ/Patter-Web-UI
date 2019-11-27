@@ -213,7 +213,7 @@ class foundation extends Component {
       })
 
       if (ElevatorRes && OriginRes && MissionRes && OriganizationalRes) {
-        toast.success('Updated Successfully')
+        //toast.success('Updated Successfully')
         setTimeout(() => {
           this.props.history.push('/brand')
         }, 1000);

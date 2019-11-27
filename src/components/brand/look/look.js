@@ -25,7 +25,15 @@ class look extends Component {
             percentage3: '',
             percentage4: '',
             CompanyBrandElementColorPaletteID: [],
-            
+
+            styleAssessmentID: [],
+            style0: { Score: 0 },
+            style1: { Score: 0 },
+            style2: { Score: 0 },
+            style3: { Score: 0 },
+            style4: { Score: 0 },
+            style5: { Score: 0 },
+
         }
     }
 
@@ -33,7 +41,7 @@ class look extends Component {
         try {
 
             // get Color Palette
-            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=5`).then(res => {
+            await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=5`).then(res => {
                 this.setState({ palette: res.data })
 
                 res.data.CompanyBrandElementColorPalette.forEach((v, i) => {
@@ -49,6 +57,19 @@ class look extends Component {
                         CompanyBrandElementColorPaletteID: [...this.state.CompanyBrandElementColorPaletteID, v.CompanyBrandElementColorPaletteID]
                     })
                 })
+            })
+
+            // get style accessment
+            await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=7`).then(res => {
+                console.log(res)
+                res.data.CompanyBrandElementStyleAssessments.forEach((v, i) => {
+                    let vars = `style${i}`
+                    this.setState({
+                        [vars]: v.StyleAssessment.Score,
+                        styleAssessmentID: [...this.state.styleAssessmentID, v.CompanyBrandElementStyleAssessmentsID]
+                    })
+                })
+                console.log(this.state)
             })
         } catch (err) {
             toast.error(err.message)
@@ -86,6 +107,69 @@ class look extends Component {
         }
     }
 
+    handleSubmit = async (e) => {
+        e.preventDefault();
+        let styleData = [
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[0], "Score": this.state.style0 },
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[1], "Score": this.state.style1 },
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[2], "Score": this.state.style2 },
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[3], "Score": this.state.style3 },
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[4], "Score": this.state.style4 },
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[5], "Score": this.state.style5 }
+        ]
+
+        let ColorData = [
+            {
+                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[0],
+                "ColorValue": this.state.color0,
+                "Percentage": this.state.percentage0
+            },
+            {
+                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[1],
+                "ColorValue": this.state.color1,
+                "Percentage": this.state.percentage1
+            },
+            {
+                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[2],
+                "ColorValue": this.state.color2,
+                "Percentage": this.state.percentage2
+            },
+            {
+                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[3],
+                "ColorValue": this.state.color3,
+                "Percentage": this.state.percentage3
+            },
+            {
+                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[4],
+                "ColorValue": this.state.color4,
+                "Percentage": this.state.percentage4
+            }
+        ]
+
+
+        try{
+            await API.post('updateStyleAssessments',styleData).then(res=>{
+                console.log(res)
+                if(res.data.Result===1){
+                    console.log('Style Updated')
+                }
+            })
+            
+            await API.post(`updateColorPalettes`, ColorData).then(rest => {
+                console.log(rest.data)
+                if (rest.data.Result === 1) {
+                    console.log('Color Updated')
+                }
+            })
+
+        }catch(error){
+            console.log(error)
+        }
+
+        console.log(styleData)
+
+    }
+
     render() {
         const { show } = this.state;
         let style = { background: 'url(/images/brand-logo.png) no-repeat', backgroundSize: 'cover' }
@@ -112,7 +196,7 @@ class look extends Component {
         return (
             <div className='look p-3'>
                 <div className='container'>
-                    <form className='form pt-3'>
+                    <form className='form pt-3' onSubmit={($event) => this.handleSubmit($event)} noValidate>
                         <h2 className='heading bold mb-3'>Our Look</h2>
                         <h4 className='mb-4'>These are the brand elements in which the entire organization is built upon.</h4>
                         <h4 className='bold mb-3 px-3'>Logo</h4>
@@ -155,27 +239,27 @@ class look extends Component {
                         <label className='label bold mb-3'>Style Assessment</label>
                         <div className='form-group'>
                             <h4 className='bold m-0'>Subtle <span className='float-right'>Bold</span></h4>
-                            <input type="range" className='slider' />
+                            <input type="range" value={this.state.style0} className='slider' onChange={(e) => this.setState({ style0: e.target.value })} />
                         </div>
                         <div className='form-group'>
                             <h4 className='bold m-0'>Soft <span className='float-right'>Sharp</span></h4>
-                            <input type="range" className='slider' />
+                            <input type="range" value={this.state.style1} className='slider' onChange={(e) => this.setState({ style1: e.target.value })} />
                         </div>
                         <div className='form-group'>
                             <h4 className='bold m-0'>Bright <span className='float-right'>Muted</span></h4>
-                            <input type="range" className='slider' />
+                            <input type="range" value={this.state.style2} className='slider' onChange={(e) => this.setState({ style2: e.target.value })} />
                         </div>
                         <div className='form-group'>
                             <h4 className='bold m-0'>Abstract <span className='float-right'>Technical</span></h4>
-                            <input type="range" className='slider' />
+                            <input type="range" value={this.state.style3} className='slider' onChange={(e) => this.setState({ style3: e.target.value })} />
                         </div>
                         <div className='form-group'>
                             <h4 className='bold m-0'>Relaxed <span className='float-right'>Busy</span></h4>
-                            <input type="range" className='slider' />
+                            <input type="range" value={this.state.style4} className='slider' onChange={(e) => this.setState({ style4: e.target.value })} />
                         </div>
                         <div className='form-group'>
                             <h4 className='bold m-0'>Classic<span className='float-right'>Modern</span></h4>
-                            <input type="range" className='slider' />
+                            <input type="range" value={this.state.style5} className='slider' onChange={(e) => this.setState({ style5: e.target.value })} />
                         </div>
 
                         <div className='mt-3 mb-5 text-right'>

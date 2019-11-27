@@ -39,13 +39,13 @@ class Signup extends React.Component {
                 .then(res => {
                     console.log(res)
                     let data = { Email: this.state.email, FirstName: this.state.firstName, LastName: this.state.lastName, AccessType: { AccessTypeID: 0 } }
-                    // toast.success('Registered Successfully')
+                    // //toast.success('Registered Successfully')
                     API.post('insertUser', data).then(res => {
                         console.log(res.data);
                         localStorage.setItem('newRegister', JSON.stringify(res.data))
                     })
                     res.user.sendEmailVerification().then(function () {
-                        toast.success('Registered Successfully')
+                        //toast.success('Registered Successfully')
                         setTimeout(() => {
                             props.history.push('login')
                         }, 1000);

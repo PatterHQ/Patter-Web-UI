@@ -38,14 +38,15 @@ class Signin extends React.Component {
                         console.log(res)
                         if (!res.user.emailVerified) {
                             // console.log('Please Conform Your Email to Login')
-                            toast.warn('Please Conform Your Email to Login');
+                            // toast.warn('Please Conform Your Email to Login');
+                            this.setState({ errors: 'Please Conform Your Email to Login' })
                         } else {
                             API.get("getUser?email=" + res.user.email).then(res => {
                                 console.log(res)
                                 prop.user(res.data)
                                 localStorage.setItem('logged', 'true')
                                 localStorage.setItem('user', JSON.stringify(res.data))
-                                toast.success('Login Successfully')
+                                //toast.success('Login Successfully')
                                 if (res.data.InviteStatus===null || res.data.InviteStatus==='Declined') {
                                     prop.history.push('/signup/b');
                                 } 

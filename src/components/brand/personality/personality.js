@@ -147,7 +147,7 @@ class personality extends Component {
             })
 
             if (personalityRes && OrganizationalRes) {
-                toast.success('Updated Successfully')
+                //toast.success('Updated Successfully')
                 setTimeout(() => {
                     this.props.history.push('/brand')
                 }, 1000);

@@ -29,7 +29,7 @@ class ForgetPassword extends React.Component {
             let $this=this
             let prop = this.props
             auth.sendPasswordResetEmail(this.state.email).then(function () {
-                toast.success('Reset link is sent on you email address')
+                //toast.success('Reset link is sent on you email address')
                 setTimeout(() => {
                     prop.history.push('/login')
                 }, 1000);

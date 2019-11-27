@@ -105,7 +105,7 @@ class palette extends Component {
             await API.post(`updateColorPalettes`, data).then(res => {
                 console.log(res.data)
                 if (res.data.Result === 1) {
-                    toast.success('Updated Successfully')
+                    //toast.success('Updated Successfully')
                     setTimeout(() => {
                         this.props.history.push('/build/complete')
                     }, 1000);
@@ -204,7 +204,7 @@ class palette extends Component {
                         </div>
                     </div>
                     <div className='mt-3 mb-5 text-right'>
-                        <NavLink to='/build/look/palette' className='float-left primary back_btn'> <FaAngleLeft /> Back</NavLink>
+                        <NavLink to='/build/look' className='float-left primary back_btn'> <FaAngleLeft /> Back</NavLink>
                         <button type='submit' className='btn_green m-0'>NEXT</button>
                     </div>
                 </form>

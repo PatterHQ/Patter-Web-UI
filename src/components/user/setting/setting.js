@@ -10,7 +10,7 @@ class Setting extends React.Component {
             <section className='setting_block pt-3 px-3'>
                 <div className='container'>
                     <h2 className='heading'>Account Settings</h2>
-                    <div className='form'>
+                    <form className='form'>
                         <label className='label'>Site Name</label>
                         <div className='d-flex'>
                             <div className='form-group'>
@@ -33,7 +33,7 @@ class Setting extends React.Component {
                             <button className='btn_green'>Save</button>
                             <button className='btn_white'>Cancel</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </section>
         );

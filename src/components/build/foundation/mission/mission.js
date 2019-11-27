@@ -67,7 +67,7 @@ class mission extends Component {
             await API.post(`updateCompanyBrandElement`, data).then(res => {
                 console.log(res)
                 if (res.data.Result === 1) {
-                    toast.success('Updated Successfuly')
+                    //toast.success('Updated Successfuly')
                     setTimeout(() => {
                         this.props.history.push('/build/foundation/origin')
                     }, 1000);

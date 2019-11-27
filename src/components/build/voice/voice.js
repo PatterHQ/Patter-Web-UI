@@ -126,7 +126,7 @@ class voice extends Component {
                 if (res.data.Result === 1) { return true }
             })
             if (keywd && buzwd) {
-                toast.success('Updated Successfully')
+                //toast.success('Updated Successfully')
                 setTimeout(() => {
                     this.props.history.push('/build/look')
                 }, 1000);
