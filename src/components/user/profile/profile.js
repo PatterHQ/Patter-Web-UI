@@ -14,6 +14,7 @@ export default class Profile extends Component {
             Email: "",
             LastName: "",
             Title: "",
+            loader: false
 
         }
     }
@@ -31,26 +32,34 @@ export default class Profile extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        this.setState({ loader: true })
         try {
             let loggedUser = JSON.parse(localStorage.getItem('user'))
             loggedUser.FirstName = this.state.FirstName
             loggedUser.LastName = this.state.LastName
+            loggedUser.Title = this.state.Title
             if (loggedUser.AccessType === null) {
                 loggedUser.AccessType = { "AccessTypeID": 0 }
             }
             await API.post('updateUser', loggedUser).then(res => {
                 console.log(res)
-                if(res.data.Result===1){
-                    localStorage.setItem('user',JSON.stringify(loggedUser))
+                if (res.data.Result === 1) {
+                    localStorage.setItem('user', JSON.stringify(loggedUser))
                 }
             })
         } catch (error) {
             console.log(error)
         }
+        this.setState({ loader: false })
     }
     render() {
         return (
             <section className='setting_block pt-3 px-3'>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <div className='container'>
                     <h2 className='heading bold'>User Profile Setting</h2>
                     <div className='upload'>
@@ -67,7 +76,7 @@ export default class Profile extends Component {
                         </div>
                         <div className='form-group'>
                             <label className='label'>Title / Role</label>
-                            <input type="text" readOnly className='form-control' value={this.state.Title} placeholder='Title' />
+                            <input type="text" className='form-control' value={this.state.Title} placeholder='Title' onChange={(e) => this.setState({ Title: e.target.value })} />
                         </div>
                         <div className='form-group'>
                             <label className='label'>Email Address</label>
