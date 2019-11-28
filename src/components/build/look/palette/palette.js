@@ -22,6 +22,11 @@ class palette extends Component {
             color2: '#fdffff',
             color3: '#fdffff',
             color4: '#fdffff',
+            error0: false,
+            error1: false,
+            error2: false,
+            error3: false,
+            error4: false,
             percentage0: '',
             percentage1: '',
             percentage2: '',
@@ -72,51 +77,62 @@ class palette extends Component {
     };
 
     handleSubmit = async (e) => {
-        this.setState({ loader: true })
-        e.preventDefault();
-        let data = [
-            {
-                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[0],
-                "ColorValue": this.state.color0,
-                "Percentage": this.state.percentage0
-            },
-            {
-                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[1],
-                "ColorValue": this.state.color1,
-                "Percentage": this.state.percentage1
-            },
-            {
-                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[2],
-                "ColorValue": this.state.color2,
-                "Percentage": this.state.percentage2
-            },
-            {
-                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[3],
-                "ColorValue": this.state.color3,
-                "Percentage": this.state.percentage3
-            },
-            {
-                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[4],
-                "ColorValue": this.state.color4,
-                "Percentage": this.state.percentage4
-            }
-        ]
+        e.preventDefault()
+        let { color0, color1, color2, color3, color4, error0, error1, error2, error3, error4 } = this.state
 
-        try {
-            await API.post(`updateColorPalettes`, data).then(res => {
-                console.log(res.data)
-                if (res.data.Result === 1) {
-                    //toast.success('Updated Successfully')
-                    setTimeout(() => {
-                        this.props.history.push('/build/complete')
-                    }, 1000);
+        console.log(this.state)
+        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color0)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
+        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color1)) { this.setState({ error1: true }) } else { this.setState({ error1: false }) }
+        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color2)) { this.setState({ error2: true }) } else { this.setState({ error2: false }) }
+        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color3)) { this.setState({ error3: true }) } else { this.setState({ error3: false }) }
+        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color4)) { this.setState({ error4: true }) } else { this.setState({ error4: false }) }
+
+        if (error0 && error1 && error2 && error3 && error4) {
+            this.setState({ loader: true })
+            let data = [
+                {
+                    "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[0],
+                    "ColorValue": this.state.color0,
+                    "Percentage": this.state.percentage0
+                },
+                {
+                    "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[1],
+                    "ColorValue": this.state.color1,
+                    "Percentage": this.state.percentage1
+                },
+                {
+                    "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[2],
+                    "ColorValue": this.state.color2,
+                    "Percentage": this.state.percentage2
+                },
+                {
+                    "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[3],
+                    "ColorValue": this.state.color3,
+                    "Percentage": this.state.percentage3
+                },
+                {
+                    "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[4],
+                    "ColorValue": this.state.color4,
+                    "Percentage": this.state.percentage4
                 }
-            })
+            ]
 
-        } catch (error) {
-            toast.error(error.message)
+            try {
+                await API.post(`updateColorPalettes`, data).then(res => {
+                    console.log(res.data)
+                    if (res.data.Result === 1) {
+                        //toast.success('Updated Successfully')
+                        setTimeout(() => {
+                            this.props.history.push('/build/complete')
+                        }, 1000);
+                    }
+                })
+
+            } catch (error) {
+                toast.error(error.message)
+            }
+            this.setState({ loader: false })
         }
-        this.setState({ loader: false })
     }
 
 
@@ -178,25 +194,40 @@ class palette extends Component {
                 <h4 className='mb-5'>All entries should be in HEX value.</h4>
                 <form className='form' onSubmit={($event) => this.handleSubmit($event)} noValidate>
                     <div className='form-group'>
-                        <input type="color" className='form-control color' placeholder='Color #1' onChange={(e) => this.changeColorHandler('color0', e.target.value)} />
+                        <input type="text" className='form-control' value={this.state.color0} placeholder='Color #1' onChange={(e) => this.changeColorHandler('color0', e.target.value)} />
                         <input type="number" className='form-control percentage' value={this.state.percentage0} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage0', this.state.percentage0, e.target.value)} />
                         <span className='textarea_tooltip' onClick={this.handleShow} ><GoLightBulb /></span>
+                        {
+                            this.state.error0 ? <label className='error'>Enter a valid Color Code</label> : null
+                        }
                     </div>
                     <div className='form-group'>
-                        <input type="color" className='form-control color' value={this.state.color1} placeholder='Color #2' onChange={(e) => this.changeColorHandler('color1', e.target.value)} />
+                        <input type="text" className='form-control' value={this.state.color1} placeholder='Color #2' onChange={(e) => this.changeColorHandler('color1', e.target.value)} />
                         <input type="number" className='form-control percentage' value={this.state.percentage1} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage1', this.state.percentage1, e.target.value)} />
+                        {
+                            this.state.error1 ? <label className='error'>Enter a valid Color Code</label> : null
+                        }
                     </div>
                     <div className='form-group'>
-                        <input type="color" className='form-control color' value={this.state.color2} placeholder='Color #3' onChange={(e) => this.changeColorHandler('color2', e.target.value)} />
+                        <input type="text" className='form-control' value={this.state.color2} placeholder='Color #3' onChange={(e) => this.changeColorHandler('color2', e.target.value)} />
                         <input type="number" className='form-control percentage' value={this.state.percentage2} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage2', this.state.percentage2, e.target.value)} />
+                        {
+                            this.state.error2 ? <label className='error'>Enter a valid Color Code</label> : null
+                        }
                     </div>
                     <div className='form-group'>
-                        <input type="color" className='form-control color' value={this.state.color3} placeholder='Color #4' onChange={(e) => this.changeColorHandler('color3', e.target.value)} />
+                        <input type="text" className='form-control' value={this.state.color3} placeholder='Color #4' onChange={(e) => this.changeColorHandler('color3', e.target.value)} />
                         <input type="number" className='form-control percentage' value={this.state.percentage3} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage3', this.state.percentage3, e.target.value)} />
+                        {
+                            this.state.error3 ? <label className='error'>Enter a valid Color Code</label> : null
+                        }
                     </div>
                     <div className='form-group'>
-                        <input type="color" className='form-control color' value={this.state.color4} placeholder='Color #5' onChange={(e) => this.changeColorHandler('color4', e.target.value)} />
+                        <input type="text" className='form-control' value={this.state.color4} placeholder='Color #5' onChange={(e) => this.changeColorHandler('color4', e.target.value)} />
                         <input type="number" className='form-control percentage' value={this.state.percentage4} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage4', this.state.percentage4, e.target.value)} />
+                        {
+                            this.state.error4 ? <label className='error'>Enter a valid Color Code</label> : null
+                        }
                     </div>
                     {
                         this.state.error !== '' ? <p className='alert alert-danger'>{this.state.error}</p> : null

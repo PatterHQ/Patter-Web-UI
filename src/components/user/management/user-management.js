@@ -14,7 +14,8 @@ class UserManagement extends React.Component {
             email: '',
             usersList: null,
             access: '',
-            selected: { label: 'Full Access', value: 1 }
+            selected: { label: 'Full Access', value: 1 },
+            loader: false
         }
 
         this.validator = new SimpleReactValidator({
@@ -26,8 +27,10 @@ class UserManagement extends React.Component {
 
     }
 
-    componentDidMount = () => {
-        this.getUsers();
+    componentDidMount = async () => {
+        this.setState({ loader: true })
+        await this.getUsers();
+        this.setState({ loader: false })
     }
 
     getUsers = () => {
@@ -45,7 +48,7 @@ class UserManagement extends React.Component {
         })
 
     }
-    
+
     dropChangeHandler = (val, i) => {
         let list = this.state.usersList;
         list[i].AccessType = val
@@ -55,8 +58,9 @@ class UserManagement extends React.Component {
 
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
+        this.setState({ loader: true })
         if (this.validator.allValid()) {
             try {
                 let company = JSON.parse(localStorage.user).Company
@@ -70,7 +74,7 @@ class UserManagement extends React.Component {
                         'CompanyID': company.CompanyID
                     }
                 }
-                API.post('insertUser', data).then(res => {
+                await API.post('insertUser', data).then(res => {
                     if (res.data.Result === 1) {
                         this.getUsers();
                         this.setState({
@@ -88,19 +92,21 @@ class UserManagement extends React.Component {
             this.validator.showMessages();
             this.forceUpdate();
         }
-
+        this.setState({ loader: false })
     }
 
     handleUserSubmit = async (e) => {
         e.preventDefault();
-        let users=this.state.usersList
-        for(let i=0;i<users.length;i++){
+        this.setState({ loader: true })
+        let users = this.state.usersList
+        for (let i = 0; i < users.length; i++) {
             await API.post('updateUser', users[i]).then(rest => {
                 if (rest.data.Result === 1) {
                     console.log(`User updated`)
                 }
             })
         }
+        this.setState({ loader: false })
     }
 
 
@@ -109,6 +115,11 @@ class UserManagement extends React.Component {
         let option = [{ AccessTypeName: 'Full Access', AccessTypeID: 1 }, { AccessTypeName: 'View Access', AccessTypeID: 2 }]
         return (
             <section className='pt-3 user_management px-3'>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <div className='container'>
                     <h2 className='heading'>User Management</h2>
                     <h4 className='bold'>Add New User</h4>
@@ -150,7 +161,7 @@ class UserManagement extends React.Component {
                                                 {user.Department === null ? "Department" : user.Department}
                                             </td>
                                             <td>{
-                                                user.AccessType !== null ? <Select placeholder='Full Access' value={user.AccessType} options={option} labelKey="AccessTypeName" valueKey="AccessTypeID" onChange={(e)=>this.dropChangeHandler(e,index)} /> : <Select placeholder='Full Access' options={option} labelKey="AccessTypeName" valueKey="AccessTypeID" onChange={(e)=>this.dropChangeHandler(e,index)} />
+                                                user.AccessType !== null ? <Select placeholder='Full Access' value={user.AccessType} options={option} labelKey="AccessTypeName" valueKey="AccessTypeID" onChange={(e) => this.dropChangeHandler(e, index)} /> : <Select placeholder='Full Access' options={option} labelKey="AccessTypeName" valueKey="AccessTypeID" onChange={(e) => this.dropChangeHandler(e, index)} />
                                             }
                                             </td>
                                             <td className='text-center'>

@@ -32,15 +32,15 @@ class companyInfo extends Component {
       },
     });
   }
-  componentDidMount = () => {
+  componentDidMount = async () => {
     this.setState({ loader: true })
     this.setState({ comapanyName: JSON.parse(localStorage.user).Company.CompanyName })
     console.log(this.state.CompanyName)
-    this.getVerticals();
-    this.getCompanyByID();
-    this.getCompanyTypes();
-    this.getStages();
-    this.getEmployeeRanges();
+    await this.getVerticals();
+    await this.getCompanyByID();
+    await this.getCompanyTypes();
+    await this.getStages();
+    await this.getEmployeeRanges();
     this.setState({ loader: false })
   }
 

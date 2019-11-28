@@ -26,6 +26,7 @@ class foundation extends Component {
             selectedCompanyTypes: { CompanyTypeDescription: '' },
             selectedGetStages: { StageDescription: '' },
             selectedGetEmployeeRanges: { EmployeeRangeDescription: '' },
+            
             loader: false
         }
         this.validator = new SimpleReactValidator({
@@ -35,14 +36,14 @@ class foundation extends Component {
         });
     }
 
-    componentDidMount = () => {
-        this.setState({ loader: true })
-        this.getVerticals();
-        this.getCompanyTypes();
-        this.getStages();
-        this.getEmployeeRanges();
-        this.getCompanyByID();
-        this.setState({ loader: false })
+    componentDidMount = async () => {
+        await this.setState({ loader: true })
+        await this.getVerticals();
+        await this.getCompanyTypes();
+        await this.getStages();
+        await this.getEmployeeRanges();
+        await this.getCompanyByID();
+        await this.setState({ loader: false })
     }
 
     getVerticals = async () => {
