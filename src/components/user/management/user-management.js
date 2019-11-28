@@ -12,7 +12,7 @@ class UserManagement extends React.Component {
         super(props)
         this.state = {
             email: '',
-            usersList:null,
+            usersList: null,
             access: '',
             selected: { label: 'Full Access', value: 1 }
         }
@@ -26,20 +26,32 @@ class UserManagement extends React.Component {
 
     }
 
-    componentDidMount=()=>{
+    componentDidMount = () => {
         this.getUsers();
     }
 
-    getUsers=()=>{
+    getUsers = () => {
         let company = JSON.parse(localStorage.user).Company
-        API.get(`getUsersByCompany?companyID=${company.CompanyID}`).then(res=>{
-            console.log(res)
-            this.setState({usersList:res.data})
+        API.get(`getUsersByCompany?companyID=${company.CompanyID}`).then(res => {
+            this.setState({ usersList: res.data })
         })
     }
 
-    changeHandler = (val) => {
-        console.log(val)
+    changeHandler = (e, i) => {
+        let list = this.state.usersList;
+        list[i].IsActive = e.target.checked
+        this.setState({
+            usersList: list
+        })
+
+    }
+    
+    dropChangeHandler = (val, i) => {
+        let list = this.state.usersList;
+        list[i].AccessType = val
+        this.setState({
+            usersList: list
+        })
 
     }
 
@@ -59,9 +71,8 @@ class UserManagement extends React.Component {
                     }
                 }
                 API.post('insertUser', data).then(res => {
-                    console.log(res);
                     if (res.data.Result === 1) {
-                        console.log('User Added')
+                        this.getUsers();
                         this.setState({
                             email: '',
                             selected: { label: 'Full Access', value: 1 }
@@ -80,8 +91,22 @@ class UserManagement extends React.Component {
 
     }
 
+    handleUserSubmit = async (e) => {
+        e.preventDefault();
+        let users=this.state.usersList
+        for(let i=0;i<users.length;i++){
+            await API.post('updateUser', users[i]).then(rest => {
+                if (rest.data.Result === 1) {
+                    console.log(`User updated`)
+                }
+            })
+        }
+    }
+
+
     render = () => {
         let options = [{ label: 'Full Access', value: 1 }, { label: 'View Access', value: 2 }]
+        let option = [{ AccessTypeName: 'Full Access', AccessTypeID: 1 }, { AccessTypeName: 'View Access', AccessTypeID: 2 }]
         return (
             <section className='pt-3 user_management px-3'>
                 <div className='container'>
@@ -103,7 +128,7 @@ class UserManagement extends React.Component {
                         </table>
                         <button type='submit' className='btn_green'>Send</button>
                     </form>
-                    <div className='list mt-5 col-sm-10 col-xs-12 px-0 pb-5'>
+                    <form className='list mt-5 col-sm-10 col-xs-12 px-0 pb-5' onSubmit={($event) => this.handleUserSubmit($event)} noValidate>
                         <h4 className='bold mb-3'>User Management</h4>
                         <table className='mb-4 table'>
                             <thead>
@@ -113,67 +138,34 @@ class UserManagement extends React.Component {
                                 <th><h4 className='bold m-0'>Access</h4></th>
                                 <th><h4 className='bold m-0'>Remove</h4></th>
                             </thead>
-                            <tbody className='table-bordered'>
-                                <tr>
-                                    <td>Aaron@patter.com</td>
-                                    <td>CEO</td>
-                                    <td>Executive</td>
-                                    <td><Select placeholder='Full Access' options={options} labelKey="label" valueKey="value" /></td>
-                                    <td className='text-center'>
-                                        <Form.Group className='mb-0' controlId="formBasicCheckbox">
-                                            <Form.Check type="checkbox" custom label="" />
-                                        </Form.Group>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>parry@patter.com</td>
-                                    <td>CBO</td>
-                                    <td>Engineering</td>
-                                    <td><Select placeholder='Full Access' options={options} labelKey="label" valueKey="value" /></td>
-                                    <td className='text-center'>
-                                        <Form.Group className='mb-0' controlId="formBasicCheckbox0">
-                                            <Form.Check type="checkbox" custom label="" />
-                                        </Form.Group>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>theresa@patter.com</td>
-                                    <td>CTO</td>
-                                    <td>Operations</td>
-                                    <td><Select placeholder='Full Access' options={options} labelKey="label" valueKey="value" /></td>
-                                    <td className='text-center'>
-                                        <Form.Group className='mb-0' controlId="formBasicCheckbox1">
-                                            <Form.Check type="checkbox" custom label="" />
-                                        </Form.Group>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>jorge@patter.com</td>
-                                    <td>COO</td>
-                                    <td>Brand Development</td>
-                                    <td><Select placeholder='Full Access' options={options} labelKey="label" valueKey="value" /></td>
-                                    <td className='text-center'>
-                                        <Form.Group className='mb-0' controlId="formBasicCheckbox2">
-                                            <Form.Check type="checkbox" custom label="" />
-                                        </Form.Group>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>german@patter.com</td>
-                                    <td>Director, Customer Success</td>
-                                    <td>Operations</td>
-                                    <td><Select placeholder='Full Access' options={options} labelKey="label" valueKey="value" /></td>
-                                    <td className='text-center'>
-                                        <Form.Group className='mb-0' controlId="formBasicCheckbox3">
-                                            <Form.Check type="checkbox" custom label="" />
-                                        </Form.Group>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            {this.state.usersList !== null ? <tbody className='table-bordered'>
+                                {
+                                    this.state.usersList.map((user, index) => {
+                                        return (<tr key={index} className={user.IsActive ? null : 'Disabled'}>
+                                            <td>{user.Email}</td>
+                                            <td>
+                                                {user.Title === '' || user.Title === null ? 'Title' : user.Title}
+                                            </td>
+                                            <td>
+                                                {user.Department === null ? "Department" : user.Department}
+                                            </td>
+                                            <td>{
+                                                user.AccessType !== null ? <Select placeholder='Full Access' value={user.AccessType} options={option} labelKey="AccessTypeName" valueKey="AccessTypeID" onChange={(e)=>this.dropChangeHandler(e,index)} /> : <Select placeholder='Full Access' options={option} labelKey="AccessTypeName" valueKey="AccessTypeID" onChange={(e)=>this.dropChangeHandler(e,index)} />
+                                            }
+                                            </td>
+                                            <td className='text-center'>
+                                                <Form.Group className='mb-0' controlId={`check${index}`}>
+                                                    <Form.Check type="checkbox" checked={user.IsActive} custom label="" onChange={(e) => this.changeHandler(e, index)} />
+                                                </Form.Group>
+                                            </td>
+                                        </tr>)
+                                    })
+                                }
+                            </tbody> : null}
                         </table>
                         <button className='btn_green'>Save</button>
                         <button className='btn_white'>Cancel</button>
-                    </div>
+                    </form>
                 </div>
             </section>
         )

@@ -34,6 +34,8 @@ class look extends Component {
             style4: { Score: 0 },
             style5: { Score: 0 },
 
+            error: ''
+
         }
     }
 
@@ -100,10 +102,13 @@ class look extends Component {
         console.log(Number(sum) + ' ' + Number(old) + ' ' + Number(val))
         if (total <= 100) {
             this.setState({
+                error: '',
                 [col]: val
             })
         } else {
-            toast.warn('Percentage Limit Exceeded')
+            this.setState({
+                error: 'Percentage Limit Exceeded',
+            })
         }
     }
 
@@ -147,14 +152,14 @@ class look extends Component {
         ]
 
 
-        try{
-            await API.post('updateStyleAssessments',styleData).then(res=>{
+        try {
+            await API.post('updateStyleAssessments', styleData).then(res => {
                 console.log(res)
-                if(res.data.Result===1){
+                if (res.data.Result === 1) {
                     console.log('Style Updated')
                 }
             })
-            
+
             await API.post(`updateColorPalettes`, ColorData).then(rest => {
                 console.log(rest.data)
                 if (rest.data.Result === 1) {
@@ -162,7 +167,7 @@ class look extends Component {
                 }
             })
 
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
 
@@ -227,6 +232,9 @@ class look extends Component {
                             <input type="color" className='form-control color' value={this.state.color4} placeholder='Color #5' onChange={(e) => this.changeColorHandler('color4', e.target.value)} />
                             <input type="number" className='form-control percentage' value={this.state.percentage4} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage4', this.state.percentage4, e.target.value)} />
                         </div>
+                        {
+                            this.state.error !== '' ? <p className='alert alert-danger'>{this.state.error}</p> : null
+                        }
                         <div className='form-group flex mb-5'>
                             <div className='color_palette'>
                                 <span className='color_1' style={color_1}></span>

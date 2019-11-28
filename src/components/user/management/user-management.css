@@ -17,3 +17,9 @@
   border-color: #b6cfd0 !important;
   background-color: #b6cfd0 !important;
 }
+tr.Disabled{
+  background-color: #eee;
+}
+tr.Disabled .custom-control-label::before{
+  background-color: #eee;
+}

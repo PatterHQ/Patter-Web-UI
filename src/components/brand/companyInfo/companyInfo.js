@@ -225,12 +225,12 @@ class companyInfo extends Component {
               {/* <label className='error'>{this.validator.message('selectedGetStages', this.state.selectedGetStages.StageID, 'required')}</label> */}
             </div>
             <div className='form-group'>
-              <input type="text" className='form-control' value={this.state.country} name='country' placeholder='State' onChange={(e) => this.setState({ country: e.target.value })} />
-              {/* <label className='error'>{this.validator.message('country', this.state.country, 'required')}</label> */}
-            </div>
-            <div className='form-group'>
               <input type="text" className='form-control' value={this.state.city} name='city' placeholder='City' onChange={(e) => this.setState({ city: e.target.value })} />
               {/* <label className='error'>{this.validator.message('city', this.state.city, 'required')}</label> */}
+            </div>
+            <div className='form-group'>
+              <input type="text" className='form-control' value={this.state.country} name='country' placeholder='State' onChange={(e) => this.setState({ country: e.target.value })} />
+              {/* <label className='error'>{this.validator.message('country', this.state.country, 'required')}</label> */}
             </div>
             <div className='form-group'>
               <Select placeholder='5-10' value={this.state.selectedGetEmployeeRanges} autoComplete='true' options={this.state.getEmployeeRanges} labelKey="EmployeeRangeDescription" valueKey="EmployeeRangeID" onChange={(val) => this.changeHandler('selectedGetEmployeeRanges', val)} />

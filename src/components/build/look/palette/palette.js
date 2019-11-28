@@ -28,13 +28,14 @@ class palette extends Component {
             percentage3: '',
             percentage4: '',
             CompanyBrandElementColorPaletteID: [],
-            loader:false
+            loader: false,
+            error: '',
 
         }
     }
 
     componentDidMount = async () => {
-        this.setState({loader:true})
+        this.setState({ loader: true })
         try {
             await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=5`).then(res => {
                 this.setState({ palette: res.data })
@@ -56,7 +57,7 @@ class palette extends Component {
         } catch (err) {
             toast.error(err.message)
         }
-        this.setState({loader:false})
+        this.setState({ loader: false })
     }
 
     handleClose = () => {
@@ -71,7 +72,7 @@ class palette extends Component {
     };
 
     handleSubmit = async (e) => {
-        this.setState({loader:true})
+        this.setState({ loader: true })
         e.preventDefault();
         let data = [
             {
@@ -115,7 +116,7 @@ class palette extends Component {
         } catch (error) {
             toast.error(error.message)
         }
-        this.setState({loader:false})
+        this.setState({ loader: false })
     }
 
 
@@ -131,10 +132,13 @@ class palette extends Component {
         console.log(Number(sum) + ' ' + Number(old) + ' ' + Number(val))
         if (total <= 100) {
             this.setState({
+                error: '',
                 [col]: val
             })
         } else {
-            toast.warn('Percentage Limit Exceeded')
+            this.setState({
+                error: 'Percentage Limit Exceeded',
+            })
         }
     }
 
@@ -194,6 +198,9 @@ class palette extends Component {
                         <input type="color" className='form-control color' value={this.state.color4} placeholder='Color #5' onChange={(e) => this.changeColorHandler('color4', e.target.value)} />
                         <input type="number" className='form-control percentage' value={this.state.percentage4} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage4', this.state.percentage4, e.target.value)} />
                     </div>
+                    {
+                        this.state.error !== '' ? <p className='alert alert-danger'>{this.state.error}</p> : null
+                    }
                     <div className='form-group flex mb-5'>
                         <div className='color_palette'>
                             <span className='color_1' style={color_1}></span>
