@@ -39,7 +39,7 @@ class UserManagement extends React.Component {
 
     changeHandler = (e, i) => {
         let list = this.state.usersList;
-        list[i].IsActive = e.target.checked
+        list[i].IsActive = !e.target.checked
         this.setState({
             usersList: list
         })
@@ -155,7 +155,7 @@ class UserManagement extends React.Component {
                                             </td>
                                             <td className='text-center'>
                                                 <Form.Group className='mb-0' controlId={`check${index}`}>
-                                                    <Form.Check type="checkbox" checked={user.IsActive} custom label="" onChange={(e) => this.changeHandler(e, index)} />
+                                                    <Form.Check type="checkbox" checked={!user.IsActive} custom label="" onChange={(e) => this.changeHandler(e, index)} />
                                                 </Form.Group>
                                             </td>
                                         </tr>)
