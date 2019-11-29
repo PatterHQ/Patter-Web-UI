@@ -294,7 +294,8 @@ td.no-border-left *{
 .loader_overlay{
   height: 100%;
   width: 100%;
-  position: absolute;
+  position: sticky;
+  top: 20vh;
   z-index: 1;
   /* background-color: rgba(0,0,0,.3); */
 }

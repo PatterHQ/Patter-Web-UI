@@ -6,6 +6,11 @@ class visual extends Component {
     render() {
         return (
             <div className=''>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <h2 className='heading bold mb-3'>Visual Style</h2>
                 <h4 className='mb-5'>The style assessment is used to help clarify the brand's visual identity when specifics are not available.</h4>
                 <form className='form'>

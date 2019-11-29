@@ -4,6 +4,22 @@ import Form from 'react-bootstrap/Form'
 import { Select } from 'dropdown-select';
 
 class Setting extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            SiteName: ''
+        }
+    }
+
+    componentDidMount = () => {
+        let Company = JSON.parse(localStorage.getItem('user')).Company
+        if (Company) {
+            this.setState({ SiteName: Company.SiteName },()=>{
+                console.log(this.state)
+            })
+        }
+    }
+
     render() {
         let options = [{ label: 'label1', value: 'value1' }, { label: 'label2', value: 'value2' }]
         return (
@@ -14,7 +30,7 @@ class Setting extends React.Component {
                         <label className='label'>Site Name</label>
                         <div className='d-flex'>
                             <div className='form-group'>
-                                <input type="text" className='form-control' name='company' placeholder='yourcompany' />
+                                <input type="text" className='form-control' value={this.state.SiteName} name='company' placeholder='yourcompany' onChange={(e)=>this.setState({SiteName:e.target.value})} />
                             </div>
                             <h2 className='domain'>.patter.com</h2>
                         </div>

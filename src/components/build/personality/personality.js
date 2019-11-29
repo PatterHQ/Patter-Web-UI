@@ -23,13 +23,14 @@ class personality extends Component {
             score6: 0,
             score7: 0,
             CompanyPersonalityAssessmentID: [],
-            loader:false
-
+            loader: false,
+            title: '',
+            desc: '',
         }
     }
 
     componentDidMount = async () => {
-        this.setState({loader:true})
+        this.setState({ loader: true })
         try {
             await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=9`).then(res => {
                 console.log(res)
@@ -43,13 +44,15 @@ class personality extends Component {
                 })
                 this.setState({
                     brandData: res.data,
-                    CompanyPersonalityAssessmentID: ids
+                    CompanyPersonalityAssessmentID: ids,
+                    title: res.data.BrandElement.BrandElementName,
+                    desc: res.data.BrandElement.BrandElementDescription,
                 })
             })
         } catch (err) {
             toast.error(err.message)
         }
-        this.setState({loader:false})
+        this.setState({ loader: false })
     }
 
     handleClose = () => {
@@ -68,7 +71,7 @@ class personality extends Component {
     }
 
     handleSubmit = async (e) => {
-        this.setState({loader:true})
+        this.setState({ loader: true })
         e.preventDefault();
         let data = [
             { "CompanyPersonalityAssessmentID": this.state.CompanyPersonalityAssessmentID[0], "Score": Number(this.state.score0) },
@@ -94,7 +97,7 @@ class personality extends Component {
         } catch (err) {
             toast.error(err.message)
         }
-        this.setState({loader:false})
+        this.setState({ loader: false })
     }
 
 
@@ -152,7 +155,7 @@ class personality extends Component {
                         <button type='submit' className='btn_green m-0'>NEXT</button>
                     </div>
                 </form>
-                <Popup show={show} hide={this.handleClose} />
+                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }

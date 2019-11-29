@@ -78,7 +78,7 @@ class Header extends Component {
                                     <li className='m-0'>
                                         <Dropdown className='userItem'>
                                             <Dropdown.Toggle id="dropdown-basic">
-                                                {this.state.name} <img src='/images/user.png' alt='user' />
+                                                {this.state.name} <img src='/images/user12.png' alt='user' />
                                             </Dropdown.Toggle>
                                             <Dropdown.Menu>
                                                 <Dropdown.Item as="span"><NavLink to='/profile'>Profile</NavLink></Dropdown.Item>
@@ -89,7 +89,7 @@ class Header extends Component {
                                 </ul>
                                 :
                                 <ul className='mb-0 not_logged'>
-                                    <li><NavLink to={'/login'}>Log in <img src='/images/login-placeholder.png' alt='user' /></NavLink></li>
+                                    <li><NavLink to={'/login'}>Log in <img src='/images/user12.png' alt='user' /></NavLink></li>
                                 </ul>
                         }
                     </div>

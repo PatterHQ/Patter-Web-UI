@@ -40,7 +40,10 @@ class look extends Component {
             style5: { Score: 0 },
 
             error: '',
-            loader: false
+            loader: false,
+
+            title: '',
+            desc: '',
 
         }
     }
@@ -63,6 +66,8 @@ class look extends Component {
                     this.setState({
                         [color]: colVal,
                         [percentage]: v.Percentage,
+                        title: res.data.BrandElement.BrandElementName,
+                        desc: res.data.BrandElement.BrandElementDescription,
                         CompanyBrandElementColorPaletteID: [...this.state.CompanyBrandElementColorPaletteID, v.CompanyBrandElementColorPaletteID]
                     })
                 })
@@ -320,7 +325,7 @@ class look extends Component {
                             <NavLink to='/brand' className='btn_white'>Cancel</NavLink>                        </div>
                     </form>
                 </div>
-                <Popup show={show} hide={this.handleClose} />
+                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }

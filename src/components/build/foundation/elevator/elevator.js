@@ -16,15 +16,22 @@ class elevator extends Component {
             brandData: '',
             departmentID: 0,
             BrandElementDescription: '',
-            
+            title: '',
+            desc: '',
+
         }
     }
 
     componentDidMount = async () => {
         try {
-            await API.get( `getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=1`).then(res => {
+            await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=1`).then(res => {
                 console.log(res)
-                this.setState({ brandData: res.data, BrandElementDescription: res.data.Value })
+                this.setState({
+                    brandData: res.data,
+                    BrandElementDescription: res.data.Value,
+                    title: res.data.BrandElement.BrandElementName,
+                    desc: res.data.BrandElement.BrandElementDescription,
+                })
                 if (res.data.Department != undefined) {
                     this.setState({ departmentID: res.data.Department.DepartmentID })
                 }
@@ -46,9 +53,9 @@ class elevator extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-        let BrandElementID=0;
-        if(this.state.brandData.BrandElement.BrandElementID){
-            BrandElementID=this.state.brandData.BrandElement.BrandElementID
+        let BrandElementID = 0;
+        if (this.state.brandData.BrandElement.BrandElementID) {
+            BrandElementID = this.state.brandData.BrandElement.BrandElementID
         }
         let data = {
             "CompanyBrandElementID": this.state.brandData.CompanyBrandElementID,
@@ -62,7 +69,7 @@ class elevator extends Component {
         console.log(data)
 
         try {
-            await API.post( `updateCompanyBrandElement`, data).then(res => {
+            await API.post(`updateCompanyBrandElement`, data).then(res => {
                 console.log(res)
                 if (res.data.Result == 1) {
                     //toast.success('Updated Successfuly')
@@ -93,7 +100,7 @@ class elevator extends Component {
                         <button type='submit' className='btn_green m-0'>Next</button>
                     </div>
                 </form>
-                <Popup show={show} hide={this.handleClose} />
+                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }

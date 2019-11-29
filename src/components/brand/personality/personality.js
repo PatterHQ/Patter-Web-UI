@@ -13,6 +13,7 @@ class personality extends Component {
         super(props);
         this.state = {
             show: false,
+            show1: false,
 
             options: [],
             val1: '',
@@ -36,6 +37,10 @@ class personality extends Component {
             CompanyPersonalityAssessmentID: [],
 
             loader: false,
+            title: '',
+            title1: '',
+            desc: '',
+            desc1: '',
 
         }
     }
@@ -57,6 +62,8 @@ class personality extends Component {
                 })
                 this.setState({
                     brandData: res.data,
+                    title: res.data.BrandElement.BrandElementName,
+                    desc: res.data.BrandElement.BrandElementDescription,
                     CompanyPersonalityAssessmentID: ids
                 })
             })
@@ -78,6 +85,8 @@ class personality extends Component {
                 })
                 this.setState({
                     organizationalData: res.data,
+                    title1: res.data.BrandElement.BrandElementName,
+                    desc1: res.data.BrandElement.BrandElementDescription,
                 })
             })
 
@@ -91,11 +100,12 @@ class personality extends Component {
     handleClose = () => {
         this.setState({
             show: false,
+            show1: false,
         })
     };
-    handleShow = () => {
+    handleShow = (key) => {
         this.setState({
-            show: true,
+            [key]: true,
         })
     };
 
@@ -162,7 +172,7 @@ class personality extends Component {
     }
 
     render() {
-        const { show } = this.state;
+        const { show,show1 } = this.state;
         return (
             <div className='p-3'>
                 {
@@ -175,7 +185,7 @@ class personality extends Component {
                     <form className='form' onSubmit={($event) => this.handleSubmit($event)} noValidate>
                         <h2 className='heading bold mb-3'>Our Personality</h2>
                         <h4 className='mb-4'>These are the brand elements in which the entire organization is built upon.</h4>
-                        <h4 className='mb-5 bold label'>Personality Assessment <span onClick={this.handleShow} ><GoLightBulb className='float-right' /></span></h4>
+                        <h4 className='mb-5 bold label'>Personality Assessment <span onClick={()=>this.handleShow('show')} ><GoLightBulb className='float-right' /></span></h4>
                         <div className='form-group'>
                             <h4 className='bold m-0'>Feminine <span className='float-right'>Masculine</span></h4>
                             <input type="range" className='slider' value={this.state.score0} onChange={($event) => this.setState({ score0: $event.target.value })} />
@@ -212,7 +222,7 @@ class personality extends Component {
                         <div className='form-group'>
                             <label className='label'>Organizational Values</label>
                             <Select placeholder='Humility' labelKey="ValuesName" valueKey="ValuesID" options={this.state.options} value={this.state.val1} onChange={(val) => this.changeHandler('val1', val)} />
-                            <span className='textarea_tooltip mt-4 pt-2' onClick={this.handleShow} ><GoLightBulb /></span>
+                            <span className='textarea_tooltip mt-4 pt-2' onClick={()=>this.handleShow('show1')} ><GoLightBulb /></span>
                         </div>
                         <div className='form-group'>
                             <Select placeholder='Empathy' labelKey="ValuesName" valueKey="ValuesID" options={this.state.options} value={this.state.val2} onChange={(val) => this.changeHandler('val2', val)} />
@@ -232,7 +242,8 @@ class personality extends Component {
                             <NavLink to='/brand' className='btn_white'>Cancel</NavLink>                        </div>
                     </form>
                 </div>
-                <Popup show={show} hide={this.handleClose} />
+                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
+                <Popup show={show1} title={this.state.title1} desc={this.state.desc1} hide={this.handleClose} />
             </div>
         );
     }

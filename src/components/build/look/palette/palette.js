@@ -55,6 +55,8 @@ class palette extends Component {
                     this.setState({
                         [color]: colVal,
                         [percentage]: v.Percentage,
+                        title: res.data.BrandElement.BrandElementName,
+                        desc: res.data.BrandElement.BrandElementDescription,
                         CompanyBrandElementColorPaletteID: [...this.state.CompanyBrandElementColorPaletteID, v.CompanyBrandElementColorPaletteID]
                     })
                 })
@@ -80,14 +82,14 @@ class palette extends Component {
         e.preventDefault()
         let { color0, color1, color2, color3, color4, error0, error1, error2, error3, error4 } = this.state
 
-        console.log(this.state)
         if (!/^#([0-9A-F]{3}){1,2}$/i.test(color0)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
         if (!/^#([0-9A-F]{3}){1,2}$/i.test(color1)) { this.setState({ error1: true }) } else { this.setState({ error1: false }) }
         if (!/^#([0-9A-F]{3}){1,2}$/i.test(color2)) { this.setState({ error2: true }) } else { this.setState({ error2: false }) }
         if (!/^#([0-9A-F]{3}){1,2}$/i.test(color3)) { this.setState({ error3: true }) } else { this.setState({ error3: false }) }
         if (!/^#([0-9A-F]{3}){1,2}$/i.test(color4)) { this.setState({ error4: true }) } else { this.setState({ error4: false }) }
 
-        if (error0 && error1 && error2 && error3 && error4) {
+        if (!error0 && !error1 && !error2 && !error3 && !error4) {
+            console.log('true')
             this.setState({ loader: true })
             let data = [
                 {
@@ -246,7 +248,7 @@ class palette extends Component {
                         <button type='submit' className='btn_green m-0'>NEXT</button>
                     </div>
                 </form>
-                <Popup show={show} hide={this.handleClose} />
+                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }

@@ -16,18 +16,25 @@ class origin extends Component {
             brandData: '',
             BrandElementDescription: '',
             departmentID: 0,
-            loader:false
+            loader: false,
+            title: '',
+            desc: '',
 
         }
 
     }
 
     componentDidMount = async () => {
-        this.setState({loader:true})
+        this.setState({ loader: true })
         try {
             await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=4`).then(res => {
                 console.log(res)
-                this.setState({ brandData: res.data, BrandElementDescription: res.data.Value })
+                this.setState({
+                    brandData: res.data,
+                    BrandElementDescription: res.data.Value,
+                    title: res.data.BrandElement.BrandElementName,
+                    desc: res.data.BrandElement.BrandElementDescription,
+                })
                 if (res.data.Department != undefined) {
                     this.setState({ departmentID: res.data.Department.DepartmentID })
                 }
@@ -35,7 +42,7 @@ class origin extends Component {
         } catch (err) {
             toast.error(err.message)
         }
-        this.setState({loader:false})
+        this.setState({ loader: false })
     }
     handleClose = () => {
         this.setState({
@@ -49,7 +56,7 @@ class origin extends Component {
     };
 
     handleSubmit = async (e) => {
-        this.setState({loader:true})
+        this.setState({ loader: true })
         e.preventDefault();
         let data = {
             "CompanyBrandElementID": this.state.brandData.CompanyBrandElementID,
@@ -75,7 +82,7 @@ class origin extends Component {
         } catch (err) {
             toast.error(err.message)
         }
-        this.setState({loader:false})
+        this.setState({ loader: false })
     }
 
     render() {
@@ -99,7 +106,7 @@ class origin extends Component {
                         <button type='submit' className='btn_green m-0'>Next</button>
                     </div>
                 </form>
-                <Popup show={show} hide={this.handleClose} />
+                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }

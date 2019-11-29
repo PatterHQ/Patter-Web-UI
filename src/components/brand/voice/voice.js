@@ -20,12 +20,16 @@ class voice extends Component {
             KeywordsValue: [],
             Buzzwords: null,
             BuzzwordsValue: [],
-            loader:false,
+            loader: false,
+            title: '',
+            title1: '',
+            desc: '',
+            desc1: '',
         }
     }
 
     componentDidMount = async () => {
-        this.setState({loader:true})
+        this.setState({ loader: true })
         try {
 
             // getKeyWords Data
@@ -34,7 +38,11 @@ class voice extends Component {
                 if (res.data.Value !== '') {
                     this.setState({ KeywordsValue: res.data.Value.split(',') })
                 }
-                this.setState({ Keywords: res.data })
+                this.setState({
+                    Keywords: res.data,
+                    title: res.data.BrandElement.BrandElementName,
+                    desc: res.data.BrandElement.BrandElementDescription,
+                })
             })
 
             // getbuzzwords Data
@@ -43,23 +51,28 @@ class voice extends Component {
                 if (res.data.Value !== '') {
                     this.setState({ BuzzwordsValue: res.data.Value.split(',') })
                 }
-                this.setState({ Buzzwords: res.data })
+                this.setState({
+                    Buzzwords: res.data,
+                    title1: res.data.BrandElement.BrandElementName,
+                    desc1: res.data.BrandElement.BrandElementDescription,
+                })
             })
 
         } catch (err) {
             toast.error(err.message)
         }
-        this.setState({loader:false})
+        this.setState({ loader: false })
     }
 
     handleClose = () => {
         this.setState({
             show: false,
+            show1: false,
         })
     };
-    handleShow = () => {
+    handleShow = (key) => {
         this.setState({
-            show: true,
+            [key]: true,
         })
     };
 
@@ -91,7 +104,7 @@ class voice extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-        this.setState({loader:true})
+        this.setState({ loader: true })
         let user = JSON.parse(localStorage.user)
         let departmentID = 0;
         if (user.Department !== undefined && user.Department !== null) {
@@ -145,12 +158,12 @@ class voice extends Component {
             toast.error(error.message)
         }
 
-        this.setState({loader:false})
+        this.setState({ loader: false })
 
     }
 
     render() {
-        const { show } = this.state;
+        const { show, show1 } = this.state;
         return (
             <div className='brand voice p-3'>
                 {
@@ -167,7 +180,7 @@ class voice extends Component {
                             <label className='label'>Keywords</label>
                             <input type="text" placeholder='Enter Keyword' className='form-control' value={this.state.keywordInput} onChange={(e) => this.setState({ keywordInput: e.target.value })} />
                             <FaPlus className='addPlus pointer' onClick={this.addKeyword} />
-                            <span className='textarea_tooltip' onClick={this.handleShow} ><GoLightBulb /></span>
+                            <span className='textarea_tooltip' onClick={() => this.handleShow('show')} ><GoLightBulb /></span>
                         </div>
                         <div className='form-group'>
                             <div className='tag_container'>
@@ -180,7 +193,7 @@ class voice extends Component {
                             <label className='label'>Buzzwords</label>
                             <input type="text" placeholder='Enter Buzzword' className='form-control' value={this.state.buzzwordInput} onChange={(e) => this.setState({ buzzwordInput: e.target.value })} />
                             <FaPlus className='addPlus pointer' onClick={this.addBuzzwords} />
-                            <span className='textarea_tooltip' onClick={this.handleShow} ><GoLightBulb /></span>
+                            <span className='textarea_tooltip' onClick={() => this.handleShow('show1')} ><GoLightBulb /></span>
                         </div>
                         <div className='form-group'>
                             <div className='tag_container'>
@@ -194,7 +207,8 @@ class voice extends Component {
                             <NavLink to='/brand' className='btn_white'>Cancel</NavLink>                        </div>
                     </form>
                 </div>
-                <Popup show={show} hide={this.handleClose} />
+                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
+                <Popup show={show1} title={this.state.title1} desc={this.state.desc1} hide={this.handleClose} />
             </div>
         );
     }

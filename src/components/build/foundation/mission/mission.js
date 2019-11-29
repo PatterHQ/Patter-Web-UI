@@ -17,7 +17,9 @@ class mission extends Component {
             brandData: '',
             departmentID: 0,
             BrandElementDescription: '',
-            loader: false
+            loader: false,
+            title: '',
+            desc: '',
 
         }
     }
@@ -27,7 +29,13 @@ class mission extends Component {
         try {
             await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=2`).then(res => {
                 console.log(res)
-                this.setState({ brandData: res.data, BrandElementDescription: res.data.Value })
+
+                this.setState({
+                    brandData: res.data,
+                    title: res.data.BrandElement.BrandElementName,
+                    desc: res.data.BrandElement.BrandElementDescription,
+                    BrandElementDescription: res.data.Value
+                })
                 if (res.data.Department != undefined) {
                     this.setState({ departmentID: res.data.Department.DepartmentID })
                 }
@@ -102,7 +110,7 @@ class mission extends Component {
                         <button type='submit' className='btn_green m-0'>Next</button>
                     </div>
                 </form>
-                <Popup show={show} hide={this.handleClose} />
+                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }

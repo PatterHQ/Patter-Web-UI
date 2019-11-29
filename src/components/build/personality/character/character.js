@@ -24,7 +24,9 @@ class character extends Component {
             vals: '',
             options: [],
             BrandElementDescription: '',
-            loader: false
+            loader: false,
+            title: '',
+            desc: '',
         }
     }
 
@@ -54,6 +56,8 @@ class character extends Component {
                 this.setState({
                     brandData: res.data,
                     vals: vals,
+                    title: res.data.BrandElement.BrandElementName,
+                    desc: res.data.BrandElement.BrandElementDescription,
                 })
             })
         } catch (err) {
@@ -140,7 +144,7 @@ class character extends Component {
                         <button type='submit' className='btn_green m-0'>NEXT</button>
                     </div>
                 </form>
-                <Popup show={show} hide={this.handleClose} />
+                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }
