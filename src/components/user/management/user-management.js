@@ -33,9 +33,9 @@ class UserManagement extends React.Component {
         this.setState({ loader: false })
     }
 
-    getUsers = () => {
+    getUsers = async () => {
         let company = JSON.parse(localStorage.user).Company
-        API.get(`getUsersByCompany?companyID=${company.CompanyID}`).then(res => {
+        await API.get(`getUsersByCompany?companyID=${company.CompanyID}`).then(res => {
             this.setState({ usersList: res.data })
         })
     }

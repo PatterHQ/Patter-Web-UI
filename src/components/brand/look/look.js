@@ -39,12 +39,14 @@ class look extends Component {
             style4: { Score: 0 },
             style5: { Score: 0 },
 
-            error: ''
+            error: '',
+            loader: false
 
         }
     }
 
     componentDidMount = async () => {
+        this.setState({ loader: true })
         try {
 
             // get Color Palette
@@ -81,6 +83,7 @@ class look extends Component {
         } catch (err) {
             toast.error(err.message)
         }
+        this.setState({ loader: false })
     }
 
 
@@ -117,18 +120,24 @@ class look extends Component {
         }
     }
 
+    checkColor = () => {
+        let { color0, color1, color2, color3, color4, error0, error1, error2, error3, error4 } = this.state
+        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color0)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
+        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color1)) { this.setState({ error1: true }) } else { this.setState({ error1: false }) }
+        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color2)) { this.setState({ error2: true }) } else { this.setState({ error2: false }) }
+        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color3)) { this.setState({ error3: true }) } else { this.setState({ error3: false }) }
+        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color4)) { this.setState({ error4: true }) } else { this.setState({ error4: false }) }
+
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
+        this.setState({ loader: true })
         let { color0, color1, color2, color3, color4, error0, error1, error2, error3, error4 } = this.state
 
-        console.log(this.state)
-        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color0)) { this.setState({ error0: true }) }else{this.setState({ error0: false })}
-        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color1)) { this.setState({ error1: true }) }else{this.setState({ error1: false })}
-        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color2)) { this.setState({ error2: true }) }else{this.setState({ error2: false })}
-        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color3)) { this.setState({ error3: true }) }else{this.setState({ error3: false })}
-        if (!/^#([0-9A-F]{3}){1,2}$/i.test(color4)) { this.setState({ error4: true }) }else{this.setState({ error4: false })}
+        this.checkColor()
 
-        if (error0 && error1 && error2 && error3 && error4) {
+        if (!error0 && !error1 && !error2 && !error3 && !error4) {
             let styleData = [
                 { "CompanyStyleAssessmentID": this.state.styleAssessmentID[0], "Score": this.state.style0 },
                 { "CompanyStyleAssessmentID": this.state.styleAssessmentID[1], "Score": this.state.style1 },
@@ -187,6 +196,8 @@ class look extends Component {
             }
         }
 
+        this.setState({ loader: false })
+
     }
 
     render() {
@@ -214,6 +225,11 @@ class look extends Component {
         }
         return (
             <div className='look p-3'>
+                {
+                    this.state.loader ? <div className='loader_overlay'>
+                        <div className="custom_loader">Loading...</div>
+                    </div> : null
+                }
                 <div className='container'>
                     <form className='form pt-3' onSubmit={($event) => this.handleSubmit($event)} noValidate>
                         <h2 className='heading bold mb-3'>Our Look</h2>
