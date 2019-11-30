@@ -30,6 +30,7 @@ class Setting extends React.Component {
        this.getCompanyByID();
     }
 
+    
     render() {
         let options = [{ label: 'label1', value: 'value1' }, { label: 'label2', value: 'value2' }]
         return (
