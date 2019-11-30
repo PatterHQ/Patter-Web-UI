@@ -64,7 +64,7 @@ class Header extends Component {
                         {
                             this.state.logged === 'true' ?
                                 <ul className='mb-0'>
-                                    <li className="hide2">
+                                    <li>
                                         <Dropdown>
                                             <Dropdown.Toggle id="dropdown-basic">
                                                 Account
@@ -75,7 +75,7 @@ class Header extends Component {
                                             </Dropdown.Menu>
                                         </Dropdown>
                                     </li>
-                                    <li className='m-0 hide2'>
+                                    <li className='m-0'>
                                         <Dropdown className='userItem'>
                                             <Dropdown.Toggle id="dropdown-basic">
                                                 {this.state.name} <img src='/images/user12.png' alt='user' />
@@ -88,29 +88,30 @@ class Header extends Component {
                                     </li>
                                 </ul>
                                 :
-                                null
+                                <ul className='mb-0 not_logged'>
+                                    <li><NavLink to={'/login'}>Log in <img src='/images/user12.png' alt='user' /></NavLink></li>
+                                </ul>
                         }
                     </div>
-                    {  this.state.logged === 'true' ?
                     <div className='mobile_menu'>
                         <Dropdown>
                             <Dropdown.Toggle id="dropdown-basic"></Dropdown.Toggle>
                             <Dropdown.Menu onChange={() => this.currentKey(0)}>
-                                <p className='lvl1 custom_lvl' onClick={() => this.currentKey(1)}>{this.state.name}</p>
+                                <p className='lvl1 custom_lvl' onClick={() => this.currentKey(1)}>Aaron</p>
                                 {this.state.main === 1 ? <div>
-                                    <Dropdown.Item as="span"><NavLink to='/profile' className='lvl3 custom_lvl'>Profile</NavLink></Dropdown.Item>
-                                    <Dropdown.Item as="span"><span className='lvl3 custom_lvl' onClick={() => this.logoutHandler()}> SIGN OUT</span></Dropdown.Item>
+                                    <Dropdown.Item as="span"><NavLink to='' className='lvl3 custom_lvl'>Profile</NavLink></Dropdown.Item>
+                                    <Dropdown.Item as="span"><NavLink to='' className='lvl3 custom_lvl'>SIGN OUT</NavLink></Dropdown.Item>
                                 </div>
                                     : null
                                 }
                                 <p className='lvl1 custom_lvl' onClick={() => this.currentKey(2)}>Account</p>
                                 {this.state.main === 2 ? <div>
                                     <Dropdown.Item as="span"><NavLink to='/setting' className='lvl3 custom_lvl'>Setting</NavLink></Dropdown.Item>
-                                    <Dropdown.Item as="span"><NavLink to='/user' className='lvl3 custom_lvl'>User</NavLink></Dropdown.Item>
+                                    <Dropdown.Item as="span"><NavLink to='' className='lvl3 custom_lvl'>User</NavLink></Dropdown.Item>
                                 </div>
                                     : null
                                 }
-                                <Dropdown.Item as="span"><NavLink to='/build' className='lvl2 custom_lvl'>Build Assessment</NavLink></Dropdown.Item>
+                                <Dropdown.Item as="span"><NavLink to='/build' className='lvl2 custom_lvl'>Build</NavLink></Dropdown.Item>
                                 <p className='lvl2 custom_lvl' onClick={() => this.currentKey(5)}>Our Brand</p>
                                 {this.state.main === 5 ? <div>
                                     <Dropdown.Item as="span"><NavLink to='/brand/company-info' className='lvl3 custom_lvl'>Company Info</NavLink></Dropdown.Item>
@@ -124,11 +125,6 @@ class Header extends Component {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                    :
-    <ul className='mb-0 not_logged right_nav'>
-        <li><NavLink to={'/login'}>Log in <img src='/images/user12.png' alt='user' /></NavLink></li>
-    </ul>
-    }
                 </Navbar>
             </div>
         );
