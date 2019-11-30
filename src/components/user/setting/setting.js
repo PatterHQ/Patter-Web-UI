@@ -2,6 +2,7 @@ import React from 'react';
 import './setting.css'
 import Form from 'react-bootstrap/Form'
 import { Select } from 'dropdown-select';
+import API from "../../../shared/utils/API";
 
 class Setting extends React.Component {
     constructor(props) {
@@ -10,14 +11,23 @@ class Setting extends React.Component {
             SiteName: ''
         }
     }
+    getCompanyByID = async () => {
+        try {
+          let id = JSON.parse(localStorage.user).Company.CompanyID
+          if (id != null) {
+            await API.get(`getCompany?companyID=${id}`).then(res => {
+              console.log(res.data.SiteName)
+              this.setState({ SiteName: res.data.SiteName })
+            })
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    
 
     componentDidMount = () => {
-        let Company = JSON.parse(localStorage.getItem('user')).Company
-        if (Company) {
-            this.setState({ SiteName: Company.SiteName },()=>{
-                console.log(this.state)
-            })
-        }
+       this.getCompanyByID();
     }
 
     render() {

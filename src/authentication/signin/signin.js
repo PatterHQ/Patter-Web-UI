@@ -39,7 +39,7 @@ class Signin extends React.Component {
                         if (!res.user.emailVerified) {
                             // console.log('Please Conform Your Email to Login')
                             // toast.warn('Please Conform Your Email to Login');
-                            this.setState({ errors: 'Please Confirm Your Email to Login' })
+                            this.setState({ errors: 'Please Conform Your Email to Login' })
                         } else {
                             API.get("getUser?email=" + res.user.email).then(res => {
                                 console.log(res)

@@ -166,7 +166,7 @@ class UserManagement extends React.Component {
                                             </td>
                                             <td className='text-center'>
                                                 <Form.Group className='mb-0' controlId={`check${index}`}>
-                                                    <Form.Check type="checkbox" checked={!user.IsActive} custom label="" onChange={(e) => this.changeHandler(e, index)} />
+                                                    <Form.Check type="checkbox"  custom label="" onChange={(e) => this.changeHandler(e, index)} />
                                                 </Form.Group>
                                             </td>
                                         </tr>)

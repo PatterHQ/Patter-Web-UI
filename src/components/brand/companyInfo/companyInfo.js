@@ -171,9 +171,9 @@ class companyInfo extends Component {
           console.log(res)
           if (res.data !== '') {
             //toast.success('Company Updated Successfully')
-            setTimeout(() => {
-              this.props.history.push('/brand')
-            }, 1000);
+            // setTimeout(() => {
+            //   this.props.history.push('/brand')
+            // }, 1000);
           } else {
             toast.error('Something went Wrong, Please try Later')
           }
