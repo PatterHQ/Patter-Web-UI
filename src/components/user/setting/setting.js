@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import { Select } from 'dropdown-select';
 import API from "../../../shared/utils/API";
 
+
 class Setting extends React.Component {
     constructor(props) {
         super(props)
@@ -24,13 +25,11 @@ class Setting extends React.Component {
           console.log(error)
         }
       }
-    
 
     componentDidMount = () => {
-       this.getCompanyByID();
+        this.getCompanyByID();
     }
 
-    
     render() {
         let options = [{ label: 'label1', value: 'value1' }, { label: 'label2', value: 'value2' }]
         return (

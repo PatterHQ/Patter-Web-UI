@@ -2,21 +2,10 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 import { FaAngleLeft } from "react-icons/fa";
 import './look.css'
-import { toast,ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Axios from 'axios';
 import API from "../../../shared/utils/API";
-import S3FileUpload from 'react-s3';
-//Optional Import
-import { uploadFile } from 'react-s3';
-
-const config = {
-    bucketName: 'bucketbrandasset-dev',
-    dirName: 'logo',
-    region: 'us-east-1',
-    accessKeyId: 'AKIAQ6OABELEHDPP63ES',
-    secretAccessKey: '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',
-}
 
 
 class look extends Component {
@@ -26,6 +15,7 @@ class look extends Component {
             logo: null,
             file: null,
             logoValue: '',
+            image: ''
         }
     }
 
@@ -46,19 +36,19 @@ class look extends Component {
     changeImg = (e) => {
         try {
             console.log(e.target.files[0])
-            this.setState({
-                file: e.target.files[0]
-            })
 
-            // Axios.post('https://aws.amazon.com/premiumsupport/knowledge-center/s3-private-connection-no-authentication/',{file:this.state.file}).then(res=>{console.log(res)}).catch(err=>{console.log(err)})
-            // S3FileUpload
-            //     .uploadFile(e.target.files[0], config)
-            //     .then(data => console.log(data))
-            //     .catch(err => console.error(err))
+            if (e.target.files[0] != null) {
+                var file = e.target.files[0];
+                var myReader = new FileReader();
 
-            uploadFile(e.target.files[0], config)
-                .then(data => console.log(data))
-                .catch(err => console.error(err))
+                myReader.onloadend = (e) => {
+                    console.log(myReader.result)
+                    this.setState({
+                        image: (myReader.result).toString()
+                    })
+                }
+                myReader.readAsDataURL(file);
+            }
 
         } catch (err) {
             console.log(err.message)
@@ -67,12 +57,19 @@ class look extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        try {
+            let company= JSON.parse(localStorage.user).Company
+            let data = {
+                "FileName": `${company.CompanyID}patter.png`,
+                "Data": this.state.image
+            }
+            API.post('saveImage', data).then(res => {
+                console.log(res)
+            })
 
-        S3FileUpload
-                .uploadFile(this.state.file, config)
-                .then(data => console.log(data))
-                .catch(err => console.error(err))
-
+        } catch (error) {
+            console.log(error.message)
+        }
     }
 
     render() {
@@ -89,12 +86,14 @@ class look extends Component {
                         <label htmlFor="file" className="btn-1">UPLOAD LOGO</label>
                     </div>
                     <div className='form-group'>
-                        <div className='tag_container'></div>
+                        <div className='tag_container'>
+                            <img src={this.state.image} alt='logo' />
+                        </div>
                     </div>
                     <div className='mt-3 mb-5 text-right'>
                         <NavLink to='/build/voice' className='float-left primary back_btn'> <FaAngleLeft /> Back</NavLink>
-                        <NavLink to='/build/look/palette' className='btn_green m-0'>NEXT</NavLink>
-                        {/* <button className='btn_green' type='submit'>Next</button> */}
+                        {/* <NavLink to='/build/look/palette' className='btn_green m-0'>NEXT</NavLink> */}
+                        <button className='btn_green' type='submit'>Next</button>
                     </div>
                 </form>
             </div>

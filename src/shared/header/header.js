@@ -93,7 +93,9 @@ class Header extends Component {
                                 </ul>
                         }
                     </div>
-                    <div className='mobile_menu'>
+                    <div className={this.state.logged === 'true' ? 'mobile_menu' : 'mobile_menu no_bg'}>
+                        {
+                            this.state.logged === 'true'?
                         <Dropdown>
                             <Dropdown.Toggle id="dropdown-basic"></Dropdown.Toggle>
                             <Dropdown.Menu onChange={() => this.currentKey(0)}>
@@ -123,7 +125,7 @@ class Header extends Component {
                                     : null
                                 }
                             </Dropdown.Menu>
-                        </Dropdown>
+                        </Dropdown> :<NavLink className='pointer' to={'/login'}>Log in <img src='/images/user12.png' alt='user' /></NavLink> }
                     </div>
                 </Navbar>
             </div>

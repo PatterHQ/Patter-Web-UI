@@ -78,6 +78,10 @@
   cursor: pointer;
   background-color: rgb(14, 112, 124);
 }
+.mobile_menu.no_bg{
+  background-color: transparent !important;
+  cursor: pointer;
+}
 .dropdown-menu.show {
   right: 0;
   left: unset;
