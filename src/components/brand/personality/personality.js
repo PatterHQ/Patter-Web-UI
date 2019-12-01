@@ -239,7 +239,7 @@ class personality extends Component {
 
                         <div className='mt-3 mb-5'>
                             <button className='btn_green'>Save</button>
-                            <NavLink to='/brand' className='btn_white'>Cancel</NavLink>                        </div>
+                            <button className='btn_white'>Cancel</button>                        </div>
                     </form>
                 </div>
                 <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
