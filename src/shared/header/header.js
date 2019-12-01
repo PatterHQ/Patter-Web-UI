@@ -99,17 +99,17 @@ class Header extends Component {
                         <Dropdown>
                             <Dropdown.Toggle id="dropdown-basic"></Dropdown.Toggle>
                             <Dropdown.Menu onChange={() => this.currentKey(0)}>
-                                <p className='lvl1 custom_lvl' onClick={() => this.currentKey(1)}>Aaron</p>
+                                <p className='lvl1 custom_lvl' onClick={() => this.currentKey(1)}>{this.state.name}</p>
                                 {this.state.main === 1 ? <div>
-                                    <Dropdown.Item as="span"><NavLink to='' className='lvl3 custom_lvl'>Profile</NavLink></Dropdown.Item>
-                                    <Dropdown.Item as="span"><NavLink to='' className='lvl3 custom_lvl'>SIGN OUT</NavLink></Dropdown.Item>
+                                    <Dropdown.Item as="span"><NavLink to='/profile' className='lvl3 custom_lvl'>Profile</NavLink></Dropdown.Item>
+                                    <Dropdown.Item as="span"><span  className='lvl3 custom_lvl' onClick={() => this.logoutHandler()}>SIGN OUT</span></Dropdown.Item>
                                 </div>
                                     : null
                                 }
                                 <p className='lvl1 custom_lvl' onClick={() => this.currentKey(2)}>Account</p>
                                 {this.state.main === 2 ? <div>
                                     <Dropdown.Item as="span"><NavLink to='/setting' className='lvl3 custom_lvl'>Setting</NavLink></Dropdown.Item>
-                                    <Dropdown.Item as="span"><NavLink to='' className='lvl3 custom_lvl'>User</NavLink></Dropdown.Item>
+                                    <Dropdown.Item as="span"><NavLink to='/user' className='lvl3 custom_lvl'>User</NavLink></Dropdown.Item>
                                 </div>
                                     : null
                                 }

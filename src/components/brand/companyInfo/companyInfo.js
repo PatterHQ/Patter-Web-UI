@@ -202,7 +202,7 @@ class companyInfo extends Component {
         <ToastContainer />
         <div className='container'>
           <h2 className='heading bold mb-3'>Company Info</h2>
-          <h4 className='mb-5'>General information an details about the company.</h4>
+          <h4 className='mb-5'>General information and details about the company.</h4>
           <form className='form' onSubmit={($event) => this.handleSubmit($event)} noValidate>
             <div className='form-group'>
               <input type="text" name='comapanyName' value={this.state.comapanyName} className='form-control' placeholder='Company Name (or DBA Name)' onChange={(e) => this.setState({ comapanyName: e.target.value })} />
