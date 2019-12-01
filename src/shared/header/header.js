@@ -89,7 +89,7 @@ class Header extends Component {
                                 </ul>
                                 :
                                 <ul className='mb-0 not_logged'>
-                                    <li><NavLink to={'/login'}>Log in <img src='/images/user12.png' alt='user' /></NavLink></li>
+                                    <li><NavLink className="temp" to={'/login'} style={{color: "black"}}>Log in <img src='/images/user12.png' alt='user' /></NavLink></li>
                                 </ul>
                         }
                     </div>
@@ -125,7 +125,7 @@ class Header extends Component {
                                     : null
                                 }
                             </Dropdown.Menu>
-                        </Dropdown> :<NavLink className='pointer' to={'/login'}>Log in <img src='/images/user12.png' alt='user' /></NavLink> }
+                        </Dropdown> :<NavLink className="temp"  to={'/login'} style={{color: "black"}}>Log in <img src='/images/user12.png' alt='user' /></NavLink> }
                     </div>
                 </Navbar>
             </div>

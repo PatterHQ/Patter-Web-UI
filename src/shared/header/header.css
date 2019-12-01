@@ -41,6 +41,9 @@
 .right_nav li .dropdown {
   top: -1px;
 }
+.temp:hover{
+  background-color: transparent;
+}
 .right_nav li .dropdown .dropdown-item:active,
 .right_nav li .dropdown .dropdown-item:focus {
   background-color: transparent;
