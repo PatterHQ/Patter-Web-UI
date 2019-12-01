@@ -138,10 +138,10 @@ class look extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         this.setState({ loader: true })
-        let { color0, color1, color2, color3, color4 } = this.state
+        let { color0, color1, color2, color3, color4, error0, error1, error2, error3, error4 } = this.state
 
+        this.checkColor()
 
-        
             let styleData = [
                 { "CompanyStyleAssessmentID": this.state.styleAssessmentID[0], "Score": this.state.style0 },
                 { "CompanyStyleAssessmentID": this.state.styleAssessmentID[1], "Score": this.state.style1 },
@@ -249,29 +249,41 @@ class look extends Component {
                             <input type="text" className='form-control' value={this.state.color0} placeholder='Color #1' onChange={(e) => this.setState({ color0: e.target.value })} />
                             <input type="number" className='form-control percentage' value={this.state.percentage0} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage0', this.state.percentage0, e.target.value)} />
                             <span className='textarea_tooltip' onClick={this.handleShow} ><GoLightBulb /></span>
-                            
+                            {
+                                this.state.error0 ? <label className='error'>Not a valid HEX Code</label> : null
+                            }
                         </div>
                         <div className='form-group flex'>
                             <input type="text" className='form-control' value={this.state.color1} placeholder='Color #2' onChange={(e) => this.changeColorHandler('color1', e.target.value)} />
                             <input type="number" className='form-control percentage' value={this.state.percentage1} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage1', this.state.percentage1, e.target.value)} />
-                            
+                            {
+                                this.state.error1 ? <label className='error'>Not a valid HEX Code</label> : null
+                            }
                         </div>
                         <div className='form-group flex'>
                             <input type="text" className='form-control' value={this.state.color2} placeholder='Color #3' onChange={(e) => this.changeColorHandler('color2', e.target.value)} />
                             <input type="number" className='form-control percentage' value={this.state.percentage2} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage2', this.state.percentage2, e.target.value)} />
-                            
+                            {
+                                this.state.error2 ? <label className='error'>Not a valid HEX Code</label> : null
+                            }
                         </div>
                         <div className='form-group flex'>
                             <input type="text" className='form-control' value={this.state.color3} placeholder='Color #4' onChange={(e) => this.changeColorHandler('color3', e.target.value)} />
                             <input type="number" className='form-control percentage' value={this.state.percentage3} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage3', this.state.percentage3, e.target.value)} />
-                            
+                            {
+                                this.state.error3 ? <label className='error'>Not a valid HEX Code</label> : null
+                            }
                         </div>
                         <div className='form-group flex'>
                             <input type="text" className='form-control' value={this.state.color4} placeholder='Color #5' onChange={(e) => this.changeColorHandler('color4', e.target.value)} />
                             <input type="number" className='form-control percentage' value={this.state.percentage4} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage4', this.state.percentage4, e.target.value)} />
-                            
+                            {
+                                this.state.error4 ? <label className='error'>Not a valid HEX Code</label> : null
+                            }
                         </div>
-                       
+                        {
+                            this.state.error !== '' ? <p className='alert alert-danger'>{this.state.error}</p> : null
+                        }
                         <div className='form-group flex mb-5'>
                             <div className='color_palette'>
                                 <span className='color_1' style={color_1}></span>
@@ -309,7 +321,7 @@ class look extends Component {
 
                         <div className='mt-3 mb-5 text-right'>
                             <button className='btn_green'>Save</button>
-                            <button className='btn_white'>Cancel</button>                        </div>
+                            <button type="button" className='btn_white'>Cancel</button>                        </div>
                     </form>
                 </div>
                 <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
