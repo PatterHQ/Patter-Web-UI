@@ -125,6 +125,22 @@ class look extends Component {
         }
     }
 
+check1=(e)=>{
+    if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
+}
+check2=(e)=>{
+    if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error1: true }) } else { this.setState({ error1: false }) }
+}
+check3=(e)=>{
+    if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error2: true }) } else { this.setState({ error2: false }) }
+}
+check4=(e)=>{
+    if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error3: true }) } else { this.setState({ error3: false }) }
+}
+check5=(e)=>{
+    if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error4: true }) } else { this.setState({ error4: false }) }
+}
+
     checkColor = () => {
         let { color0, color1, color2, color3, color4, error0, error1, error2, error3, error4 } = this.state
         if (!/^#([0-9A-F]{3}){1,2}$/i.test(color0)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
@@ -140,7 +156,7 @@ class look extends Component {
         this.setState({ loader: true })
         let { color0, color1, color2, color3, color4, error0, error1, error2, error3, error4 } = this.state
 
-        this.checkColor()
+       
 
             let styleData = [
                 { "CompanyStyleAssessmentID": this.state.styleAssessmentID[0], "Score": this.state.style0 },
@@ -246,7 +262,7 @@ class look extends Component {
                         </div>
                         <label className='label mb-3'>Color Palette</label>
                         <div className='form-group flex'>
-                            <input type="text" className='form-control' value={this.state.color0} placeholder='Color #1' onChange={(e) => this.setState({ color0: e.target.value })} />
+                            <input type="text" className='form-control' value={this.state.color0} placeholder='Color #1' onBlur={this.check1} onChange={(e) => this.setState({ color0: e.target.value })} />
                             <input type="number" className='form-control percentage' value={this.state.percentage0} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage0', this.state.percentage0, e.target.value)} />
                             <span className='textarea_tooltip' onClick={this.handleShow} ><GoLightBulb /></span>
                             {
@@ -254,28 +270,28 @@ class look extends Component {
                             }
                         </div>
                         <div className='form-group flex'>
-                            <input type="text" className='form-control' value={this.state.color1} placeholder='Color #2' onChange={(e) => this.changeColorHandler('color1', e.target.value)} />
+                            <input type="text" className='form-control' value={this.state.color1} placeholder='Color #2' onBlur={this.check2} onChange={(e) => this.changeColorHandler('color1', e.target.value)} />
                             <input type="number" className='form-control percentage' value={this.state.percentage1} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage1', this.state.percentage1, e.target.value)} />
                             {
                                 this.state.error1 ? <label className='error'>Not a valid HEX Code</label> : null
                             }
                         </div>
                         <div className='form-group flex'>
-                            <input type="text" className='form-control' value={this.state.color2} placeholder='Color #3' onChange={(e) => this.changeColorHandler('color2', e.target.value)} />
+                            <input type="text" className='form-control' value={this.state.color2} placeholder='Color #3'onBlur={this.check3} onChange={(e) => this.changeColorHandler('color2', e.target.value)} />
                             <input type="number" className='form-control percentage' value={this.state.percentage2} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage2', this.state.percentage2, e.target.value)} />
                             {
                                 this.state.error2 ? <label className='error'>Not a valid HEX Code</label> : null
                             }
                         </div>
                         <div className='form-group flex'>
-                            <input type="text" className='form-control' value={this.state.color3} placeholder='Color #4' onChange={(e) => this.changeColorHandler('color3', e.target.value)} />
+                            <input type="text" className='form-control' value={this.state.color3} placeholder='Color #4' onBlur={this.check4} onChange={(e) => this.changeColorHandler('color3', e.target.value)} />
                             <input type="number" className='form-control percentage' value={this.state.percentage3} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage3', this.state.percentage3, e.target.value)} />
                             {
                                 this.state.error3 ? <label className='error'>Not a valid HEX Code</label> : null
                             }
                         </div>
                         <div className='form-group flex'>
-                            <input type="text" className='form-control' value={this.state.color4} placeholder='Color #5' onChange={(e) => this.changeColorHandler('color4', e.target.value)} />
+                            <input type="text" className='form-control' value={this.state.color4} placeholder='Color #5' onBlur={this.check5} onChange={(e) => this.changeColorHandler('color4', e.target.value)} />
                             <input type="number" className='form-control percentage' value={this.state.percentage4} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage4', this.state.percentage4, e.target.value)} />
                             {
                                 this.state.error4 ? <label className='error'>Not a valid HEX Code</label> : null
