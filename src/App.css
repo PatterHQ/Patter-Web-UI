@@ -422,3 +422,7 @@ td.no-border-left *{
     transform: rotate(360deg);
   }
 }
+.mobile_menu .not_logged a:hover,
+  .mobile_menu .not_logged a:focus {
+    background-color: transparent;
+  }
