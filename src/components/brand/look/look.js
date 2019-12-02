@@ -393,7 +393,7 @@ class look extends Component {
 
                         <div className='mt-3 mb-5 text-right'>
                             <button className='btn_green'>Save</button>
-                            <button type="button" className='btn_white'>Cancel</button>                        </div>
+                            <NavLink to="/brand" className='btn_white'>Cancel</NavLink>                        </div>
                     </form>
                 </div>
                 <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
