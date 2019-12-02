@@ -157,9 +157,9 @@ class voice extends Component {
             })
             if (keywd && buzwd) {
                 //toast.success('Updated Successfully')
-                // setTimeout(() => {
-                //     this.props.history.push('/brand')
-                // }, 1000);
+                setTimeout(() => {
+                    this.props.history.push('/brand')
+                }, 1000);
             }
 
         } catch (error) {
@@ -212,7 +212,7 @@ class voice extends Component {
                         </div>
                         <div className='mt-3 mb-5'>
                             <button className='btn_green' type='submit'>Save</button>
-                            <button type="button" className='btn_white'>Cancel</button>                        </div>
+                            <NavLink to='/brand' className='btn_white'>Cancel</NavLink>                        </div>
                     </form>
                 </div>
                 <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />

@@ -117,6 +117,37 @@ class look extends Component {
             show: true,
         })
     };
+    check1=(e)=>{
+        if(e.target.value!=""){
+        
+            if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
+        }
+        }
+        check2=(e)=>{
+            if(e.target.value!=""){
+        
+            if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error1: true }) } else { this.setState({ error1: false }) }
+            }
+        }
+        check3=(e)=>{
+            if(e.target.value!=""){
+        
+            if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error2: true }) } else { this.setState({ error2: false }) }
+            }
+        }
+        check4=(e)=>{
+            if(e.target.value!=""){
+        
+            if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error3: true }) } else { this.setState({ error3: false }) }
+            }
+        }
+        check5=(e)=>{
+            if(e.target.value!=""){
+        
+            if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error4: true }) } else { this.setState({ error4: false }) }
+        }
+        }
+        
 
     changeColorHandler = (col, val) => {
         this.setState({
@@ -140,36 +171,6 @@ class look extends Component {
         }
     }
 
-check1=(e)=>{
-if(e.target.value!=""){
-
-    if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
-}
-}
-check2=(e)=>{
-    if(e.target.value!=""){
-
-    if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error1: true }) } else { this.setState({ error1: false }) }
-    }
-}
-check3=(e)=>{
-    if(e.target.value!=""){
-
-    if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error2: true }) } else { this.setState({ error2: false }) }
-    }
-}
-check4=(e)=>{
-    if(e.target.value!=""){
-
-    if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error3: true }) } else { this.setState({ error3: false }) }
-    }
-}
-check5=(e)=>{
-    if(e.target.value!=""){
-
-    if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error4: true }) } else { this.setState({ error4: false }) }
-}
-}
     checkColor = () => {
         let { color0, color1, color2, color3, color4, error0, error1, error2, error3, error4 } = this.state
         if (!/^#([0-9A-F]{3}){1,2}$/i.test(color0)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
@@ -208,7 +209,6 @@ check5=(e)=>{
         this.setState({ loader: true })
         let { color0, color1, color2, color3, color4, error0, error1, error2, error3, error4 } = this.state
 
-       
 
             let styleData = [
                 { "CompanyStyleAssessmentID": this.state.styleAssessmentID[0], "Score": this.state.style0 },
@@ -333,7 +333,7 @@ check5=(e)=>{
                             }
                         </div>
                         <div className='form-group flex'>
-                            <input type="text" className='form-control' value={this.state.color2} placeholder='Color #3'onBlur={this.check3} onChange={(e) => this.changeColorHandler('color2', e.target.value)} />
+                            <input type="text" className='form-control' value={this.state.color2} placeholder='Color #3' onBlur={this.check3} onChange={(e) => this.changeColorHandler('color2', e.target.value)} />
                             <input type="number" className='form-control percentage' value={this.state.percentage2} placeholder='%' onChange={(e) => this.changePercentageHandler('percentage2', this.state.percentage2, e.target.value)} />
                             {
                                 this.state.error2 ? <label className='error'>Not a valid HEX Code</label> : null
