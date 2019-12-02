@@ -89,7 +89,7 @@ class Header extends Component {
                                 </ul>
                                 :
                                 <ul className='mb-0 not_logged'>
-                                    <li><NavLink className="temp" to={'/login'} style={{color: "black"}}>Log in <img src='/images/user12.png' alt='user' /></NavLink></li>
+                                    <li><NavLink to={'/login'}>Log in <img src='/images/user12.png' alt='user' /></NavLink></li>
                                 </ul>
                         }
                     </div>
@@ -102,11 +102,7 @@ class Header extends Component {
                                 <p className='lvl1 custom_lvl' onClick={() => this.currentKey(1)}>{this.state.name}</p>
                                 {this.state.main === 1 ? <div>
                                     <Dropdown.Item as="span"><NavLink to='/profile' className='lvl3 custom_lvl'>Profile</NavLink></Dropdown.Item>
-<<<<<<< HEAD
-                                    <Dropdown.Item as="span"><span  className='lvl3 custom_lvl' onClick={() => this.logoutHandler()}>SIGN OUT</span></Dropdown.Item>
-=======
                                     <Dropdown.Item as="span"><span onClick={() => this.logoutHandler()} className='lvl3 custom_lvl pointer'>SIGN OUT</span></Dropdown.Item>
->>>>>>> fa68115a08b658497348dc82227763e9b3a71240
                                 </div>
                                     : null
                                 }
@@ -129,11 +125,7 @@ class Header extends Component {
                                     : null
                                 }
                             </Dropdown.Menu>
-<<<<<<< HEAD
-                        </Dropdown> :<NavLink className="temp"  to={'/login'} style={{color: "black"}}>Log in <img src='/images/user12.png' alt='user' /></NavLink> }
-=======
                         </Dropdown> :<div className='not_logged'><NavLink className='pointer' to={'/login'}>Log in <img src='/images/user12.png' alt='user' /></NavLink></div> }
->>>>>>> fa68115a08b658497348dc82227763e9b3a71240
                     </div>
                 </Navbar>
             </div>

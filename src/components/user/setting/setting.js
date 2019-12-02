@@ -4,7 +4,6 @@ import Form from 'react-bootstrap/Form'
 import { Select } from 'dropdown-select';
 import API from "../../../shared/utils/API";
 
-
 class Setting extends React.Component {
     constructor(props) {
         super(props)
@@ -28,6 +27,7 @@ class Setting extends React.Component {
 
     componentDidMount = () => {
         this.getCompanyByID();
+
     }
 
     render() {
