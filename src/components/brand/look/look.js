@@ -141,31 +141,31 @@ class look extends Component {
     }
 
 check1=(e)=>{
-if(e.target.value){
+if(e.target.value!=""){
 
     if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
 }
 }
 check2=(e)=>{
-    if(e.target.value){
+    if(e.target.value!=""){
 
     if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error1: true }) } else { this.setState({ error1: false }) }
     }
 }
 check3=(e)=>{
-    if(e.target.value){
+    if(e.target.value!=""){
 
     if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error2: true }) } else { this.setState({ error2: false }) }
     }
 }
 check4=(e)=>{
-    if(e.target.value){
+    if(e.target.value!=""){
 
     if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error3: true }) } else { this.setState({ error3: false }) }
     }
 }
 check5=(e)=>{
-    if(e.target.value){
+    if(e.target.value!=""){
 
     if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error4: true }) } else { this.setState({ error4: false }) }
 }
