@@ -157,9 +157,7 @@ class voice extends Component {
             })
             if (keywd && buzwd) {
                 //toast.success('Updated Successfully')
-                setTimeout(() => {
-                    this.props.history.push('/brand')
-                }, 1000);
+                
             }
 
         } catch (error) {
