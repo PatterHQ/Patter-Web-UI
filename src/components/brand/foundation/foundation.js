@@ -49,6 +49,14 @@ class foundation extends Component {
       desc1: '',
       desc2: '',
       desc3: '',
+      Importance: '',
+      Importance1: '',
+      Importance2: '',
+      Importance3: '',
+      Hint: '',
+      Hint1: '',
+      Hint2: '',
+      Hint3: '',
 
     }
   }
@@ -69,6 +77,8 @@ class foundation extends Component {
           elevatorDesc: res.data.Value,
           title2: res.data.BrandElement.BrandElementName,
           desc2: res.data.BrandElement.BrandElementDescription,
+          Importance2: res.data.BrandElement.Importance,
+          Hint2: res.data.BrandElement.Hint,
         })
         if (res.data.Department != undefined) {
           this.setState({ elevatorDescDepartmentID: res.data.Department.DepartmentID })
@@ -83,6 +93,8 @@ class foundation extends Component {
           originDesc: res.data.Value,
           title1: res.data.BrandElement.BrandElementName,
           desc1: res.data.BrandElement.BrandElementDescription,
+          Importance1: res.data.BrandElement.Importance,
+          Hint1: res.data.BrandElement.Hint,
         })
         if (res.data.Department != undefined) {
           this.setState({ originDescDepartmentID: res.data.Department.DepartmentID })
@@ -97,6 +109,8 @@ class foundation extends Component {
           missionDesc: res.data.Value,
           title: res.data.BrandElement.BrandElementName,
           desc: res.data.BrandElement.BrandElementDescription,
+          Importance: res.data.BrandElement.Importance,
+          Hint: res.data.BrandElement.Hint,
         })
         if (res.data.Department != undefined) {
           this.setState({ missionDescDepartmentID: res.data.Department.DepartmentID })
@@ -122,6 +136,8 @@ class foundation extends Component {
           organizationalData: res.data,
           title3: res.data.BrandElement.BrandElementName,
           desc3: res.data.BrandElement.BrandElementDescription,
+          Importance3: res.data.BrandElement.BrandElementName,
+          Hint3: res.data.BrandElement.BrandElementDescription,
         })
       })
 
@@ -319,10 +335,10 @@ class foundation extends Component {
               <span onClick={this.cancleHandler} className='btn_white pointer'>Cancel</span>            </div>
           </form>
         </div>
-        <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
-        <Popup show={show1} title={this.state.title1} desc={this.state.desc1} hide={this.handleClose} />
-        <Popup show={show2} title={this.state.title2} desc={this.state.desc2} hide={this.handleClose} />
-        <Popup show={show3} title={this.state.title3} desc={this.state.desc3} hide={this.handleClose} />
+        <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
+        <Popup show={show1} Hint={this.state.Hint1} Importance={this.state.Importance1} title={this.state.title1} desc={this.state.desc1} hide={this.handleClose} />
+        <Popup show={show2} Hint={this.state.Hint2} Importance={this.state.Importance2} title={this.state.title2} desc={this.state.desc2} hide={this.handleClose} />
+        <Popup show={show3} Hint={this.state.Hint3} Importance={this.state.Importance3} title={this.state.title3} desc={this.state.desc3} hide={this.handleClose} />
       </div>
     );
   }

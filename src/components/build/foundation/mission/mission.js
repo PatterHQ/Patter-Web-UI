@@ -20,6 +20,8 @@ class mission extends Component {
             loader: false,
             title: '',
             desc: '',
+            Importance: '',
+            Hint: '',
 
         }
     }
@@ -34,6 +36,8 @@ class mission extends Component {
                     brandData: res.data,
                     title: res.data.BrandElement.BrandElementName,
                     desc: res.data.BrandElement.BrandElementDescription,
+                    Importance: res.data.BrandElement.Importance,
+                    Hint: res.data.BrandElement.Hint,
                     BrandElementDescription: res.data.Value
                 })
                 if (res.data.Department != undefined) {
@@ -110,7 +114,7 @@ class mission extends Component {
                         <button type='submit' className='btn_green m-0'>Next</button>
                     </div>
                 </form>
-                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
+                <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }

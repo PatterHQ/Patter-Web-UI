@@ -331,6 +331,33 @@ td.no-border-left *{
 .form-control:disabled, .form-control[readonly]{
   background-color: transparent !important;
 }
+@media all and (max-width: 568px){
+
+  .form{
+
+    width: 100% !important;
+  
+  }
+  
+  .form input{
+
+    width: 100% !important;
+  
+  }
+
+  .content .pl-5{
+
+    padding-left: 0 !important;
+
+  }
+
+  .content .home_page h1{
+
+    font-size: 40px !important;
+
+  }
+
+}
 @-webkit-keyframes load6 {
   0% {
     box-shadow: 0 -0.83em 0 -0.4em, 0 -0.83em 0 -0.42em, 0 -0.83em 0 -0.44em, 0 -0.83em 0 -0.46em, 0 -0.83em 0 -0.477em;

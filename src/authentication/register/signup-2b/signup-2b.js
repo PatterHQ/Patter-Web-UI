@@ -61,7 +61,9 @@ class Signup2b extends React.Component {
                         console.log(rest)
                         if (rest.data.Result === 1) {
                             //toast.success('Company Added Successfully')
+                            this.props.user(postData)
                             localStorage.setItem('user', JSON.stringify(postData))
+                            localStorage.setItem('logged', 'true')
                             this.props.history.push('/')
                         }
                         if (rest.data.Result === -1) {

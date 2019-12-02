@@ -35,6 +35,8 @@ class Signup2a extends React.Component {
                 if (rest.data.Result === 1) {
                     localStorage.setItem('user', JSON.stringify(loggedUser))
                     if(status==='Accepted'){
+                        this.props.user(loggedUser)
+                        localStorage.setItem('logged', 'true')
                         this.props.history.push('/')
                     }else if(status==='Declined'){
                         this.props.history.push('/signup/b')

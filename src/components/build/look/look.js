@@ -21,6 +21,9 @@ class look extends Component {
 
     componentDidMount = async () => {
         try {
+
+            await this.getImage()
+
             await API.get(`getCompanyBrandElement?companyID=${JSON.parse(localStorage.user).Company.CompanyID}&BrandElementID=6`).then(res => {
                 this.setState({
                     logo: res.data,
@@ -33,6 +36,15 @@ class look extends Component {
         }
     }
 
+    getImage=async ()=>{
+        let id=JSON.parse(localStorage.user).Company.CompanyID
+        await API.get(`getImage?fileName=${id}patter.png`).then(res=>{
+            console.log(res)
+            if(res.data.Result===1){
+                this.setState({image: res.data.Data})
+            }
+        })
+    }
     changeImg = (e) => {
         try {
             console.log(e.target.files[0])
@@ -58,7 +70,7 @@ class look extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            let company= JSON.parse(localStorage.user).Company
+            let company = JSON.parse(localStorage.user).Company
             let data = {
                 "FileName": `${company.CompanyID}patter.png`,
                 "Data": this.state.image
@@ -86,9 +98,9 @@ class look extends Component {
                         <label htmlFor="file" className="btn-1">UPLOAD LOGO</label>
                     </div>
                     <div className='form-group'>
-                        <div className='tag_container'>
-                            <img src={this.state.image} alt='logo' />
-                        </div>
+                        {
+                            this.state.image !== '' ? <div className='tag_container transparnt'><img className='img-responsive' src={this.state.image} alt='logo' /></div> : <div className='tag_container'></div>
+                        }
                     </div>
                     <div className='mt-3 mb-5 text-right'>
                         <NavLink to='/build/voice' className='float-left primary back_btn'> <FaAngleLeft /> Back</NavLink>

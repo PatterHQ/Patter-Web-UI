@@ -41,6 +41,10 @@ class personality extends Component {
             title1: '',
             desc: '',
             desc1: '',
+            Importance: '',
+            Importance1: '',
+            Hint: '',
+            Hint1: '',
 
         }
     }
@@ -64,6 +68,8 @@ class personality extends Component {
                     brandData: res.data,
                     title: res.data.BrandElement.BrandElementName,
                     desc: res.data.BrandElement.BrandElementDescription,
+                    Importance: res.data.BrandElement.BrandElementName,
+                    Hint: res.data.BrandElement.BrandElementDescription,
                     CompanyPersonalityAssessmentID: ids
                 })
             })
@@ -87,6 +93,8 @@ class personality extends Component {
                     organizationalData: res.data,
                     title1: res.data.BrandElement.BrandElementName,
                     desc1: res.data.BrandElement.BrandElementDescription,
+                    Importance1: res.data.BrandElement.BrandElementName,
+                    Hint1: res.data.BrandElement.BrandElementDescription,
                 })
             })
 
@@ -242,8 +250,8 @@ class personality extends Component {
                             <button type="button" className='btn_white'>Cancel</button>                        </div>
                     </form>
                 </div>
-                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
-                <Popup show={show1} title={this.state.title1} desc={this.state.desc1} hide={this.handleClose} />
+                <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
+                <Popup show={show1} Hint={this.state.Hint1} Importance={this.state.Importance1} title={this.state.title1} desc={this.state.desc1} hide={this.handleClose} />
             </div>
         );
     }

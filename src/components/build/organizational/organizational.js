@@ -26,6 +26,8 @@ class organizational extends Component {
             loader: false,
             title: '',
             desc: '',
+            Importance: '',
+            Hint: '',
         }
         this.validator = new SimpleReactValidator({
             messages: {
@@ -51,6 +53,8 @@ class organizational extends Component {
                     CompanyOrganizationalValueIDs: ids,
                     title: res.data.BrandElement.BrandElementName,
                     desc: res.data.BrandElement.BrandElementDescription,
+                    Importance: res.data.BrandElement.Importance,
+                    Hint: res.data.BrandElement.Hint,
                 })
             })
         } catch (err) {
@@ -162,7 +166,7 @@ class organizational extends Component {
                         <button type='submit' className='btn_green m-0'>NEXT</button>
                     </div>
                 </form>
-                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
+                <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }

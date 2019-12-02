@@ -39,17 +39,21 @@ class look extends Component {
             style4: { Score: 0 },
             style5: { Score: 0 },
 
+            image: '',
             error: '',
             loader: false,
 
             title: '',
             desc: '',
+            Importance: '',
+            Hint: '',
 
         }
     }
 
     componentDidMount = async () => {
         this.setState({ loader: true })
+        await this.getImage();
         try {
 
             // get Color Palette
@@ -68,6 +72,8 @@ class look extends Component {
                         [percentage]: v.Percentage,
                         title: res.data.BrandElement.BrandElementName,
                         desc: res.data.BrandElement.BrandElementDescription,
+                        Importance: res.data.BrandElement.Importance,
+                        Hint: res.data.BrandElement.Hint,
                         CompanyBrandElementColorPaletteID: [...this.state.CompanyBrandElementColorPaletteID, v.CompanyBrandElementColorPaletteID]
                     })
                 })
@@ -91,6 +97,15 @@ class look extends Component {
         this.setState({ loader: false })
     }
 
+    getImage=async ()=>{
+        let id=JSON.parse(localStorage.user).Company.CompanyID
+        await API.get(`getImage?fileName=${id}patter.png`).then(res=>{
+            console.log(res)
+            if(res.data.Result===1){
+                this.setState({image: res.data.Data})
+            }
+        })
+    }
 
     handleClose = () => {
         this.setState({
@@ -126,21 +141,35 @@ class look extends Component {
     }
 
 check1=(e)=>{
+if(e.target.value){
+
     if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
 }
+}
 check2=(e)=>{
+    if(e.target.value){
+
     if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error1: true }) } else { this.setState({ error1: false }) }
+    }
 }
 check3=(e)=>{
+    if(e.target.value){
+
     if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error2: true }) } else { this.setState({ error2: false }) }
+    }
 }
 check4=(e)=>{
+    if(e.target.value){
+
     if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error3: true }) } else { this.setState({ error3: false }) }
+    }
 }
 check5=(e)=>{
+    if(e.target.value){
+
     if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error4: true }) } else { this.setState({ error4: false }) }
 }
-
+}
     checkColor = () => {
         let { color0, color1, color2, color3, color4, error0, error1, error2, error3, error4 } = this.state
         if (!/^#([0-9A-F]{3}){1,2}$/i.test(color0)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
@@ -150,6 +179,29 @@ check5=(e)=>{
         if (!/^#([0-9A-F]{3}){1,2}$/i.test(color4)) { this.setState({ error4: true }) } else { this.setState({ error4: false }) }
 
     }
+
+    changeImg = (e) => {
+        try {
+            console.log(e.target.files[0])
+
+            if (e.target.files[0] != null) {
+                var file = e.target.files[0];
+                var myReader = new FileReader();
+
+                myReader.onloadend = (e) => {
+                    console.log(myReader.result)
+                    this.setState({
+                        image: (myReader.result).toString()
+                    })
+                }
+                myReader.readAsDataURL(file);
+            }
+
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
 
     handleSubmit = async (e) => {
         e.preventDefault();
@@ -222,7 +274,7 @@ check5=(e)=>{
 
     render() {
         const { show } = this.state;
-        let style = { background: 'url(/images/brand-logo.png) no-repeat', backgroundSize: 'cover' }
+        let style = { background: `url(${this.state.image}) no-repeat center center/cover`, backgroundSize: 'cover' }
         let color_1 = {
             backgroundColor: this.state.color0,
             width: this.state.percentage0 + '%'
@@ -256,7 +308,11 @@ check5=(e)=>{
                         <h4 className='mb-4'>These are the brand elements in which the entire organization is built upon.</h4>
                         <h4 className='bold mb-3 px-3'>Logo</h4>
                         <h4 className='mb-5'>Your logo is very often the first interaction a customer or stakeholder will have with your brand. It should be representative of every other aspect of your brand.</h4>
-                        <button className='btn_green btn_upload mb-3'>UPLOAD LOGO</button>
+                        <div className='form-group'>
+                            <input type="file" id="file" accept="image/*" onChange={(e) => this.changeImg(e)} />
+                            <label htmlFor="file" className="btn-1">UPLOAD LOGO</label>
+                        </div>
+                        {/* <button className='btn_green btn_upload mb-3'>UPLOAD LOGO</button> */}
                         <div className='form-group mb-5'>
                             <div className='tag_container' style={style}></div>
                         </div>
@@ -340,7 +396,7 @@ check5=(e)=>{
                             <button type="button" className='btn_white'>Cancel</button>                        </div>
                     </form>
                 </div>
-                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
+                <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }

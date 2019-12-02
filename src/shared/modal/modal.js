@@ -8,6 +8,8 @@ class Popup extends Component {
         this.state = {
             BrandElementName: '',
             BrandElementDescription: '',
+            Importance: '',
+            Hint: '',
         }
         console.log(props)
     }
@@ -17,7 +19,9 @@ class Popup extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             BrandElementName: nextProps.title,
-            BrandElementDescription: nextProps.desc
+            BrandElementDescription: nextProps.desc,
+            Importance: nextProps.Importance,
+            Hint: nextProps.Hint,
         })
     }
 
@@ -28,8 +32,12 @@ class Popup extends Component {
                     <h2 className='bold text-center'>{this.state.BrandElementName}</h2>
                 </Modal.Header>
                 <Modal.Body>
-                    <h4 className='mb-2'>Why it is important:</h4>
+                    <h4 className='mb-2'>Description:</h4>
                     <p className="desc mb-5">{this.state.BrandElementDescription}</p>
+                    <h4 className='mb-2'>Why it is important:</h4>
+                    <p className="desc mb-5">{this.state.Importance}</p>
+                    <h4 className='mb-2'>Hint:</h4>
+                    <p className="desc mb-5">{this.state.Hint}</p>
                 </Modal.Body>
             </Modal>
         );

@@ -3,6 +3,15 @@
     width: 100%;
     background-size: cover;
 }
+.transparnt.tag_container img{
+    max-width: 100%;
+}
+.transparnt.tag_container{
+    min-height: 150px;
+    width: 100%;
+    background-color: transparent !important;
+    padding: 10px;
+}
 .look .flex.form-group{
     display: flex;
     justify-content: space-between;

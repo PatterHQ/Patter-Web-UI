@@ -27,6 +27,8 @@ class character extends Component {
             loader: false,
             title: '',
             desc: '',
+            Importance: '',
+            Hint: '',
         }
     }
 
@@ -58,6 +60,8 @@ class character extends Component {
                     vals: vals,
                     title: res.data.BrandElement.BrandElementName,
                     desc: res.data.BrandElement.BrandElementDescription,
+                    Importance: res.data.BrandElement.BrandElementName,
+                    Hint: res.data.BrandElement.BrandElementDescription,
                 })
             })
         } catch (err) {
@@ -144,7 +148,7 @@ class character extends Component {
                         <button type='submit' className='btn_green m-0'>NEXT</button>
                     </div>
                 </form>
-                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
+                <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }

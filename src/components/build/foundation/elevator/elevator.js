@@ -18,7 +18,8 @@ class elevator extends Component {
             BrandElementDescription: '',
             title: '',
             desc: '',
-
+            Importance: '',
+            Hint: '',
         }
     }
 
@@ -31,6 +32,8 @@ class elevator extends Component {
                     BrandElementDescription: res.data.Value,
                     title: res.data.BrandElement.BrandElementName,
                     desc: res.data.BrandElement.BrandElementDescription,
+                    Importance: res.data.BrandElement.Importance,
+                    Hint: res.data.BrandElement.Hint,
                 })
                 if (res.data.Department != undefined) {
                     this.setState({ departmentID: res.data.Department.DepartmentID })
@@ -100,7 +103,7 @@ class elevator extends Component {
                         <button type='submit' className='btn_green m-0'>Next</button>
                     </div>
                 </form>
-                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
+                <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
             </div>
         );
     }

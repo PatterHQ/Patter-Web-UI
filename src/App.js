@@ -82,10 +82,10 @@ class App extends Component {
                 <div className='content'>
                   <Switch>
                     <Route exact path="/login" render={(routeProps) => <Signin user={this.loginHandler} {...routeProps} />} />
+                    <Route exact path="/signup/a" render={(routeProps) => <Signup2a user={this.loginHandler} {...routeProps} />} />
+                    <Route exact path="/signup/b" render={(routeProps) => <Signup2b user={this.loginHandler} {...routeProps} />} />
                     <Route exact path='/signup' component={Signup} />
                     <Route exact path='/forget-password' component={ForgetPassword} />
-                    <Route exact path='/signup/a' component={Signup2a} />
-                    <Route exact path='/signup/b' component={Signup2b} />
                     <Route path=''>
                       <Redirect to='/login' />
                     </Route>

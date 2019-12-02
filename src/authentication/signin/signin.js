@@ -43,8 +43,7 @@ class Signin extends React.Component {
                         } else {
                             API.get("getUser?email=" + res.user.email).then(res => {
                                 console.log(res)
-                                prop.user(res.data)
-                                localStorage.setItem('logged', 'true')
+
                                 localStorage.setItem('user', JSON.stringify(res.data))
                                 //toast.success('Login Successfully')
                                 if (res.data.InviteStatus===null || res.data.InviteStatus==='Declined') {
@@ -54,6 +53,8 @@ class Signin extends React.Component {
                                     prop.history.push('/signup/a');
                                 }
                                 else if(res.data.InviteStatus==='Accepted') {
+                                    prop.user(res.data)
+                                    localStorage.setItem('logged', 'true')
                                     prop.history.push('/');
                                 }
                                 // else {

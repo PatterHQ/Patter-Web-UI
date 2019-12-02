@@ -4,6 +4,12 @@
     background-color: #b6cfd0;
     padding: 10px;
 }
+.transparnt .tag_container{
+    min-height: 150px;
+    width: 100%;
+    background-color: transparent !important;
+    padding: 10px;
+}
 .voice .addPlus{
     position: absolute;
     right: 7px;

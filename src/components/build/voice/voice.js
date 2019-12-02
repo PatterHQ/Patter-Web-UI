@@ -27,6 +27,10 @@ class voice extends Component {
             desc: '',
             title1: '',
             desc1: '',
+            Importance: '',
+            Hint: '',
+            Importance1: '',
+            Hint1: '',
 
         }
     }
@@ -43,6 +47,8 @@ class voice extends Component {
                     Keywords: res.data,
                     title: res.data.BrandElement.BrandElementName,
                     desc: res.data.BrandElement.BrandElementDescription,
+                    Importance: res.data.BrandElement.BrandElementName,
+                    Hint: res.data.BrandElement.BrandElementDescription,
                 })
             })
         } catch (err) {
@@ -59,6 +65,8 @@ class voice extends Component {
                     Buzzwords: res.data,
                     title1: res.data.BrandElement.BrandElementName,
                     desc1: res.data.BrandElement.BrandElementDescription,
+                    Importance1: res.data.BrandElement.BrandElementName,
+                    Hint1: res.data.BrandElement.BrandElementDescription,
                 })
             })
         } catch (err) {
@@ -215,8 +223,8 @@ class voice extends Component {
                         <button type='submit' className='btn_green m-0'>NEXT</button>
                     </div>
                 </form>
-                <Popup show={show} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
-                <Popup show={show1} title={this.state.title1} desc={this.state.desc1} hide={this.handleClose} />
+                <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
+                <Popup show={show1} Hint={this.state.Hint1} Importance={this.state.Importance1} title={this.state.title1} desc={this.state.desc1} hide={this.handleClose} />
             </div>
         );
     }
