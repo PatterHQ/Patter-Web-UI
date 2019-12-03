@@ -15,6 +15,7 @@ class companyInfo extends Component {
       CompanyTypes: [],
       getStages: [],
       getEmployeeRanges: [],
+      SiteName:'',
       comapanyName: '',
       product: '',
       country: '',
@@ -112,6 +113,7 @@ class companyInfo extends Component {
           }
           this.setState({
             comapanyName: res.data.CompanyName,
+            SiteName: res.data.SiteName,
             selectedVerticals: VerticalDescription,
             selectedCompanyTypes: CompanyTypeDescription,
             selectedGetStages: StageDescription,
@@ -141,7 +143,7 @@ class companyInfo extends Component {
       let data = {
         "CompanyID": user.Company.CompanyID,
         "CompanyName": this.state.comapanyName,
-        "Sitename": user.Company.SiteName,
+        "Sitename": this.state.SiteName,
         "ProductName": this.state.product,
         "Website": "",
         "NumberOfOffices": 0,
