@@ -97,12 +97,12 @@ class look extends Component {
         this.setState({ loader: false })
     }
 
-    getImage=async ()=>{
-        let id=JSON.parse(localStorage.user).Company.CompanyID
-        await API.get(`getImage?fileName=${id}patter.png`).then(res=>{
+    getImage = async () => {
+        let id = JSON.parse(localStorage.user).Company.CompanyID
+        await API.get(`getImage?fileName=${id}patter.png`).then(res => {
             console.log(res)
-            if(res.data.Result===1){
-                this.setState({image: res.data.Data})
+            if (res.data.Result === 1) {
+                this.setState({ image: res.data.Data })
             }
         })
     }
@@ -117,37 +117,37 @@ class look extends Component {
             show: true,
         })
     };
-    check1=(e)=>{
-        if(e.target.value!=""){
-        
+    check1 = (e) => {
+        if (e.target.value != "") {
+
             if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error0: true }) } else { this.setState({ error0: false }) }
         }
-        }
-        check2=(e)=>{
-            if(e.target.value!=""){
-        
+    }
+    check2 = (e) => {
+        if (e.target.value != "") {
+
             if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error1: true }) } else { this.setState({ error1: false }) }
-            }
         }
-        check3=(e)=>{
-            if(e.target.value!=""){
-        
+    }
+    check3 = (e) => {
+        if (e.target.value != "") {
+
             if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error2: true }) } else { this.setState({ error2: false }) }
-            }
         }
-        check4=(e)=>{
-            if(e.target.value!=""){
-        
+    }
+    check4 = (e) => {
+        if (e.target.value != "") {
+
             if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error3: true }) } else { this.setState({ error3: false }) }
-            }
         }
-        check5=(e)=>{
-            if(e.target.value!=""){
-        
+    }
+    check5 = (e) => {
+        if (e.target.value != "") {
+
             if (!/^#([0-9A-F]{3}){1,2}$/i.test(e.target.value)) { this.setState({ error4: true }) } else { this.setState({ error4: false }) }
         }
-        }
-        
+    }
+
 
     changeColorHandler = (col, val) => {
         this.setState({
@@ -210,63 +210,79 @@ class look extends Component {
         let { color0, color1, color2, color3, color4, error0, error1, error2, error3, error4 } = this.state
 
 
-            let styleData = [
-                { "CompanyStyleAssessmentID": this.state.styleAssessmentID[0], "Score": this.state.style0 },
-                { "CompanyStyleAssessmentID": this.state.styleAssessmentID[1], "Score": this.state.style1 },
-                { "CompanyStyleAssessmentID": this.state.styleAssessmentID[2], "Score": this.state.style2 },
-                { "CompanyStyleAssessmentID": this.state.styleAssessmentID[3], "Score": this.state.style3 },
-                { "CompanyStyleAssessmentID": this.state.styleAssessmentID[4], "Score": this.state.style4 },
-                { "CompanyStyleAssessmentID": this.state.styleAssessmentID[5], "Score": this.state.style5 }
-            ]
+        let styleData = [
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[0], "Score": this.state.style0 },
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[1], "Score": this.state.style1 },
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[2], "Score": this.state.style2 },
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[3], "Score": this.state.style3 },
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[4], "Score": this.state.style4 },
+            { "CompanyStyleAssessmentID": this.state.styleAssessmentID[5], "Score": this.state.style5 }
+        ]
 
-            let ColorData = [
-                {
-                    "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[0],
-                    "ColorValue": this.state.color0,
-                    "Percentage": this.state.percentage0
-                },
-                {
-                    "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[1],
-                    "ColorValue": this.state.color1,
-                    "Percentage": this.state.percentage1
-                },
-                {
-                    "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[2],
-                    "ColorValue": this.state.color2,
-                    "Percentage": this.state.percentage2
-                },
-                {
-                    "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[3],
-                    "ColorValue": this.state.color3,
-                    "Percentage": this.state.percentage3
-                },
-                {
-                    "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[4],
-                    "ColorValue": this.state.color4,
-                    "Percentage": this.state.percentage4
-                }
-            ]
-
-
-            try {
-                await API.post('updateStyleAssessments', styleData).then(res => {
-                    console.log(res)
-                    if (res.data.Result === 1) {
-                        console.log('Style Updated')
-                    }
-                })
-
-                await API.post(`updateColorPalettes`, ColorData).then(rest => {
-                    console.log(rest.data)
-                    if (rest.data.Result === 1) {
-                        console.log('Color Updated')
-                    }
-                })
-
-            } catch (error) {
-                console.log(error)
+        let ColorData = [
+            {
+                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[0],
+                "ColorValue": this.state.color0,
+                "Percentage": this.state.percentage0
+            },
+            {
+                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[1],
+                "ColorValue": this.state.color1,
+                "Percentage": this.state.percentage1
+            },
+            {
+                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[2],
+                "ColorValue": this.state.color2,
+                "Percentage": this.state.percentage2
+            },
+            {
+                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[3],
+                "ColorValue": this.state.color3,
+                "Percentage": this.state.percentage3
+            },
+            {
+                "CompanyColorPaletteID": this.state.CompanyBrandElementColorPaletteID[4],
+                "ColorValue": this.state.color4,
+                "Percentage": this.state.percentage4
             }
-        
+        ]
+
+
+        try {
+            let style = await API.post('updateStyleAssessments', styleData).then(res => {
+                console.log(res)
+                if (res.data.Result === 1) {
+                    return 1
+                }
+            })
+
+            let company = JSON.parse(localStorage.user).Company
+            let logoData = {
+                "FileName": `${company.CompanyID}patter.png`,
+                "Data": this.state.image
+            }
+            let logo = await API.post('saveImage', logoData).then(res => {
+                console.log(res)
+                if (res.data.Result === 1) {
+                    return 1
+                }
+            })
+
+            let color = await API.post(`updateColorPalettes`, ColorData).then(rest => {
+                console.log(rest.data)
+                if (rest.data.Result === 1) {
+                    return 1
+                }
+            })
+
+            if(style && color && logo){
+                // this.props.history.push('/brand')
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+
 
         this.setState({ loader: false })
 
@@ -393,7 +409,7 @@ class look extends Component {
 
                         <div className='mt-3 mb-5 text-right'>
                             <button className='btn_green'>Save</button>
-                            <button type="button" className='btn_white'>Cancel</button>                        </div>
+                            <NavLink to="/brand" className='btn_white'>Cancel</NavLink>                        </div>
                     </form>
                 </div>
                 <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />

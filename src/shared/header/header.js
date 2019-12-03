@@ -113,8 +113,8 @@ class Header extends Component {
                                 </div>
                                     : null
                                 }
-                                <Dropdown.Item as="span"><NavLink to='/build' className='lvl2 custom_lvl'>Build</NavLink></Dropdown.Item>
-                                <p className='lvl2 custom_lvl' onClick={() => this.currentKey(5)}>Brand Assessment</p>
+                                <Dropdown.Item as="span"><NavLink to='/build' className='lvl2 custom_lvl'>Brand Assessment</NavLink></Dropdown.Item>
+                                <p className='lvl2 custom_lvl' onClick={() => this.currentKey(5)}>Our Brand</p>
                                 {this.state.main === 5 ? <div>
                                     <Dropdown.Item as="span"><NavLink to='/brand/company-info' className='lvl3 custom_lvl'>Company Info</NavLink></Dropdown.Item>
                                     <Dropdown.Item as="span"><NavLink to='/brand/foundation' className='lvl3 custom_lvl'>Our Foundations</NavLink></Dropdown.Item>

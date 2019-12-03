@@ -54,7 +54,7 @@ class Signup2b extends React.Component {
                         "Company": { "CompanyID": companyData },
                         "Department": { "DepartmentID": 0 },
                         "Role": { "RoleID": 0 },
-                        "AccessType": { "AccessTypeID": 0 }
+                        "AccessType": { "AccessTypeID": 1 }
                     }
 
                     await API.post('updateUser', postData).then(rest => {

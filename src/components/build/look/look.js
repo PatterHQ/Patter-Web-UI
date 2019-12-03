@@ -77,6 +77,9 @@ class look extends Component {
             }
             API.post('saveImage', data).then(res => {
                 console.log(res)
+                if(res.data.Result===1){
+                    this.props.history.push('/build/look/palette')
+                }
             })
 
         } catch (error) {

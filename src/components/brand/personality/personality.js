@@ -68,8 +68,8 @@ class personality extends Component {
                     brandData: res.data,
                     title: res.data.BrandElement.BrandElementName,
                     desc: res.data.BrandElement.BrandElementDescription,
-                    Importance: res.data.BrandElement.BrandElementName,
-                    Hint: res.data.BrandElement.BrandElementDescription,
+                    Importance: res.data.BrandElement.Importance,
+                    Hint: res.data.BrandElement.Hint,
                     CompanyPersonalityAssessmentID: ids
                 })
             })
@@ -93,8 +93,8 @@ class personality extends Component {
                     organizationalData: res.data,
                     title1: res.data.BrandElement.BrandElementName,
                     desc1: res.data.BrandElement.BrandElementDescription,
-                    Importance1: res.data.BrandElement.BrandElementName,
-                    Hint1: res.data.BrandElement.BrandElementDescription,
+                    Importance1: res.data.BrandElement.Importance,
+                    Hint1: res.data.BrandElement.Hint,
                 })
             })
 
@@ -247,7 +247,7 @@ class personality extends Component {
 
                         <div className='mt-3 mb-5'>
                             <button className='btn_green'>Save</button>
-                            <button type="button" className='btn_white'>Cancel</button>                        </div>
+                            <NavLink to="/brand" className='btn_white'>Cancel</NavLink>                       </div>
                     </form>
                 </div>
                 <Popup show={show} Hint={this.state.Hint} Importance={this.state.Importance} title={this.state.title} desc={this.state.desc} hide={this.handleClose} />
