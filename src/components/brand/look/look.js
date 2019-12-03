@@ -276,7 +276,6 @@ class look extends Component {
             })
 
             if(style && color && logo){
-                this.props.history.push('/brand')
             }
 
         } catch (error) {
